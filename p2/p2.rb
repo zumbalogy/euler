@@ -4,6 +4,8 @@
 
 # By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
 
+
+
 start = [0, 1]
 total = 0
 until start.last >= 4_000_000
@@ -18,9 +20,12 @@ end
 p total
 
 # 4613732
+# 1.8282e-05 seconds
 
 
 ##############################################
+
+time2 = Time.now
 
 a = 0
 b = 1
@@ -36,7 +41,9 @@ while b < 4_000_000
     end
 end
 
+p Time.now - time2
 p total
 
 # 4613732
-
+# 5.219e-06
+# this one takes less than half the time
