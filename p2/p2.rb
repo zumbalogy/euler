@@ -18,3 +18,23 @@ end
 p total
 
 # 4613732
+
+
+##############################################
+
+a = 0
+b = 1
+
+total = 0
+
+while b < 4_000_000
+    save = b
+    b += a
+    a = save
+    if b % 2 == 0
+        total += b
+    end
+end
+
+p total
+
