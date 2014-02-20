@@ -20,6 +20,16 @@
 
 (take 10 (for [x fibs :while (<= x 2)] [x]))
 
+(for [x fibs :while (<= x 2)] [x])
+
+(for [x fibs :while (even? x) ] [x])
+;; why is this not grabbing more of them????
+
+(even? 2)
+
+(<= 1 2)
+
+
 
 
 
