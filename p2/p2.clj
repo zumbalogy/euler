@@ -10,6 +10,16 @@
               (map + fibs (rest fibs))))
 
 
-(def fibs (range 0 4000000 3))
+(take 4 fibs)
+
+
+(take 10 (for [x (range 100) y (range 100) :while (< y x)]  [x y]))
+
+
+(take 10 (for [x fibs] [x]))
+
+(take 10 (for [x fibs :while (<= x 2)] [x]))
+
+
 
 
