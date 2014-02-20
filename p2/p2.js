@@ -16,3 +16,21 @@ while (start[1] < 4000000){
 
 console.log(total) 
 // 4613732
+
+//////////////////////////////////////
+
+var a = 0;
+var b = 1;
+var total2 = 0;
+
+while (b < 4000000) {
+    if (b % 2 === 0){
+        total2 += b
+    }
+    var save = b;
+    b += a;
+    a = save;
+}
+
+console.log(total2)
+// 4613732
