@@ -7,17 +7,15 @@ require 'benchmark'
 
 total = 0
 
-(0..1000).step(3) do |n|
-    total += n
-end
-(0..1000).step(5) do |n|
-    total += n unless n % 3 == 0
-end
+(0..1000).step(3) { |n| total += n }
+(0..1000).step(5) { |n| total += n }
+(0..1000).step(15) { |n| total -= n }
 
 p total
 
 # ruby p1.rb
 # =>  233168
+
 
 
 
@@ -49,79 +47,79 @@ Benchmark.bmbm do |bm|
         end
     end
     bm.report('range with step whtout each') do
-        1000.times do
-            total = 0
-            (0..1000).step(3) do |n|
-                total += n
-            end
-            (0..1000).step(5) do |n|
-                total += n if n % 3 != 0
-            end
+        total = 0
+        (0..1000).step(3) do |n|
+            total += n
+        end
+        (0..1000).step(5) do |n|
+            total += n if n % 3 != 0
         end
     end
     bm.report('range step & unless whithout each') do
-        1000.times do
-            total = 0
-            (0..1000).step(3) do |n|
-                total += n
-            end
-            (0..1000).step(5) do |n|
-                total += n unless n % 3 == 0
-            end
+        total = 0
+        (0..1000).step(3) do |n|
+            total += n
+        end
+        (0..1000).step(5) do |n|
+            total += n unless n % 3 == 0
         end
     end
     bm.report('exact same (to see variance)') do
-        1000.times do
-            total = 0
-            (0..1000).step(3) do |n|
-                total += n
-            end
-            (0..1000).step(5) do |n|
-                total += n unless n % 3 == 0
-            end
+        total = 0
+        (0..1000).step(3) do |n|
+            total += n
+        end
+        (0..1000).step(5) do |n|
+            total += n unless n % 3 == 0
         end
     end
     bm.report('same with 3 dots') do
-        1000.times do
-            total = 0
-            (0...1000).step(3) do |n|
-                total += n
-            end
-            (0...1000).step(5) do |n|
-                total += n unless n % 3 == 0
-            end
+        total = 0
+        (0...1000).step(3) do |n|
+            total += n
         end
+        (0...1000).step(5) do |n|
+            total += n unless n % 3 == 0
+        end
+    end
+    bm.report('just killing 15s') do
+        total = 0
+        (0..1000).step(3) do |n|
+            total += n
+        end
+        (0..1000).step(5) do |n|
+            total += n
+        end
+        (0..1000).step(15) do |n|
+            total -= n
+        end
+    end
+    bm.report('kill 15 braces') do
+        (0..1000).step(3) { |n| total += n }
+        (0..1000).step(5) { |n| total += n }
+        (0..1000).step(15) { |n| total -= n }
     end
 end
 
-        # 1000.times do
-        #     total = 0
-        #     (0..1000).step(3) do |n|
-        #         total += n
-        #     end
-        #     (0..1000).step(5) do |n|
-        #         total += n unless n % 3 == 0
-        #     end
-        # end
-
-    # is winner (second to last)
-
-
 # Rehearsal ---------------------------------------------------------------------
-# array without step                  0.000000   0.000000   0.000000 (  0.000216)
-# range without step                  0.000000   0.000000   0.000000 (  0.000216)
-# range with step                     0.000000   0.000000   0.000000 (  0.000079)
-# range with step whtout each         0.070000   0.000000   0.070000 (  0.064921)
-# range step & unless whithout each   0.060000   0.000000   0.060000 (  0.063351)
-# exact same (to see variance)        0.060000   0.000000   0.060000 (  0.062443)
-# same with 3 dots                    0.060000   0.000000   0.060000 (  0.061924)
-# ------------------------------------------------------------ total: 0.250000sec
+# array without step                  0.000000   0.000000   0.000000 (  0.000222)
+# range without step                  0.000000   0.000000   0.000000 (  0.000221)
+# range with step                     0.000000   0.000000   0.000000 (  0.000081)
+# range with step whtout each         0.000000   0.000000   0.000000 (  0.000067)
+# range step & unless whithout each   0.000000   0.000000   0.000000 (  0.000067)
+# exact same (to see variance)        0.000000   0.000000   0.000000 (  0.000067)
+# same with 3 dots                    0.000000   0.000000   0.000000 (  0.000064)
+# just killing 15s                    0.000000   0.000000   0.000000 (  0.000061)
+# kill 15 braces                      0.000000   0.000000   0.000000 (  0.000061)
+# ------------------------------------------------------------ total: 0.000000sec
 
 #                                         user     system      total        real
-# array without step                  0.000000   0.000000   0.000000 (  0.000258)
-# range without step                  0.000000   0.000000   0.000000 (  0.000219)
-# range with step                     0.000000   0.000000   0.000000 (  0.000076)
-# range with step whtout each         0.060000   0.000000   0.060000 (  0.064612)
-# range step & unless whithout each   0.070000   0.000000   0.070000 (  0.062428)
-# exact same (to see variance)        0.060000   0.000000   0.060000 (  0.062004)
-# same with 3 dots                    0.060000   0.000000   0.060000 (  0.062959)
+# array without step                  0.000000   0.000000   0.000000 (  0.000217)
+# range without step                  0.000000   0.000000   0.000000 (  0.000218)
+# range with step                     0.000000   0.000000   0.000000 (  0.000096)
+# range with step whtout each         0.000000   0.000000   0.000000 (  0.000082)
+# range step & unless whithout each   0.000000   0.000000   0.000000 (  0.000071)
+# exact same (to see variance)        0.000000   0.000000   0.000000 (  0.000111)
+# same with 3 dots                    0.000000   0.000000   0.000000 (  0.000080)
+# just killing 15s                    0.000000   0.000000   0.000000 (  0.000066)
+# kill 15 braces                      0.000000   0.000000   0.000000 (  0.000063)

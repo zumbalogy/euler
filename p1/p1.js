@@ -18,4 +18,18 @@ console.log(total)
 // 233168
 
 
+var total = 0;
+
+for (var i = 0; i < 1000; i += 5){
+    total += i
+} 
+for (var i = 0; i < 1000; i += 3){
+    total += i
+} 
+for (var i = 0; i < 1000; i += 15){
+    total -= i
+} 
+console.log(total)
+
+
 
