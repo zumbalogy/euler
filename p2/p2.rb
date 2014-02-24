@@ -63,30 +63,30 @@ p total
 # 4.246e-06
 
 
-js objects are just hashes
+# js objects are just hashes
 
 
 
 
-users{}
+# users{}
 
-dandelions{}
+# dandelions{}
 
-real lions{}
-
-
-vs 
+# real lions{}
 
 
-{db
+# vs 
 
-    users{}
 
-    etc{}
+# {db
 
-    etc{}
+#     users{}
 
-}
+#     etc{}
+
+#     etc{}
+
+# }
 
 
 
