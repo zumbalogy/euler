@@ -27,23 +27,66 @@ p total
 
 time2 = Time.now
 
-a = 0
-b = 1
+a = 1
+b = 2
 
 total = 0
 
 while b < 4_000_000
+    total += b
+    # putting the below in a 3.times loop slows it down
     save = b
     b += a
     a = save
-    if b % 2 == 0
-        total += b
-    end
+
+    save = b
+    b += a
+    a = save
+
+    save = b
+    b += a
+    a = save
 end
 
 p Time.now - time2
 p total
 
 # 4613732
+
+#old time with chekcing if even
 # 5.219e-06
-# this one takes less than half the time
+
+# new time (with loop)
+# 1.1328e-05
+
+# new time without loop (not DRY)
+# 4.246e-06
+
+
+js objects are just hashes
+
+
+
+
+users{}
+
+dandelions{}
+
+real lions{}
+
+
+vs 
+
+
+{db
+
+    users{}
+
+    etc{}
+
+    etc{}
+
+}
+
+
+
