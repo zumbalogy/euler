@@ -2,6 +2,23 @@
 
 ;; What is the largest prime factor of the number 600851475143 ?
 
+(defn is_prime [input] (== (reduce + (take 2 (for [x (range 1 input) :when (== (mod input x) 0)] x))) 1 ) )
+;; should try without doing a take
+
+(def start 600851475143)
+
+(def up_to (range 1 start))
+;; maybe step by 2 so just doing odds
+
+
+(last (for [x up_to :when (and (== (mod start x) 0)(is_prime x))] x))
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 
 (+ 1 2 3)
 
@@ -13,9 +30,7 @@
 (set (range 0 1000 5))
 (range 0 100 5)
 
-(def start 13195)
 
-(def up_to (range 1 start))
 
 ;(for [x (flatten foo) :while (<= x 5)] x)
 
@@ -43,6 +58,41 @@
 
 
 (== (reduce + (for [x (range 1 29) :when (== (mod 29 x) 0)] x)) 1 )
+
+
+
+(defn printer [x] print x)
+
+(printer "bob")
+
+(defn is_prime [input] (== (reduce + (take 2 (for [x (range 1 input) :when (== (mod input x) 0)] x))) 1 ) )
+
+
+
+(is_prime 6)
+(is_prime 29)
+
+
+(for [x up_to :when (== (mod start x) 0)] x)
+(for [x factorz :when (is_prime x)] x)
+
+(and (== 2 2) (== 1 2))
+
+(for [x up_to :when (and (== (mod start x) 0)(is_prime x))] x)
+
+(last (for [x up_to :when (and (== (mod start x) 0)(is_prime x))] x))
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
