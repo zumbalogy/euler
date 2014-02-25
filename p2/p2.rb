@@ -10,9 +10,7 @@ start = [0, 1]
 total = 0
 until start.last >= 4_000_000
     start << start[-1] + start[-2]
-    if start.last % 2 == 0
-        total += start.last
-    end
+    total += start.last if start.last % 2 == 0
     start.shift
 end
 
@@ -63,30 +61,6 @@ p total
 # 4.246e-06
 
 
-# js objects are just hashes
-
-
-
-
-# users{}
-
-# dandelions{}
-
-# real lions{}
-
-
-# vs 
-
-
-# {db
-
-#     users{}
-
-#     etc{}
-
-#     etc{}
-
-# }
 
 
 

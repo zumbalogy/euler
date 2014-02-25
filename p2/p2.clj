@@ -10,13 +10,13 @@
               (map + fibs (rest fibs))))
 
 
-
 (reduce +
         (for [x fibs :when (and (even? x) (< x 4000000))] x))
 
+
+
+
 ;; 4613732
-
-
 
 
 
@@ -87,6 +87,8 @@
 
 (take 9 fibs)
 
+
+(concat [1 2 3] [3 4 5])
 
 
 
