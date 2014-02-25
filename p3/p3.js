@@ -4,7 +4,8 @@
 
 function is_prime(input){
     var output = true;
-    for (var i = 2; i * i < input; i++){
+    for (var i = 2; i * i < input; i++){ // should just check 2 and then only odd numbers
+                                            // or better, prime numbers
         if (input % i == 0){
             output = false
         }

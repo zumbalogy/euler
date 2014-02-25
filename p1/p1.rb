@@ -17,7 +17,8 @@ p total
 # =>  233168
 
 
-
+# should try doing a set so that ones i am addind have to be unique
+# then reduce? probably slower
 
 
 Benchmark.bmbm do |bm|

@@ -21,6 +21,7 @@ p divisors(600851475143)
 
 # puts divisors(29)
 # puts divisors(13195)
+
 time = Time.now
 divisors(600851475143)
 puts Time.now - time
@@ -28,7 +29,9 @@ puts Time.now - time
 puts Benchmark.measure { divisors(600851475143) } 
 puts Benchmark.measure { divisors(600851475143) } 
 puts Benchmark.measure { divisors(600851475143) } 
-puts Benchmark.measure { divisors(600851475143) } 
+puts Benchmark.measure { divisors(600851475143) }
+
+
 # the .times loop seems to hit performance
 
 # =>
