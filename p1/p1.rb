@@ -7,8 +7,8 @@ require 'benchmark'
 
 total = 0
 
-(0..1000).step(3) { |n| total += n }
-(0..1000).step(5) { |n| total += n }
+(0..1000).step(3)  { |n| total += n }
+(0..1000).step(5)  { |n| total += n }
 (0..1000).step(15) { |n| total -= n }
 
 p total
@@ -100,6 +100,9 @@ Benchmark.bmbm do |bm|
         (0..1000).step(15) { |n| total -= n }
     end
 end
+
+# these all vary by a bit but:
+
 
 # Rehearsal ---------------------------------------------------------------------
 # array without step                  0.000000   0.000000   0.000000 (  0.000222)

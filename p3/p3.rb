@@ -8,7 +8,7 @@ require 'benchmark'
 def divisors input
     count = 1
     until count * count > input
-        if input % count == 0 && (Prime.prime?(count) || count == 1)
+        if input % count == 0 && Prime.prime?(count) # || count == 1 # if you want general case
             output = count
         end
         count += 1
