@@ -24,6 +24,17 @@
 (== (mod start 29) 0)
 
 (for [x up_to :when (== (mod start x) 0)] x)
+(def factorz (for [x up_to :when (== (mod start x) 0)] x))
+
+(take 5 factorz)
+
+(for [x (range 1 29) :when (== (mod 29 x) 0)] x)
+(def train (for [x (range 1 29) :when (== (mod 29 x) 0)] x))
+(reduce + (take 2 train))
+(== (reduce + (take 2 train)) 1 )
+
+( defn
+(== (reduce + (take 2 (for [x (range 1 29) :when (== (mod 29 x) 0)] x))) 1 )
 
 ;; just go over the output of the above and make sure there (same method) has the highest value (or reduction of) zero, then return that one
 
