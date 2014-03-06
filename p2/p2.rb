@@ -49,7 +49,7 @@ end
 p Time.now - time2
 p total
 
-# 4613732
+# 4_613_732
 
 #old time with chekcing if even
 # 5.219e-06

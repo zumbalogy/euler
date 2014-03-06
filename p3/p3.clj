@@ -2,23 +2,28 @@
 
 ;; What is the largest prime factor of the number 600851475143 ?
 
-(defn is_prime [input] (== (reduce + (take 2 (for [x (range 1 input) :when (== (mod input x) 0)] x))) 1 ) )
-;; should try without doing a take
+(defn is_prime [input] (== (for [x (range 1 (/ input 2)) :when (== (mod input x) 0)] x) 1 ) )
+;; go to sqaure of the input
 
 (def start 600851475143)
 
-(def up_to (range 1 start))
-;; maybe step by 2 so just doing odds
+(def up_to (range 1 start 2))
 
+(last (for
+    [x up_to :when (and (== (mod start x) 0)
+                         (is_prime x))] x))
 
-(last (for [x up_to :when (and (== (mod start x) 0)(is_prime x))] x))
-
+;; 6857
 
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+(use 'clojure.contrib.math)
+( use clojure.contrib.math)
+(:require clojure.contrib.math)
+(expt 2 200)
 
 (+ 1 2 3)
 
