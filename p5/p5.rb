@@ -65,6 +65,9 @@ Benchmark.bmbm do |bm|
             total = total.lcm(i) 
         end
     end
+    bm.report('bunch of lcms') do
+        20.lcm(19.lcm(18.lcm(17.lcm(16.lcm(15.lcm(14.lcm(13.lcm(12.lcm(11)))))))))
+    end
 end
 
 ###################################################
@@ -135,17 +138,23 @@ p total
 
 ###################################################
 
+puts 20.lcm(19.lcm(18.lcm(17.lcm(16.lcm(15.lcm(14.lcm(13.lcm(12.lcm(11)))))))))
+
 # Rehearsal --------------------------------------------------------------
-# dumb checking                0.000000   0.000000   0.000000 (  0.009043)
-# eulid own fuctions           0.000000   0.000000   0.000000 (  0.000024)
-# eulid ruby built in          0.000000   0.000000   0.000000 (  0.000020)
-# non recursive function       0.000000   0.000000   0.000000 (  0.000016)
+# dumb checking                0.010000   0.000000   0.010000 (  0.008814)
+# eulid own fuctions           0.000000   0.000000   0.000000 (  0.000019)
+# eulid ruby built in          0.000000   0.000000   0.000000 (  0.000019)
+# non recursive function       0.000000   0.000000   0.000000 (  0.000015)
 # non recursive non function   0.000000   0.000000   0.000000 (  0.000008)
-# ----------------------------------------------------- total: 0.000000sec
+# bunch of lcms                0.000000   0.000000   0.000000 (  0.000006)
+# ----------------------------------------------------- total: 0.010000sec
 
 #                                  user     system      total        real
-# dumb checking                0.010000   0.000000   0.010000 (  0.008780)
-# eulid own fuctions           0.000000   0.000000   0.000000 (  0.000032)
-# eulid ruby built in          0.000000   0.000000   0.000000 (  0.000020)
-# non recursive function       0.000000   0.000000   0.000000 (  0.000021)
-# non recursive non function   0.000000   0.000000   0.000000 (  0.000010)
+# dumb checking                0.010000   0.000000   0.010000 (  0.008741)
+# eulid own fuctions           0.000000   0.000000   0.000000 (  0.000031)
+# eulid ruby built in          0.000000   0.000000   0.000000 (  0.000017)
+# non recursive function       0.000000   0.000000   0.000000 (  0.000020)
+# non recursive non function   0.000000   0.000000   0.000000 (  0.000012)
+# bunch of lcms                0.000000   0.000000   0.000000 (  0.000009)
+
+
