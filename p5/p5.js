@@ -36,3 +36,20 @@ console.log(total); // 232792560
 //  were faster than writing our own, which we had to do here
 
 // also note benchmarks are fuzzy thing
+
+/////////////////////////////////////////////////////////////
+
+// var start = new Date().getTime();
+
+// for (var x = 0; x < 50000; x++) {
+    lcm(20, lcm(19, lcm(18, lcm(17, lcm(16, lcm(15, lcm(14, lcm(13, lcm(12, 11)))))))))
+    // this tends to be slower than the above one
+// }
+
+// var end = new Date().getTime();
+// console.log(end-start); //this is milliseconds.
+
+// 32
+// vs
+// 33
+
