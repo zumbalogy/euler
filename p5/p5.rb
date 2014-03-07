@@ -4,6 +4,9 @@
 
 require 'benchmark'
 
+
+# 232_792_560
+
 Benchmark.bmbm do |bm|
     bm.report('dumb checking') do
         start = 0
@@ -33,7 +36,7 @@ Benchmark.bmbm do |bm|
         end
 
         def recursive(a, b=a-1, c=a/2)
-                b > c ? recursive(lcm(a,b), b-1, c) : a
+            b > c ? recursive(lcm(a,b), b-1, c) : a
         end
 
         recursive(20)
@@ -84,7 +87,6 @@ end
 
 p start
 
-# 232_792_560
 
 ####################################################################
 
