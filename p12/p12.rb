@@ -35,11 +35,11 @@ value = 0
 count = 2
 triangle = 1
 
-# until value > 500
-#     triangle += count
-#     value = factor_count(triangle)
-#     count += 1
-# end
+until value > 500
+    triangle += count
+    value = factor_count(triangle)
+    count += 1
+end
 
 
 p triangle
