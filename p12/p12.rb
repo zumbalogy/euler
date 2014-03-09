@@ -24,8 +24,8 @@
 
 
 def factor_count(input)
-    count = 0
-    1.upto(Math.sqrt(input)) do |i|
+    count = 2
+    2.upto(Math.sqrt(input)) do |i|
         count += 2 if input % i == 0
     end
     count
