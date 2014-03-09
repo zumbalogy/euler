@@ -2,24 +2,19 @@
 
 
 function prime(input){
-    var output = true;
     for (var i = 2; i <= Math.sqrt(input); i++){
         if (input % i == 0){
-            output = false
+            return false
             break
         }
     }
-    return output
+    return true
 }
 
-var answer = 0;
-var count = 0;
+var count = 1;
 
-for (var i = 0; count < 10001; i++){
-    if (prime(i)){
-        count ++;
-        answer = i
-    }
+for (var i = 3; count < 10001; i += 2){
+    prime(i) && count ++
 }
 
 console.log(i)
