@@ -5,7 +5,9 @@
 
 
 function prime(input){
-    for (var i = 2; i <= Math.sqrt(input); i++)
+    if (input % 2 == 0)
+        return false
+    for (var i = 3; i <= Math.sqrt(input); i += 2)
         if (input % i == 0)
             return false
     return true

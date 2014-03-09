@@ -2,7 +2,9 @@
 
 
 function prime(input){
-    for (var i = 2; i <= Math.sqrt(input); i++){
+    if (input % 2 == 0)
+        return false
+    for (var i = 3; i <= Math.sqrt(input); i += 2){
         if (input % i == 0){
             return false
         }
@@ -10,12 +12,13 @@ function prime(input){
     return true
 }
 
-var count = 1;
+var count = 2;
 
-for (var i = 3; count < 10001; i += 2){
+for (var i = 3; count < 10000; i += 2){
     prime(i) && count ++
 }
 
-console.log(i)
+console.log(i-2) // -2 because loop will add two to it at the end
+                 //  could set and reset a variably when i is prime, but thats slower 
 
-// 104724
+// 104723
