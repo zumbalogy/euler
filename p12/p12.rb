@@ -21,6 +21,34 @@
 
 ###########################################################################
 
+
+
+def factor_count(input)
+    count = 0
+    1.upto(Math.sqrt(input)) do |i|
+        count += 2 if input % i == 0
+    end
+    count
+end
+
+value = 0
+count = 2
+triangle = 1
+
+# until value > 500
+#     triangle += count
+#     value = factor_count(triangle)
+#     count += 1
+# end
+
+
+p triangle
+
+# 76_576_500
+
+
+
+
 # def add_fact input, total=0
 #     until input == 0
 #         return add_fact(input - 1, total += input)
@@ -28,25 +56,10 @@
 #     total
 # end
 
-def fact_len input
-    count = 1                #divisible by self
-    (input / 2).times do |i|
-        count += 1 if input % (i+1) == 0
-    end
-    count
-end
-
-value = 0
-count = 2
-foo = 1
-
-until value > 500
-    value = fact_len(foo)
-    p value
-    foo += count
-    count += 1
-end
-
-
-p count
-p add_fact(count)
+# def fact_len input
+#     count = 1                #divisible by self
+#     (input / 2).times do |i|
+#         count += 1 if input % (i+1) == 0
+#     end
+#     count
+# end
