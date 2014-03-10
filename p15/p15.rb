@@ -19,4 +19,4 @@ def combination foo, bar
 end
 
 puts combination 40, 20
-# =>  137846528820
+# => 137846528820
