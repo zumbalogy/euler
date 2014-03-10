@@ -6,7 +6,10 @@
 puts (2 ** 1_000).to_s.split('').map {|i| i.to_i}.reduce(:+)
 
 
-puts (2 ** 1_000).to_s.split('').inject(0) {|result, elem| result + elem.to_i}
+puts (2 ** 1_000).to_s.chars.inject(0) {|result, elem| result + elem.to_i}
 
 
 # 1366
+# not the most clever solution, but straightforward and short.
+
+puts (2 ** 1_000).to_s.split('').length
