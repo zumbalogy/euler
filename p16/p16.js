@@ -11,10 +11,9 @@
 
 function bin2dec(num){
     return num.split('').reverse().reduce(function(x, y, i){
-        return (y === '1') ? x.toString() + Math.pow(2, i) : x.toString()
-    })
-}
+      return (y === '1') ? x + Math.pow(2, i) : x
+    }, 0)
+  }
 
 
-
-console.log(bin2dec('1000'))
+console.log(bin2dec('10100'))
