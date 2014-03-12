@@ -29,9 +29,6 @@ var array = [1];
 
 for (var a = 0; a < 1000; a++){ //1000.times do |a|
 
-    while (array[0] == 0)
-        array.shift()
-
     var overflow = 0;
     var length = array.length + 1
     
@@ -40,7 +37,8 @@ for (var a = 0; a < 1000; a++){ //1000.times do |a|
         var digit = (array[array.length - b] * 2) + overflow
         overflow = Math.floor(digit / 10)
         array[array.length - b] = digit % 10
-        if (b == array.length)
+        
+        if (b == array.length && overflow > 0)
             array.unshift(overflow)
     }
 }
