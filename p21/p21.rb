@@ -25,4 +25,4 @@ array = []
 end
 
 puts array.reduce(:+)
-# 31626
+# 31_626
