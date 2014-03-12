@@ -26,7 +26,6 @@
 
 
 var array = [1];
-var sum = 0;
 
 for (var a = 0; a < 1000; a++){ //1000.times do |a|
 
@@ -51,3 +50,4 @@ var solution = array.reduce(function(a, b){
 })
 
 console.log(solution)
+// 1366
