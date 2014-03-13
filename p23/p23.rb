@@ -14,7 +14,7 @@ def abundant? input
 end
 
 def made_from_abundant? input
-    (1..input).each do |first|
+    (1..(input/2)).each do |first|
         second = input - first
         if abundant?(first) && abundant?(second)
             return true
@@ -24,7 +24,7 @@ def made_from_abundant? input
 end
 
 
-puts made_from_abundant? 24
+puts made_from_abundant? 23
 
 total = 0
 
@@ -34,3 +34,5 @@ total = 0
 end
 
 p total
+# 3921457
+# but currently takes over 6 minutes
