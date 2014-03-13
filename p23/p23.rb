@@ -34,5 +34,6 @@ total = 0
 end
 
 p total
-# 3921457
-# but currently takes over 6 minutes
+# 3_921_457 
+# turns out this is way too much
+# and currently takes over 6 minutes
