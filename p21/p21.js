@@ -19,9 +19,6 @@ function sum_div(input){
     return total.reduce(function(a, b){return a + b})
 }
 
-
-console.log(sum_div(220))
-
 var array = []
 
 for (var i = 0; i < 10000; i++){
