@@ -13,8 +13,8 @@ ten_nineteen = 'teneleventwelvethirfourfifsixseveneightnine'.length + ('teen'.le
 twenty_ninty = 'twenthirfourfifsixseveneighnine'.length + ('ty'.length * 8)
 # 47
 
-sum_99 = one_nine + ten_nineteen + twenty_ninty + (one_nine * 8)
-# 442
+sum_99 = (one_nine * 9 ) + ten_nineteen + twenty_ninty + (one_nine * 8)
+# 730
 
 ####################################################
 
@@ -30,12 +30,13 @@ hundreds = hundred + hundred_and
 ####################################################
 
 sum_999 = hundreds + (sum_99 * 10)
-# 16993
-
+# 19873
+    
 one_thousand = 'onethousand'.length
 # 11
 
 total = sum_999 + one_thousand
 
 puts total
-# 17004
+# 19_884
+
