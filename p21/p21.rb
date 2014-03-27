@@ -1,28 +1,49 @@
 # Let d(n) equal the sum of divisors of n.
 
-# If d(a) = b and d(b) = a, where a ≠ b, then a and b are called amicable numbers.
+# If d(a) = b and d(b) = a and a ≠ b, then a and b are amicable.
 
-# For example, the divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 and 110; so d(220) = 284. The divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
+# The divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 and 110; so d(220) = 284. 
+# The divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
 
-# Evaluate the sum of all the amicable numbers under 10000.
-
-
+# Sum all amicable numbers under 10_000.
 
 def sum_div input
+    # one counts as a divisor, but input does not
     (2..Math.sqrt(input)).inject(1) do |a,b| 
         input % b == 0 ? a + b + (input / b) : a
     end
 end
 
-array = []
+def amicable input
+    first = sum_div(input)
+    input == sum_div(first) && input != first
+end
 
-(2..10_000).each do |a|
-    first = sum_div(a)
-    b = sum_div(first)
-    if a == b && a != first
-        array << a
+puts (2..10_000).inject(0) { |a,b| amicable(b) ? a + b : a }
+# 31_626
+
+# hitting all the pairs twice, but not that many pairs, so might be faster just doing this
+# and probably cleaner
+
+# could kinda cheat and not care about a number if its sum_div is over 10_000
+# but its kinda a hack and less clean
+
+###############################################################
+
+require 'benchmark'
+
+Benchmark.bmbm do |bm|
+
+    bm.report('inject') do
+        (2..10_000).inject(0) { |a,b| amicable(b) ? a + b : a }
+    end
+
+    bm.report('each') do
+        total = 0
+        (2..10_000).each do |v|
+            total += v if amicable v
+        end
     end
 end
 
-puts array.reduce(:+)
-# 31_626
+
