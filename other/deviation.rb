@@ -32,8 +32,12 @@ def deviation array, amount_input
 
     array.each_with_index do |n, index|
         if bottom > n || n > top
-            second = array[((index-amount) || index)..index+amount]
-            
+            count = 0
+            until array[index-(amount-count)]
+                count += 1
+            end
+            second = array[index-(amount-count)..index+amount]
+
             new_bottom = second.min
             new_top    = second.max
             total      = new_top - new_bottom
