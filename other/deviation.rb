@@ -34,9 +34,8 @@ def deviation array, amount_input
         if bottom > n || n > top
 
             count = 0
-            until array[index-(amount-count)]
-                count += 1
-            end
+            
+            count += 1 until array[index-(amount-count)]
 
             second     = array[index-(amount-count)..index+amount]
 
