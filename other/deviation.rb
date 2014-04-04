@@ -25,19 +25,17 @@
 def deviation array, amount_input
     amount = amount_input - 1
 
-    first = array.first amount_input
-    bottom = first.min
-    top = first.max
+    first      = array.first amount_input
+    bottom     = first.min
+    top        = first.max
     best_total = top - bottom
 
     array.each_with_index do |n, index|
         if bottom > n || n > top
 
-            count = 0
-            
-            count += 1 until array[index-(amount-count)]
+            amount < index ? start = index-(amount) : start = 0
 
-            second     = array[index-(amount-count)..index+amount]
+            second     = array[start..index+amount]
 
             new_bottom = second.min
             new_top    = second.max
