@@ -34,17 +34,17 @@ def deviation array, amount_input
             start   = amount < index ? index - amount : 0
             second  = array[start..index + amount]
 
-            new_low = n - second.min
-            new_top = n - second.max
+            low_diff = n - second.min
+            top_diff = n - second.max
 
-            if output < new_low
+            if output < low_diff
                 low    = second.min
                 top    = n
-                output = new_low
-            elsif output < new_top
+                output = low_diff
+            elsif output < top_diff
                 low    = n
                 top    = second.max
-                output = new_top
+                output = top_diff
             end
         end
     end
