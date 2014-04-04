@@ -33,8 +33,7 @@ def deviation array, amount_input
     array.each_with_index do |n, index|
         if bottom > n || n > top
 
-            amount < index ? start = index-(amount) : start = 0
-
+            start = amount < index ? index-(amount) : 0
             second     = array[start..index+amount]
 
             new_bottom = second.min
