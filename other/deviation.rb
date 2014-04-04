@@ -30,19 +30,18 @@ def deviation array, amount_input
     output = -1
 
     array.each_with_index do |n, index|
-        if low < n || n > top
-
+        if n > low || top < n
             start   = amount < index ? index - amount : 0
             second  = array[start..index + amount]
 
             new_low = n - second.min
             new_top = n - second.max
 
-            if new_low > output
+            if output < new_low
                 low    = second.min
                 top    = n
                 output = new_low
-            elsif new_top > output
+            elsif output < new_top
                 low    = n
                 top    = second.max
                 output = new_top
