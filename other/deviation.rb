@@ -26,22 +26,22 @@ def deviation array, amount_input
     amount = amount_input - 1
 
     first      = array.first amount_input
-    bottom     = first.min
+    low        = first.min
     top        = first.max
-    best_total = top - bottom
+    best_total = top - low
 
     array.each_with_index do |n, index|
-        if bottom > n || n > top
+        if low > n || n > top
 
-            start = amount < index ? index-(amount) : 0
-            second     = array[start..index+amount]
+            start   = amount < index ? index - amount : 0
+            second  = array[start..index + amount]
 
-            new_bottom = second.min
-            new_top    = second.max
-            total      = new_top - new_bottom
+            new_low = second.min
+            new_top = second.max
+            total   = new_top - new_low
 
             if total > best_total
-                bottom     = new_bottom
+                low        = new_low
                 top        = new_top
                 best_total = total
             end
