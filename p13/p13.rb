@@ -104,11 +104,33 @@ array = [37107287533902102798797998220837590246510135740250,
 p array.reduce(:+).to_s[0..9].to_i
 # 5537376230
 
-array2 = array
-
-p array2.map{|n| n / 10**39}.reduce(:+)
+p array.map{|n| n / 10**39}.reduce(:+)
 
 
-array3 = array
+p array.map{|n| n.to_s[0..10].to_i}.reduce(:+)
 
-p array3.map{|n| n.to_s[0..10].to_i}.reduce(:+)
+
+p array.map(&:to_s).map(&:split).flatten.map(&:to_i).reduce(:+)
+
+
+a = [
+    [
+        [1, 2], 
+        [3]
+    ],
+    [
+        [1,2,3,4],
+        [0,0]
+    ],
+    [
+        [6,5,4],
+        [4,3,2,1],
+        [1,2,1]
+    ]
+]
+
+
+a.map(&method(&:to_s))
+
+[0,1,2].any?(&:zero?)
+# => true
