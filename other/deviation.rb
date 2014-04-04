@@ -25,10 +25,10 @@
 def deviation array, amount_input
     amount = amount_input - 1
 
-    first      = array.first amount_input
-    low        = first.min
-    top        = first.max
-    best_total = top - low
+    first  = array.first amount_input
+    low    = first.min
+    top    = first.max
+    output = top - low
 
     array.each_with_index do |n, index|
         if low > n || n > top
@@ -40,14 +40,14 @@ def deviation array, amount_input
             new_top = second.max
             total   = new_top - new_low
 
-            if total > best_total
-                low        = new_low
-                top        = new_top
-                best_total = total
+            if total > output
+                low    = new_low
+                top    = new_top
+                output = total
             end
         end
     end
-    best_total
+    output
 end
 
 p deviation([6, 9, 4, 7, 4, 1], 3)
