@@ -3,7 +3,7 @@
 // What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
 
 function gcd(a,b){
-    if (b == 0) {
+    if (b === 0) {
         return a
     } else {
         return gcd(b, a % b)
