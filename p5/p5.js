@@ -10,6 +10,10 @@ function gcd(a,b){
     }
 }
 
+function gcd2(a,b) {
+    
+}
+
 function lcm(a, b){
     return (a * b) / gcd(a, b)
 }

@@ -6,32 +6,47 @@
 
 # Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.
 
+########################
+
+# The first odd abundant number not divisible by 5 is 81_081
+# 
+
 
 def abundant? input
-    input < (2..Math.sqrt(input)).inject(0) do |a,b| 
-        input % b == 0 ? a + b + (input / b) : a
-    end
+    	a = 0
+	(2..Math.sqrt(input)).each do |foo|
+		a += (foo + (input / foo)) if (input % foo).zero?
+		if a > input
+			return true
+		end
+	end
+	return false
 end
 
 def made_from_abundant? input
+    return false if input.odd? && input % 5 == 0
     (1..(input/2)).each do |first|
-        second = input - first
-        if abundant?(first) && abundant?(second)
+        if abundant?(first) && abundant?(input - first)
             return true
         end
     end
     return false
 end
 
-
-puts made_from_abundant? 23
+puts abundant? 11
+puts abundant? 12
+puts abundant? 18
+puts abundant? 28
+puts made_from_abundant? 30
+puts
+puts made_from_abundant? 24
 
 total = 0
 
-(12..28_123).each do |i|
-    p i
-    total += i unless made_from_abundant?(i)
-end
+#(12..28_123).each do |i|
+ #   p i
+  #  total += i unless made_from_abundant?(i)
+#end
 
 p total
 # 3_921_457 
