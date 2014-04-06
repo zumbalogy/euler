@@ -9,7 +9,11 @@
 ########################
 
 # The first odd abundant number not divisible by 5 is 81_081
-# 
+
+# maybe i should try starting at 12 and the number. 12 + first abundant under input a hit?
+# is next abundant up from 12 and next abundant underneath input a hit? etc
+
+ 
 
 
 def abundant? input
@@ -25,7 +29,7 @@ end
 
 def made_from_abundant? input
     return false if input.odd? && input % 5 == 0
-    (1..(input/2)).each do |first|
+    (12..(input/2)).each do |first|
         if abundant?(first) && abundant?(input - first)
             return true
         end
