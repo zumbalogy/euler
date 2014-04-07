@@ -5,17 +5,21 @@
 # There exists exactly one Pythagorean triplet for which a + b + c = 1000.
 # Find the product abc.
 
+output = 0
 
-
-(1...1_000).each do |a|
-    (1...(a * 2)).each do |b|
+(1..500).each do |a|
+    (a..500).each do |b|
         c = Math.sqrt((a**2) + (b**2))
         if a + b + c == 1000
-            puts a*b*c
-            exit
+            output =  a*b*c
+            p 'hit'
+            break
         end
     end
+    break if output > 0
 end
+
+p output
 
 # 200
 # 375
