@@ -7,14 +7,12 @@
 
 
 
-catch (:done) do # catching might be non-idiomatic
-    1_000.times do |a|
-        (1_000 - a).times do |b|
-            c = Math.sqrt((a**2) + (b**2))
-            if a + b + c == 1000 && a*b*c != 0
-                puts a*b*c
-                throw :done
-            end
+(1...1_000).each do |a|
+    (1...(a * 2)).each do |b|
+        c = Math.sqrt((a**2) + (b**2))
+        if a + b + c == 1000
+            puts a*b*c
+            exit
         end
     end
 end
