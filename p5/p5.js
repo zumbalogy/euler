@@ -11,11 +11,22 @@ function gcd(a,b){
 }
 
 function gcd2(a,b) {
-    
+    while (b !== 0) {
+        save = b
+        b = a % b
+        a = save
+    }
+    return a
+}
+
+function gcd3(a,b) {
+    while (a !== b)
+        a > b ? a -= b : b -= a
+    return a
 }
 
 function lcm(a, b){
-    return (a * b) / gcd(a, b)
+    return (a * b) / gcd2(a, b)
 }
 
 // var start = new Date().getTime();

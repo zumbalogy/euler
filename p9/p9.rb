@@ -12,7 +12,6 @@ output = 0
         c = Math.sqrt((a**2) + (b**2))
         if a + b + c == 1000
             output =  a*b*c
-            p 'hit'
             break
         end
     end
