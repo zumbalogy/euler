@@ -29,11 +29,11 @@ array = [
 [ 4, 62, 98, 27, 23,  9, 70, 98, 73, 93, 38, 53, 60,  4, 23] ]
 
 
-(2..array.length).map do |i|
-    array[-i].map.each_with_index do |cell, index|
-        left = array[-1 * (i-1)][index] || 0
-        right = array[-1 * (i-1)][index+1] || 0
-        array[-i][index] = cell + [left, right].max
+(2..array.length).each do |i|
+    array[-i].each_with_index do |cell, index|
+        left = array[-i + 1][index]
+        right = array[-i + 1][index+1]
+        array[-i][index] += [left, right].max
     end
 end
 
