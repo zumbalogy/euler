@@ -1,10 +1,8 @@
 class Line
-    def initialize x1 y1 x2 y2
+    def initialize x1, y1, x2, y2
         @slope = (x2 - x1) / (y2 - y1).to_f
         @intercept = y1 - (@slope * x1)
     end
-
-    def
 end
 
 triangles = File.readlines('./triangles.txt').map do |line|
@@ -20,10 +18,9 @@ def same_side_as_origin?(p1, p2, p3)
 end
 
 def tri_has_o?(tri)
-  p1, p2, p3 = tri[0], tri[1], tri[2]
-  same_side_as_origin?(p1, p2, p3) &&
-  same_side_as_origin?(p1, p3, p2) && 
-  same_side_as_origin?(p2, p3, p1)
+  same_side_as_origin?(tri[0], tri[1], tri[2]) &&
+  same_side_as_origin?(tri[0], tri[2], tri[1]) && 
+  same_side_as_origin?(tri[1], tri[2], tri[0])
 end
 
 p triangles.count &method(:tri_has_o?)
