@@ -23,3 +23,18 @@
     (partition 2))))
 
 (println (tree 5))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn tree2 [n]
+    (loop [year n height 1]
+        (if (= year 0) 
+            height
+            (if (odd? year)
+                (recur (- year 1)(* 2 height))
+                (recur (- year 1)(+ 1 height))))))
+
+(println (tree2 5))
+
+
