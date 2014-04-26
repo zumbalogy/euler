@@ -2,12 +2,34 @@
 
 # What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
 
+###########################################################
+
+def gcd(a, b)
+    b == 0 ? a : gcd(b, a % b)
+end
+
+def lcm(a, b)
+    (a * b) / gcd(a, b)
+end
+
+p (11..20).reduce &method(:lcm)
+
+
+
+
+
+
+#############################################################
+
 require 'benchmark'
 
 
 # 232_792_560
 
 Benchmark.bmbm do |bm|
+    bm.report('best, with &method') do
+        (11..20).reduce &method(:lcm)
+    end
     bm.report('dumb checking') do
         start = 0
         divisible = false
