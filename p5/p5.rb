@@ -12,7 +12,7 @@ def lcm(a, b)
     (a * b) / gcd(a, b)
 end
 
-p (11..20).reduce &method(:lcm)
+p (11..20).reduce &:lcm
 
 
 
