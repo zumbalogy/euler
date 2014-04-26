@@ -20,22 +20,37 @@ NOTE: The first two examples in the file represent the triangles in the example 
 
 triangles = File.readlines('./triangles.txt').map do |line|
     tri = line.split(',').map(&:to_i)
+
+    # create a triangle array of three points
+    #   points are an array with [x, y] values.
     [[tri[0],tri[1]],[tri[2],tri[3]],[tri[4],tri[5]]]
 end
 
 ######################################################
 
 def same_side_as_origin?(p1, p2, p3)
-  m = (p2[1] - p1[1]) / (p2[0] - p1[0]).to_f
-  b = p1[1] - (m * p1[0])
-  (p3[1] > m * p3[0] + b && 0 > b) ||
-  (p3[1] < m * p3[0] + b && 0 < b)
+    # p1 and p2 make a line, p3 compared with origin
+
+    # slope (m) = (y2 -y1) / (x2 - x1)
+    m = (p2[1] - p1[1]) / (p2[0] - p1[0]).to_f
+
+    # y-intercept (b) = y1 - (m * x1)
+    b = p1[1] - (m * p1[0])
+
+    # y > (mx + b) AND (origin y) > (m(origin x) + b)
+    #   or both less than
+    #   origin x and origin y are zero, so are simplified
+    (p3[1] > (m * p3[0]) + b && 0 > b) ||
+    (p3[1] < (m * p3[0]) + b && 0 < b)
 end
 
 def tri_has_o?(tri)
-  same_side_as_origin?(tri[0], tri[1], tri[2]) &&
-  same_side_as_origin?(tri[0], tri[2], tri[1]) && 
-  same_side_as_origin?(tri[1], tri[2], tri[0])
+    # look at the 3 lines of a tringle, and compare
+    #   origin to the point of triangle not on givin line
+    #   if true all times, point (origin) must be contained
+    same_side_as_origin?(tri[0], tri[1], tri[2]) &&
+    same_side_as_origin?(tri[0], tri[2], tri[1]) && 
+    same_side_as_origin?(tri[1], tri[2], tri[0])
 end
 
 p triangles.count &method(:tri_has_o?)

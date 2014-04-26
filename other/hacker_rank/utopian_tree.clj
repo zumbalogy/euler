@@ -18,12 +18,12 @@
 
 (defn tree [n]
     (reduce (fn [acc [f val]] (f acc val)) 
-    1 (->> (vec (take n (range))) 
-    (interleave (cycle [bar foo])) 
-    (partition 2))))
+        1 (->> (vec (take n (range))) 
+        (interleave (cycle [bar foo])) 
+        (partition 2))))
 
 (println (tree 5))
-
+;; 14
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -36,5 +36,5 @@
                 (recur (- year 1)(+ 1 height))))))
 
 (println (tree2 5))
-
+;; 14
 
