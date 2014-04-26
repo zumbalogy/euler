@@ -39,15 +39,3 @@
 
 (println (tree2 5))
 ;; 14
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defn tree3 [n]
-    (loop [year n height 1]
-        (and (= year 0) (println height))
-        (and (< 0 year) (recur (- year 1)(* 2 height)))))
-
-(println (tree3 5))
-; 32
-; false
