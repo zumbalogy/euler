@@ -14,11 +14,10 @@
 # the array will contain up to 100,000 elements all the elements in the array are integer numbers in the following range: [1, 231 -1] the value of d will not exceed the length of the given array
 
 # Input:
-
 # v: 6, 9, 4, 7, 4, 1
 # d: 3
-# Output:
 
+# Output:
 # 6
 
 

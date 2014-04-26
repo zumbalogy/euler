@@ -38,16 +38,15 @@ def tri_has_o?(tri)
   same_side_as_origin?(tri[1], tri[2], tri[0])
 end
 
-p triangles.count(&method(:tri_has_o?))
+p triangles.count &method(:tri_has_o?)
 
 ######################################################
-
 
 class Line
     def initialize x1, y1, x2, y2
         @slope = (x2 - x1) / (y2 - y1).to_f
         @intercept = y1 - (@slope * x1)
     end
-end
 
+end
 
