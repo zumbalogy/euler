@@ -13,6 +13,8 @@
 ; Output Format
 ; Print the height of the Utopian tree after N cycles.
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defn foo [x y] (+ x 1))
 (defn bar [x y] (* x 2))
 
@@ -25,7 +27,7 @@
 (println (tree 5))
 ;; 14
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn tree2 [n]
     (loop [year n height 1]
@@ -38,3 +40,14 @@
 (println (tree2 5))
 ;; 14
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn tree3 [n]
+    (loop [year n height 1]
+        (and (= year 0) (println height))
+        (and (< 0 year) (recur (- year 1)(* 2 height)))))
+
+(println (tree3 5))
+; 32
+; false

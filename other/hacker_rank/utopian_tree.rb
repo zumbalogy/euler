@@ -24,3 +24,28 @@ def tree_h cycles
     end
     output
 end
+
+def tree_2 cycles, height = 1
+    if cycles == 0
+        height
+    elsif cycles.odd?
+        tree_2(cycles - 1, height * 2)
+    else
+        tree_2(cycles - 1, height + 1)
+    end
+end
+
+def tree_3 cycles, height = 1
+    (cycles.zero? && height) ||
+    (cycles.odd? && tree_3(cycles - 1, height * 2)) ||
+    tree_3(cycles - 1, height + 1)
+end
+
+p tree_h 5
+# => 14
+
+p tree_2 5
+# => 14
+
+p tree_3 5
+# => 14
