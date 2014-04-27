@@ -90,11 +90,11 @@ end
 
 #########################################################
 
-def deviate_recur array, amount_input, best = 0
-    split = array.pop(amount_input)
+def deviate_recur array, amount, best = 0
+    split = array.pop(amount)
     diff = split.max - split.min
     best = [best, diff].max
-    array.any? ? deviate_recur(array, amount_input, best) : best
+    array.any? ? deviate_recur(array, amount, best) : best
 end
 
 #########################################################
@@ -172,5 +172,6 @@ deviation2   0.020000   0.000000   0.020000 (  0.018630) # 1st
 recur        0.030000   0.000000   0.030000 (  0.031820)
 simple       0.120000   0.000000   0.120000 (  0.124611)
 
+recur does much better relativly when array is short
 
 =end
