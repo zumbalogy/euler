@@ -54,4 +54,15 @@ def deviation array, amount_input
     output
 end
 
+def deviate_recur array, amount_input, best = 0
+    split = array.pop(amount_input)
+    diff = split.max - split.min
+    best = diff if diff > best
+    array.any? ? deviate_recur(array, amount_input, best) : best
+end
+
 p deviation([6, 9, 4, 7, 4, 1], 3)
+# => 6
+
+p deviate_recur([6, 9, 4, 7, 4, 1], 3)
+# => 6
