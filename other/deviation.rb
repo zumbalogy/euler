@@ -30,9 +30,7 @@ def deviation array, amount
     # outside of the range of it current best diff input numbers
     amount -= 1
 
-    low    = -1
-    top    = -1
-    output = -1
+    low, top, output = -1,-1,-1
 
     array.each_with_index do |n, index|
         if n < low || top < n
@@ -69,7 +67,7 @@ def deviation2 array, amount
             start = amount < index ? index - amount : 0
             min   = array[start..index + amount].min
             diff  = n - min
-            
+
             if output < diff
                 low    = min
                 top    = n
@@ -101,8 +99,13 @@ end
 
 #########################################################
 
-def deviate_simple_loop array, amount_input
-
+def deviate_simple array, amount
+    output = 0
+    array.each_with_index do |n, idx|
+        foo = array[idx..(idx + amount)]
+        output = [output, foo.max - foo.min].max
+    end
+    output
 end
 
 #########################################################
@@ -115,3 +118,59 @@ p deviation2([6, 9, 4, 7, 4, 1], 3)
 
 p deviate_recur([6, 9, 4, 7, 4, 1], 3)
 # => 6
+
+p deviate_simple([6, 9, 4, 7, 4, 1], 3)
+# => 6
+
+#######################################################
+
+require 'benchmark'
+
+Benchmark.bmbm do |bm|
+    bm.report('deviation') do
+        1000.times do
+            deviation([6, 9, 4, 7, 4, 1], 3)
+            deviation([6, 9, 4, 7, 4, 1, 1, 1, 8, 1, 1, 1, 1], 4)
+            deviation([6,9,4,7,4,1,1,1,8,1,1,1,1,9,6,2,4,2,7,5,6,8,9,5,2,1,5,8], 5)
+        end
+    end
+    bm.report('deviation2') do
+        1000.times do
+            deviation2([6, 9, 4, 7, 4, 1], 3)
+            deviation2([6, 9, 4, 7, 4, 1, 1, 1, 8, 1, 1, 1, 1], 4)
+            deviation2([6,9,4,7,4,1,1,1,8,1,1,1,1,9,6,2,4,2,7,5,6,8,9,5,2,1,5,8], 5)
+        end
+    end
+    bm.report('recur') do
+        1000.times do
+            deviate_recur([6, 9, 4, 7, 4, 1], 3)
+            deviate_recur([6, 9, 4, 7, 4, 1, 1, 1, 8, 1, 1, 1, 1], 4)
+            deviate_recur([6,9,4,7,4,1,1,1,8,1,1,1,1,9,6,2,4,2,7,5,6,8,9,5,2,1,5,8], 5)
+        end
+    end
+    bm.report('simple') do
+        1000.times do
+            deviate_simple([6, 9, 4, 7, 4, 1], 3)
+            deviate_simple([6, 9, 4, 7, 4, 1, 1, 1, 8, 1, 1, 1, 1], 4)
+            deviate_simple([6,9,4,7,4,1,1,1,8,1,1,1,1,9,6,2,4,2,7,5,6,8,9,5,2,1,5,8], 5)
+        end
+    end
+end
+
+=begin
+
+Rehearsal ----------------------------------------------
+deviation    0.040000   0.000000   0.040000 (  0.032148)
+deviation2   0.020000   0.000000   0.020000 (  0.020308) # 1st
+recur        0.030000   0.000000   0.030000 (  0.033493)
+simple       0.130000   0.000000   0.130000 (  0.125517)
+------------------------------------- total: 0.220000sec
+
+                 user     system      total        real
+deviation    0.030000   0.000000   0.030000 (  0.032484)
+deviation2   0.020000   0.000000   0.020000 (  0.018630) # 1st
+recur        0.030000   0.000000   0.030000 (  0.031820)
+simple       0.120000   0.000000   0.120000 (  0.124611)
+
+
+=end
