@@ -3,11 +3,12 @@ def bs array
         array.each_index do |i|
             if foo = array[i + 1]
                 bar = array[i]
-                if foo > bar
-                    array[i] = bar
-                    array[i + 1] = foo
+                if foo < bar
+                    array[i] = foo
+                    array[i + 1] = bar
                 end
             end
         end
     end
+    array
 end
