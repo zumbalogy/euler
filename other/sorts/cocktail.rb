@@ -24,7 +24,3 @@ def cocktail array
     end
     array
 end
-
-a = [3,2,1,3,2,1,3,2,7,5,9,7,3,5,1,0]
-
-p cocktail a
