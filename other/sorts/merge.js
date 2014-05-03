@@ -42,9 +42,12 @@ function merge(array1, array2){
 
 function mergeSort(array){
     var output = split(array);
-    var count = output.length;
     while (output.length > 1){
-        output[0] = merge(output[0], output.splice(1, 1))
+        var new_array = []
+        while (output.length){
+            new_array.push(merge(output.shift(),output.shift()))
+        }
+        output = new_array
     }
-    return output
+    return output[0]
 }
