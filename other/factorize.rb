@@ -8,6 +8,8 @@ def factorize(input, output = [])
     factorize(input/p, output)
 end
 
+########################################
+
 def factorize(input)  
     p = Prime.new(2)
     output = []
