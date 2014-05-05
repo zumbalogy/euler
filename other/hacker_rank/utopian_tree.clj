@@ -39,3 +39,85 @@
 
 (println (tree2 5))
 ;; 14
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn tree [n]
+    (reduce #(%2 %1) 
+        1
+        (take n
+            (cycle [(partial *' 2) inc]))))
+
+(println (tree 5))
+;; 14
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn tree2 [n]
+    ((apply comp 
+        (take n  
+            (interleave 
+                (repeat (partial * 2)) 
+                (repeat inc)))) 
+    1))
+
+
+(println (tree2 5))
+;; 14
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(defn growth-rings [cycle-n height]
+    (lazy-seq
+        (cons height
+            (growth-rings (inc cycle-n) 
+                (if (even? cycle-n) 
+                    (* 2 height) 
+                    (inc height))))))
+
+(defn tree2 [n]
+    (nth (growth-rings 0 1) n))
+
+(println (tree2 5))
+;; 14
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn tree2 [n]
+   (-> (iterate #(inc (* 2 %)) 1)
+        (nth (/ (+ n (mod n 2)) 2))
+        #(if (odd? n) (dec %) %)))
+
+(println (tree2 5))
+;; error
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn tree2 [n]
+    (let [height (atom 1)]
+        (dotimes [cycle-n n]
+            (swap! height (if (even? cycle-n) 
+                (partial * 2) 
+                inc)))
+    @height))
+
+(println (tree2 5))
+;; 14
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn tree2 [n]
+    ((apply comp
+        (take n
+            (cycle [(partial * 2) inc])))
+    1))
+
+(println (tree2 5))
+;; 14
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
