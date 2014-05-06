@@ -3,9 +3,9 @@
 
 output = 0
 
-(100..999).each do |foo|      # can start at 101 and step 2 for odds
-    (100..999).each do |bar|  # for both these, not the general case though
-        foobar = foo * bar    # though oddness is likely due to probably starting/ending in 9
+(100..999).each do |foo|
+    (foo..999).each do |bar|
+        foobar = foo * bar
         if foobar > output && foobar.to_s.reverse == foobar.to_s
             output = foobar
         end
