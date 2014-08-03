@@ -28,29 +28,29 @@ end
 
 ######################################################
 
-def same_side_as_origin?(p1, p2, p3)
-    # p1 and p2 make a line, p3 compared with origin
+def same_side_as_origin?((x1, y1), (x2, y2), (x3, y3))
+    # point 1 & 2 make line, point 3 compared to origin
 
     # slope (m) = (y2 -y1) / (x2 - x1)
-    m = (p2[1] - p1[1]) / (p2[0] - p1[0]).to_f
+    m = (y2 - y1) / (x2 - x1).to_f
     
     # y-intercept (b) = y1 - (m * x1)
-    b = p1[1] - (m * p1[0])
+    b = y1 - (m * x1)
 
     # y > (mx + b) AND (origin y) > (m(origin x) + b)
     #   or both less than
     #   origin x and origin y are zero, so are simplified
-    (p3[1] > (m * p3[0]) + b && 0 > b) ||
-    (p3[1] < (m * p3[0]) + b && 0 < b)
+    (y3 > (m * x3) + b && 0 > b) ||
+    (y3 < (m * x3) + b && 0 < b)
 end
 
-def tri_has_o?(tri)
+def tri_has_o?((p1, p2, p3))
     # look at the 3 lines of a tringle, and compare
     #   origin to the point of triangle not on givin line
     #   iff true all times, point (origin) is contained
-    same_side_as_origin?(tri[0], tri[1], tri[2]) &&
-    same_side_as_origin?(tri[0], tri[2], tri[1]) && 
-    same_side_as_origin?(tri[1], tri[2], tri[0])
+    same_side_as_origin?(p1, p2, p3) &&
+    same_side_as_origin?(p1, p3, p2) && 
+    same_side_as_origin?(p2, p3, p1)
 end
 
 p triangles.count &method(:tri_has_o?)
