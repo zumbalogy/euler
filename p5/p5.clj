@@ -2,15 +2,27 @@
 
 ; What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
 
-; 232792560 is correct anser
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn match [x]
-  (and (== (mod x 20) 0) (not (== x 0)))
+  (let [y (* 20 x)]
+  (and
+    (== (mod y 19) 0)
+    (== (mod y 18) 0)
+    (== (mod y 17) 0)
+    (== (mod y 16) 0)
+    (== (mod y 15) 0)
+    (== (mod y 14) 0)
+    (== (mod y 13) 0)
+    (== (mod y 12) 0)
+    (== (mod y 11) 0)
+    (not (== y 0))))
 )
 
 
 (def output (take 1 (for [x (range) :when (match x)] x)))
 
 (print (* 20 (first output)))
+
+; lein exec p5/p5.clj
+; 232792560
