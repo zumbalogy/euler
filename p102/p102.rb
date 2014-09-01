@@ -33,7 +33,7 @@ def same_side_as_origin?((x1, y1), (x2, y2), (x3, y3))
 
     # slope (m) = (y2 -y1) / (x2 - x1)
     m = (y2 - y1) / (x2 - x1).to_f
-    
+
     # y-intercept (b) = y1 - (m * x1)
     b = y1 - (m * x1)
 
@@ -49,7 +49,7 @@ def tri_has_o?((p1, p2, p3))
     #   origin to the point of triangle not on givin line
     #   iff true all times, point (origin) is contained
     same_side_as_origin?(p1, p2, p3) &&
-    same_side_as_origin?(p1, p3, p2) && 
+    same_side_as_origin?(p1, p3, p2) &&
     same_side_as_origin?(p2, p3, p1)
 end
 
