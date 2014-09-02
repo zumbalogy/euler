@@ -16,5 +16,3 @@ puts a.next
 
 # 104743
 
-
-# should be 104743
