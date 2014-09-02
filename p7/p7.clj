@@ -1,10 +1,11 @@
 ;; What is the 10 001st prime number? (not including one)
 
 (defn is_prime [input]
-  (if (= 0 (mod input 2))
+  (if (even? input)
     false
-    (= [1] (for [x (range 1 (inc (Math/sqrt input)) 2)
-    :when (== (mod input x) 0)] x))))
+    (= [1]
+       (for [x (range 1 (inc (Math/sqrt input)) 2)
+               :when (== (mod input x) 0)] x))))
 ; gives true for 1, false for 2
 
 (last (take 10001 (filter is_prime (range))))
