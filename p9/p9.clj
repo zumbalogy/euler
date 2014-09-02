@@ -9,6 +9,7 @@
   (let [c (Math/sqrt (+ (* a a) (* b b)))]
     (== 1000 (+ a b c))))
 
+(defn loopcheck [a])
 
 ; (loop [a 0]
 ;   (loop [b a]
@@ -48,4 +49,5 @@
 
 ; b == Math.sqrt(((1000 - a - b) ** 2) - a**2)
 
+; well, this seems a dead end
 

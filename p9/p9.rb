@@ -35,6 +35,7 @@ output = 0
     foo = ((1000 - a - b) ** 2) - a**2
     if foo > 0 && b == Math.sqrt(foo)
       output = a * b * Math.sqrt(a**2 + b**2)
+      break
     end
   end
 end
