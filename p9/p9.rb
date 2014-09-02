@@ -25,3 +25,20 @@ p output
 # 425
 # ==
 # 31_875_000
+
+
+output = 0
+
+
+(1..500).each do |a|
+  (a..500).each do |b|
+    foo = ((1000 - a - b) ** 2) - a**2
+    if foo > 0 && b == Math.sqrt(foo)
+      output = a * b * Math.sqrt(a**2 + b**2)
+    end
+  end
+end
+
+p output
+
+# 31875000.0
