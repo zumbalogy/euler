@@ -19,6 +19,8 @@ for (var i = 3; count < 10000; i += 2){
 }
 
 console.log(i-2) // -2 because loop will add two to it at the end
-                 //  could set and reset a variably when i is prime, but thats slower 
+                 //  could set and reset a variably when i is prime, but thats slower
 
 // 104723
+
+// should be 104743
