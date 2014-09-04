@@ -9,7 +9,17 @@
   (let [c (Math/sqrt (+ (* a a) (* b b)))]
     (== 1000 (+ a b c))))
 
-(defn loopcheck [a])
+(defn loopcheck [start]
+  (loop [x start]
+    (when (< x 500)
+      (if (hit start x)
+        [start x]
+        (recur (+ 1 x))))))
+
+(loop [a 0]
+  (if (loopcheck a)
+    (loopcheck a)
+    (recur (+ 1 a))))
 
 ; (loop [a 0]
 ;   (loop [b a]
