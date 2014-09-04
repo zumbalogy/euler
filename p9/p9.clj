@@ -16,17 +16,16 @@
         [start x]
         (recur (+ 1 x))))))
 
-(loop [a 0]
+(print (loop [a 0]
   (if (loopcheck a)
-    (loopcheck a)
-    (recur (+ 1 a))))
+    (let [b (last (loopcheck a))]
+      [(loopcheck a) (Math/sqrt (+ (* a a) (* b b)))])
+    (recur (+ 1 a)))))
 
 ; (loop [a 0]
 ;   (loop [b a]
 ;     (let [c (+ (* a a) (* b b))])
 ;     ))
-
-
 
 ; (loop [x 10]
 ;   (when (> x 1)
