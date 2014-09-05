@@ -8,6 +8,8 @@
                :when (== (mod input x) 0)] x))))
 ; gives true for 1, false for 2
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (last (take 10001 (filter is_prime (range))))
 ; 104743
 
@@ -25,4 +27,16 @@
 (print @check_num)
 ; 104743
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(loop [prime_count 0 current 0]
+  (if (< prime_count 10001)
+    (if (is_prime current)
+      (recur (inc prime_count) (inc current))
+      (recur prime_count (inc current)))
+    (print (dec current))))
+
+; 104743
+
+
+
