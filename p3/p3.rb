@@ -5,8 +5,6 @@
 require 'prime'
 require 'benchmark'
 
-
-
 def divisors input
     count = 1
     until count * count > input
@@ -18,10 +16,9 @@ def divisors input
     output
 end
 
-
 p divisors(600851475143)
 
-# 6857 
+# 6857
 
 Benchmark.bmbm do |bm|
     bm.report('main') do

@@ -3,22 +3,27 @@
 # If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
 # Find the sum of all the multiples of 3 or 5 below 1000.
 
-require 'benchmark'
-
 total = 0
 
-(0..1000).step(3)  { |n| total += n }
-(0..1000).step(5)  { |n| total += n }
-(0..1000).step(15) { |n| total -= n }
+total += (0..1000).step(3).reduce(:+)
+total += (0..1000).step(5).reduce(:+)
+total -= (0..1000).step(15).reduce(:+)
 
 p total
-
-# ruby p1.rb
 # =>  233168
 
+############################################
 
-# should try doing a set so that ones i am addind have to be unique
-# then reduce? probably slower
+def sum_series input
+    ((1000 / input) / 2.0) * (input + (1000 - (1000 % input)))
+end
+
+p sum_series(3) + sum_series(5) - sum_series(15)
+# 234168.0
+
+############################################
+
+require 'benchmark'
 
 Benchmark.bmbm do |bm|
     bm.report('array without step') do
@@ -95,14 +100,21 @@ Benchmark.bmbm do |bm|
         end
     end
     bm.report('kill 15 braces') do
+        total = 0
         (0..1000).step(3) { |n| total += n }
         (0..1000).step(5) { |n| total += n }
         (0..1000).step(15) { |n| total -= n }
     end
+    bm.report('reduce') do
+        (0..1000).step(3).reduce(:+) + (0..1000).step(5).reduce(:+) - (0..1000).step(15).reduce(:+)
+    end
+    bm.report('reduce better O') do
+        (0..1000).step(3).reduce(:+) + (0..1000).step(5).reduce {|a,b| b % 3 == 0 ? a : a + b}
+    end
+    bm.report('sum series') do
+        sum_series(3) + sum_series(5) - sum_series(15)
+    end
 end
-
-# these all vary by a bit but:
-
 
 # Rehearsal ---------------------------------------------------------------------
 # array without step                  0.000000   0.000000   0.000000 (  0.000222)
