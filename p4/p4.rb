@@ -29,9 +29,7 @@ end
 
 def facts_to_2_3s input
     (100..999).each do |i|
-        if input % i == 0 && (input / i) < 999
-            return true
-        end
+        return true if input % i == 0 && (input / i) < 999
     end
     return false
 end
@@ -42,7 +40,6 @@ p start
 # 906609
 
 ###############################################
-
 
 # cycle down through palindromes
 # could start smarter, but thats kinda cheating
@@ -87,7 +84,6 @@ Benchmark.bmbm do |bm|
         end
     end
 end
-
 
 # Rehearsal ------------------------------------------------------------------
 # loop in loop                     5.020000   0.010000   5.030000 (  5.033292)
