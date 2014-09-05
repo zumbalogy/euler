@@ -6,23 +6,18 @@
 (defn is_pal [input]
   (= (str input) (join (reverse (str input)))))
 
-(def best (atom 0))
-
 (defn loop_check [input]
   (loop [x 999]
-    (when (< 0 x)
-      (if (and
-          (is_pal (* x input))
-          (< @best (* x input)))
-        (reset! best (* x input)))
-      (recur (dec x)))))
+    (if (< 0 x)
+      (if (is_pal (* x input))
+        (* x input)
+        (recur (dec x))))))
 
-(loop [x 999]
-  (when (< 0 x)
-    (loop_check x)
-    (recur (dec x))))
-
-(print @best)
+(loop [x 999 best 0]
+  (if (< 0 x)
+    (let [current (or (loop_check x) 0)]
+      (recur (dec x) (max best current)))
+    (print best)))
 
 ; 906609
 ; from 913 993
