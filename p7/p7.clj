@@ -24,17 +24,19 @@
     (if (is_prime @check_num)
       (swap! prime_count inc))))
 
-(print @check_num)
+; (print @check_num)
 ; 104743
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(loop [prime_count 0 current 0]
-  (if (< prime_count 10001)
-    (if (is_prime current)
-      (recur (inc prime_count) (inc current))
-      (recur prime_count (inc current)))
-    (print (dec current))))
+(loop [current 0 prime_count 0]
+  (if (= prime_count 10001)
+    (print (dec current))
+    (recur
+      (inc current)
+      (if (is_prime current)
+        (inc prime_count)
+        prime_count))))
 
 ; 104743
 
