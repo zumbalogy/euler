@@ -46,7 +46,7 @@ p start
 
 # cycle down through palindromes
 # could start smarter, but thats kinda cheating
-# could decriment start more intelligenlty (an ),
+# could decriment start more intelligenlty maybe?
 
 start = 999
 
