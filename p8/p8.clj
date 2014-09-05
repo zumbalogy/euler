@@ -7,13 +7,10 @@
 (defn string_product [input]
   (reduce * (map read-string (split input #""))))
 
-(def best (atom 0))
+(loop [x 0 best 0]
+  (if (< x 995)
+    (let [current (string_product (subs my_num x (+ 5 x)))]
+      (recur (inc x) (max current best)))
+    (print best)))
 
-(loop [x 0]
-  (when (< x 995)
-  (let [current (string_product (subs my_num x (+ 5 x)))]
-    (if (< @best current) (reset! best current)))
-  (recur (+ 1 x))))
-
-(print @best)
 ; 40824
