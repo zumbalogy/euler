@@ -8,7 +8,7 @@ start = [0, 1]
 total = 0
 until start.last >= 4_000_000
     start << start[-1] + start[-2]
-    total += start.last if start.even?
+    total += start.last if start.last.even?
     start.shift
 end
 
@@ -17,19 +17,29 @@ p total
 # 4613732
 # 1.8282e-05 seconds
 
-
 ##############################################
 
-time2 = Time.now
+first = 0
+second = 1
+total = 0
+
+until second >= 4_000_000
+    next_fib = first + second
+    total += next_fib if next_fib.even?
+    first = second
+    second = next_fib
+end
+
+p total
+
+##############################################
 
 a = 1
 b = 2
 
-total = 0
-
 while b < 4_000_000
     total += b
-    # putting the below in a 3.times loop slows it down
+
     save = b
     b += a
     a = save
@@ -43,7 +53,6 @@ while b < 4_000_000
     a = save
 end
 
-p Time.now - time2
 p total
 
 # 4_613_732
