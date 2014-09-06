@@ -3,8 +3,8 @@
 ; How many such routes are there through a 20×20 grid?
 
 
-(defn combination [takes from]
-  (/ (reduce * (range 2 takes)) (* (reduce * (range 2 from)) (reduce * (range 2 (- takes from)))))
+(defn combination [from takes]
+  (/ (reduce * (range 2 from)) (* (reduce * (range 2 takes)) (reduce * (range 2 (- from takes)))))
 )
 
-; make the ranges inclusive and all
+; handle overflow

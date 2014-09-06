@@ -4,16 +4,13 @@
 
 # By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
 
-
-
 start = [0, 1]
 total = 0
 until start.last >= 4_000_000
     start << start[-1] + start[-2]
-    total += start.last if start.last % 2 == 0
+    total += start.last if start.even?
     start.shift
 end
-
 
 p total
 
