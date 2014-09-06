@@ -2,9 +2,7 @@
 
 # Find the sum of all the primes below two million.
 
-
 require 'prime'
-
 
 a = Prime.new
 
