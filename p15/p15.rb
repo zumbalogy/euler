@@ -1,13 +1,12 @@
 # Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down, there are exactly 6 routes to the bottom right corner.
 
-
 # How many such routes are there through a 20×20 grid?
 
 ###############################
 
 # every route will be 40 units long
 # every route will have 20 rights and 20 downs
-# so, the question is 40c20. 
+# so, the question is 40c20.
 # also, is how many 40 digit long binary numbers exist
 
 # the combination formula is
