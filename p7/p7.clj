@@ -29,11 +29,11 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(loop [prime_count 0 current 0]
+(loop [prime_count 0 current 1]
   (if (is_prime current)
     (if (= prime_count 10000)
       (print current)
-      (recur (inc prime_count) (inc current)))
+      (recur (inc prime_count) (+ 2 current)))
     (recur prime_count (inc current))))
 
 ; 104743
