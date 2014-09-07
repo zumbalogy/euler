@@ -20,11 +20,12 @@ for (var a = 2; a < 101; a++){
         var start = (array[array.length - b] * a) + overflow
         overflow = Math.floor(start / 10)
         array[array.length - b] = start % 10
-        if (b == len)
+        if (b == len){
             while (overflow > 0){
                 array.unshift(overflow % 10)
                 overflow = Math.floor(overflow / 10)
             }
+        }
     }
 }
 
