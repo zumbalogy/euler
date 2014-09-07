@@ -12,14 +12,11 @@
 
 ; NOTE: The first two examples in the file represent the triangles in the example given above.
 
-
 (defn same_side_as_origin [[x1 y1] [x2 y2] [x3 y3]]
   (let [ m (/ (- y2 y1) (- x2 x1))
-         b (- y1 (* m x1))]
-    (or
-      (and
-        (> 0 b)
-        (> y3 (+ b (* m x3))))
-      (and
-        (< 0 b)
-        (< y3 (+ b (* m x3)))))))
+         b (- y1 (* m x1))
+         xrelation (+ b (* m x3))]
+    (if (> 0 b)
+      (> y3 xrelation)
+      (< y3 xrelation))))
+; would have to decide what you want to do when origin is the y-intercept (b)
