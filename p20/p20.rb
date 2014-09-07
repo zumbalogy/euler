@@ -5,9 +5,14 @@
 
 # Find the sum of the digits in the number 100!
 
-total = (2..100).inject(1) {|a,b| a * b}.to_s.chars.inject(0) {|a, b| a + b.to_i}
+def sum_digits input
+  input.to_s.chars.reduce(0) { |a, b| a + b.to_i }
+end
+
+total = sum_digits (2..100).reduce(1, &:*)
 
 puts total
 # 648
 
-p (2..100).inject(1) {|a,b| a * b}
+p (2..100).reduce(1, &:*)
+p (2..100).reduce(1, &:*).to_s.chars.reduce(0) {|a, b| a + b.to_i}
