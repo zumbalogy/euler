@@ -5,5 +5,13 @@
 
 ; Find the sum of the digits in the number 100!
 
+(use '[clojure.string :only (split)])
+
 (defn factorial [input]
   (reduce *' (range 2 (inc input))))
+
+(defn sum_digits [input]
+  (reduce + (map read-string (split (str input) #""))))
+
+(print (sum_digits (factorial 100)))
+; 648
