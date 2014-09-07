@@ -4,7 +4,10 @@
 
 
 (defn combination [from takes]
-  (/ (reduce * (range 2 from)) (* (reduce * (range 2 takes)) (reduce * (range 2 (- from takes)))))
+  (/ (reduce *' (range 2 from)) (*' (reduce *' (range 2 takes)) (reduce *' (range 2 (- from takes)))))
 )
 
-; handle overflow
+(combination 40 20)
+; 1378465288200N
+
+; this is exactly 10x more than it is supposed to be.
