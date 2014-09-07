@@ -5,7 +5,6 @@
 
 # Find the sum of the digits in the number 100!
 
-
 total = (2..100).inject(1) {|a,b| a * b}.to_s.chars.inject(0) {|a, b| a + b.to_i}
 
 puts total
