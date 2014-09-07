@@ -6,7 +6,4 @@
 ; Find the sum of the digits in the number 100!
 
 (defn factorial [input]
-  (loop [top input total 1]
-    (if (< 1 top)
-      (recur (dec top) (*' top total))
-      total)))
+  (reduce *' (range 2 (inc input))))
