@@ -20,3 +20,11 @@
       (> y3 xrelation)
       (< y3 xrelation))))
 ; would have to decide what you want to do when origin is the y-intercept (b)
+
+(defn tri_has_o [[p1 p2 p3]]
+  (and
+    (same_side_as_origin p1 p2 p3)
+    (same_side_as_origin p1 p3 p2)
+    (same_side_as_origin p2 p3 p1)))
+
+

@@ -62,6 +62,5 @@ class Line
         @slope = (x2 - x1) / (y2 - y1).to_f
         @intercept = y1 - (@slope * x1)
     end
-
 end
 
