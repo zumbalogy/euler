@@ -27,11 +27,10 @@
             [ 4 62 98 27 23  9 70 98 73 93 38 53 60  4 23]])
 
 (defn add_rows [top bottom]
-  (take (count top) (iterate (partial add_cells () () ()) 0)))
+  (map add_cells (vec (range (count top))) top bottom))
+; todo: map an array of the indexes over the datas
 
-
-
-(defn add_cells [top down1 down2]
+(defn add_cells [top down1 down2] ;this needs to be smarter and now how to target givin an indexß
   (+ top (max down1 down2)))
 
 
