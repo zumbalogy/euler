@@ -45,9 +45,15 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+; one line with shorter syntax
+
+(reduce (fn [low high] (map #(+ %1 (max %2 %3)) high low (rest low))) (first array) (rest array))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 (defn add_rows [top bottom]
-  (map add_cells top bottom (rest bottom)))
+  (map #(+ %1 (max %2 %3)) top bottom (rest bottom)))
 
 (defn sum_triangle [array]
   (loop [i (- (count array) 2) running_array (last array)]
