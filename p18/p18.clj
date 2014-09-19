@@ -39,9 +39,9 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; one one line
+; on one line
 
-(reduce (fn [bottom top] (map (fn [a b c] (+ a (max b c))) top bottom (rest bottom))) (first array) (rest array))
+(reduce (fn [low high] (map (fn [a b c] (+ a (max b c))) high low (rest low))) (first array) (rest array))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
