@@ -35,7 +35,6 @@
 (defn reduce_triangle [array]
   (reduce add_rows (first array) (rest array)))
 
-
 (print (reduce_triangle (reverse array)))
 
 
@@ -54,11 +53,7 @@
 (sum_triangle array)
 
 
-;;;;;;;;;;;;;;;
-
-; TODO: solution with a reducer
-
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; TODO: impliment a solution using zippers
 
