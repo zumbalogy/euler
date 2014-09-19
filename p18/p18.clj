@@ -36,6 +36,7 @@
   (reduce add_rows (first array) (rest array)))
 
 (print (reduce_triangle (reverse array)))
+; (1074)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
