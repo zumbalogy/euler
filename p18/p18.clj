@@ -37,6 +37,11 @@
 
 (print (reduce_triangle (reverse array)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; one one line
+
+(reduce (fn [bottom top] (map (fn [a b c] (+ a (max b c))) top bottom (rest bottom))) (first array) (rest array))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

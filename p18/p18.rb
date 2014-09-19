@@ -39,3 +39,22 @@ end
 
 p array
 # 1074
+
+###############################################################
+
+# TODO: make this support n args
+def better_map list_a, list_b, list_c
+  out = []
+  list_a.each_with_index do |a, index|
+    out << yield(a, list_b[index], list_c[index])
+  end
+  out
+end
+
+def add_cells top, left, right
+  top + [left, right].max
+end
+
+def add_rows bottom, top
+  better_map() {}
+end
