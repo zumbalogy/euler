@@ -31,8 +31,8 @@ array = [
 
 (2..array.length).each do |i|
     array[-i].each_with_index do |cell, index|
-        left = array[-i + 1][index]
-        right = array[-i + 1][index+1]
+        left = array[1 - i][index]
+        right = array[1 - i][index+1]
         array[-i][index] += [left, right].max
     end
 end
