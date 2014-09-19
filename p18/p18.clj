@@ -29,6 +29,19 @@
 (defn add_cells [top down1 down2]
   (+ top (max down1 down2)))
 
+(defn add_rows [bottom top]
+  (map add_cells top bottom (rest bottom)))
+
+(defn reduce_triangle [array]
+  (reduce add_rows (first array) (rest array)))
+
+
+(print (reduce_triangle (reverse array)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 (defn add_rows [top bottom]
   (map add_cells top bottom (rest bottom)))
 
@@ -40,6 +53,10 @@
 
 (sum_triangle array)
 
+
+;;;;;;;;;;;;;;;
+
+; TODO: solution with a reducer
 
 
 
