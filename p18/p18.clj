@@ -1,6 +1,4 @@
-(require '[clojure.pprint :as pp])
-
-; By starting at the top of the triangle below and moving to adjacent numbers on the row below, the maximum total from top to bottom is 23.
+; Start at the top of the triangle and move to adjacent numbers on the row below, the max sum is 23.
 
 ; 3
 ; 7 4
@@ -9,7 +7,7 @@
 
 ; That is, 3 + 7 + 4 + 9 = 23.
 
-; Find the maximum total from top to bottom of the triangle below:
+; Find the max sum from top to bottom of the triangle.
 
 (def array [
            [75]
@@ -28,65 +26,6 @@
            [63 66  4 68 89 53 67 30 73 16 69 87 40 31]
            [ 4 62 98 27 23  9 70 98 73 93 38 53 60  4 23]])
 
-(def bigarray (->> (range 1 25)
-                   (map (fn [x] (vec (take x (repeatedly #(rand-int 101))))))
-                   vec))
-
-;(def bigarray (-> (for [i (range 1 100)]
- ;                   (vec (take i (repeatedly #(rand-int 101)))))
-  ;                vec))
-
-;(def bigarray (vec
- ;               (for [i (range 1 100)]
-  ;                (vec (take i (repeatedly #(rand-int 101)))))))
-
-
-
-
-(defn build-node [head left-child right-child]
-  [head left-child right-child])
-
-(defn build-nodes [bottom top]
-  (map build-node top bottom (rest bottom)))
-
-(defn build-tree [array]
-  (first (reduce build-nodes (first array) (rest array))))
-
-(def headn #(nth % 0))
-(def leftn #(nth % 1))
-(def rightn #(nth % 2))
-
-(def built (build-tree (reverse bigarray)))
-
-(defn greatest-path [node]
-  (if-not (number? node)
-    (+ (headn node)
-       (max (greatest-path (leftn node))
-            (greatest-path (rightn node))))
-    node))
-
-(def greatest-path2 (memoize (fn [node]
-  (if-not (number? node)
-    (+ (headn node)
-       (max (greatest-path (leftn node))
-            (greatest-path (rightn node))))
-    node))))
-
-(time
-  (-> built
-      greatest-path))
-
-
-(time
-  (-> built
-      greatest-path2))
-
-(-> bigarray
-    reverse
-    build-tree
-    greatest-path
-    pp/pprint)
-
 (defn add_cells [top down1 down2]
   (+ top (max down1 down2)))
 
@@ -96,7 +35,7 @@
 (defn reduce_triangle [array]
   (reduce add_rows (first array) (rest array)))
 
-(time (reduce_triangle (reverse bigarray)))
+(print (reduce_triangle (reverse array)))
 ; (1074)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -113,7 +52,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 (defn add_rows [top bottom]
   (map #(+ %1 (max %2 %3)) top bottom (rest bottom)))
 
@@ -124,36 +62,6 @@
       (recur (dec i) (add_rows (nth array i) running_array)))))
 
 (sum_triangle array)
-
-(defn fib-naive [n]
-  (if (or (zero? n) (= 1 n))
-    1
-    (+ (fib-naive (- n 1)) (fib-naive (- n 2)))))
-
-(def fib-memo (memoize (fn [n]
-  (if (or (zero? n) (= 1 n))
-    1
-    (+ (fib-memo (- n 1)) (fib-memo (- n 2)))))))
-
-(prn "fib-memo")
-(time (fib-memo 3))
-(time (fib-memo 6))
-(time (fib-memo 10))
-(time (fib-memo 15))
-(time (fib-memo 20))
-(time (fib-memo 25))
-(time (fib-memo 44))
-
-(prn "fib-naive")
-(time (fib-naive 3))
-(time (fib-naive 6))
-(time (fib-naive 10))
-(time (fib-naive 15))
-(time (fib-naive 20))
-(time (fib-naive 25))
-(time (fib-naive 44))
-
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
