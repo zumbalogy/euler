@@ -28,6 +28,21 @@
            [63 66  4 68 89 53 67 30 73 16 69 87 40 31]
            [ 4 62 98 27 23  9 70 98 73 93 38 53 60  4 23]])
 
+(def bigarray (->> (range 1 25)
+                   (map (fn [x] (vec (take x (repeatedly #(rand-int 101))))))
+                   vec))
+
+;(def bigarray (-> (for [i (range 1 100)]
+ ;                   (vec (take i (repeatedly #(rand-int 101)))))
+  ;                vec))
+
+;(def bigarray (vec
+ ;               (for [i (range 1 100)]
+  ;                (vec (take i (repeatedly #(rand-int 101)))))))
+
+
+
+
 (defn build-node [head left-child right-child]
   [head left-child right-child])
 
@@ -37,12 +52,36 @@
 (defn build-tree [array]
   (first (reduce build-nodes (first array) (rest array))))
 
-(defn greatest-path [this-node]
-  (if-not (number? this-node)
-    (+ (nth this-node 0) (max (greatest-path (nth this-node 1)) (greatest-path (nth this-node 2))))
-    this-node))
+(def headn #(nth % 0))
+(def leftn #(nth % 1))
+(def rightn #(nth % 2))
 
-(-> array
+(def built (build-tree (reverse bigarray)))
+
+(defn greatest-path [node]
+  (if-not (number? node)
+    (+ (headn node)
+       (max (greatest-path (leftn node))
+            (greatest-path (rightn node))))
+    node))
+
+(def greatest-path2 (memoize (fn [node]
+  (if-not (number? node)
+    (+ (headn node)
+       (max (greatest-path (leftn node))
+            (greatest-path (rightn node))))
+    node))))
+
+(time
+  (-> built
+      greatest-path))
+
+
+(time
+  (-> built
+      greatest-path2))
+
+(-> bigarray
     reverse
     build-tree
     greatest-path
@@ -57,7 +96,7 @@
 (defn reduce_triangle [array]
   (reduce add_rows (first array) (rest array)))
 
-(print (reduce_triangle (reverse array)))
+(time (reduce_triangle (reverse bigarray)))
 ; (1074)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -86,9 +125,39 @@
 
 (sum_triangle array)
 
+(defn fib-naive [n]
+  (if (or (zero? n) (= 1 n))
+    1
+    (+ (fib-naive (- n 1)) (fib-naive (- n 2)))))
+
+(def fib-memo (memoize (fn [n]
+  (if (or (zero? n) (= 1 n))
+    1
+    (+ (fib-memo (- n 1)) (fib-memo (- n 2)))))))
+
+(prn "fib-memo")
+(time (fib-memo 3))
+(time (fib-memo 6))
+(time (fib-memo 10))
+(time (fib-memo 15))
+(time (fib-memo 20))
+(time (fib-memo 25))
+(time (fib-memo 44))
+
+(prn "fib-naive")
+(time (fib-naive 3))
+(time (fib-naive 6))
+(time (fib-naive 10))
+(time (fib-naive 15))
+(time (fib-naive 20))
+(time (fib-naive 25))
+(time (fib-naive 44))
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; TODO: impliment a solution using zippers
+
 
 
