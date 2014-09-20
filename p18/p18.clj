@@ -1,3 +1,5 @@
+(require '[clojure.pprint :as pp])
+
 ; By starting at the top of the triangle below and moving to adjacent numbers on the row below, the maximum total from top to bottom is 23.
 
 ; 3
@@ -25,6 +27,26 @@
            [91 71 52 38 17 14 91 43 58 50 27 29 48]
            [63 66  4 68 89 53 67 30 73 16 69 87 40 31]
            [ 4 62 98 27 23  9 70 98 73 93 38 53 60  4 23]])
+
+(defn build-node [head left-child right-child]
+  [head left-child right-child])
+
+(defn build-nodes [bottom top]
+  (map build-node top bottom (rest bottom)))
+
+(defn build-tree [array]
+  (first (reduce build-nodes (first array) (rest array))))
+
+(defn greatest-path [this-node]
+  (if-not (number? this-node)
+    (+ (nth this-node 0) (max (greatest-path (nth this-node 1)) (greatest-path (nth this-node 2))))
+    this-node))
+
+(-> array
+    reverse
+    build-tree
+    greatest-path
+    pp/pprint)
 
 (defn add_cells [top down1 down2]
   (+ top (max down1 down2)))
