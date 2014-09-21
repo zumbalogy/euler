@@ -5,19 +5,23 @@
 
 (require '[clojure.set :refer [union]])
 
+
 (def foo (set (range 0 1000 5)))
 (def bar (set (range 0 1000 3)))
 
 (reduce + (union foo bar))
 
-
 ;; 233168
-;; this is the correct answer
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(reduce + (filter
+  #(or
+    (zero? (mod % 3))
+    (zero? (mod % 5)))
+  (range 1000)))
 
-;; playing around
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 (def foo (range 0 1000 5))
