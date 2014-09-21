@@ -4,32 +4,35 @@
 
 ;;  total the even fibs under 4m
 
-
 (def fibs
     (lazy-cat [0 1]
               (map + fibs (rest fibs))))
 
+(time
+  (reduce + (filter even? (take-while (partial > 4000000) fibs))))
 
-(reduce +
-        (for [x fibs :when (and (even? x) (< x 4000000))] x))
+; 4613732
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(reduce + (take-while (partial > 4000000) (take-nth 3 fibs)))
+; every 3rd fib is even
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; 4613732
+(reduce + (take-nth 3 (take-while (partial > 4000000) fibs)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+; (reduce +
+;         (for [x fibs :when (and (even? x) (< x 4000000))] x))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; scratch pad
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 (take 4 fibs)
 
-
 (take 10 (for [x (range 100) y (range 100) :while (< y x)]  [x y]))
-
 
 (take 10 (for [x fibs] [x]))
 
@@ -58,7 +61,6 @@
 
 
 
-
 (flatten (doall foo))
 
 (doall foo)
@@ -82,7 +84,6 @@
 (def foo (for [x fibs :while (<= x 4000000)] [x]))
 
 (reduce + (for [x (flatten  foo) :when (even? x)] x))
-
 
 
 (take 9 fibs)
