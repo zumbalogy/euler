@@ -8,7 +8,7 @@
     (lazy-cat [0 1]
               (map + fibs (rest fibs))))
 
-(time
+(print
   (reduce + (filter even? (take-while (partial > 4000000) fibs))))
 
 ; 4613732
