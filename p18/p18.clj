@@ -46,13 +46,20 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+; another one line
+
+((fn [f rows] (reduce (#(map f %2 %1 (rest %1))) rows)) (#(+ %1 (max %2 %3))) (reverse array))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defn rollup [f rows]
-    (reduce (fn [bottom-row top-row] (map f top-row bottom-row (rest bottom-row))) rows))
+    (reduce #(map f %2 %1 (rest %1)) rows))
 
 (print (rollup #(+ %1 (max %2 %3)) (reverse array)))
 ; (1074)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 (defn add_rows [top bottom]
   (map #(+ %1 (max %2 %3)) top bottom (rest bottom)))
