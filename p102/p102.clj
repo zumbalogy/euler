@@ -29,11 +29,21 @@
     (same_side_as_origin p2 p3 p1)))
 
 (defn line_to_tri [line]
-  ((fn [[x1 y1 x2 y2 x3 y3]] [[x1 y1] [x2 y2] [x3 y3]]) (map read-string (clojure.string/split line #","))))
+  ((fn [[x1 y1 x2 y2 x3 y3]] [[x1 y1] [x2 y2] [x3 y3]])
+    (map read-string (clojure.string/split line #","))))
 
 (def triangles (pmap line_to_tri
   (clojure.string/split-lines
     (slurp "triangles.txt"))))
 
-(print (count (filter identity (pmap tri_has_o triangles))))
+(time (reduce #(if (tri_has_o %2) (inc %1) %1) 0 triangles))
 ; 228
+
+
+
+
+
+
+
+
+
