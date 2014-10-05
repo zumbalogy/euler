@@ -36,3 +36,4 @@
     (slurp "triangles.txt"))))
 
 (print (count (filter identity (pmap tri_has_o triangles))))
+; 228
