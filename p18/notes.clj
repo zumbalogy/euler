@@ -1,3 +1,37 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; another one line
+
+((fn [f rows] (reduce (#(map f %2 %1 (rest %1))) rows)) (#(+ %1 (max %2 %3))) (reverse array))
+
+; on one line
+
+(reduce (fn [low high] (map #(+ %1 (max %2 %3)) high low (rest low))) (first array) (rest array))
+
+
+
+; old solution
+
+(defn add_rows [top bottom]
+  (map #(+ %1 (max %2 %3)) top bottom (rest bottom)))
+
+(defn sum_triangle [array]
+  (loop [i (- (count array) 2) running_array (last array)]
+    (if (< i 0)
+      (print running_array)
+      (recur (dec i) (add_rows (nth array i) running_array)))))
+
+(sum_triangle array)
+
+
+
+
+
+
+
+
+;;;;;;;;;;burr notes;;;;;;;
+
 (require '[clojure.pprint :as pp])
 
 (def bigarray (->> (range 1 25)
