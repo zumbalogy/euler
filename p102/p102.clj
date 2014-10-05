@@ -36,7 +36,7 @@
   (clojure.string/split-lines
     (slurp "triangles.txt"))))
 
-(time (reduce #(if (tri_has_o %2) (inc %1) %1) 0 triangles))
+(print (reduce #(if (tri_has_o %2) (inc %1) %1) 0 triangles))
 ; 228
 
 
