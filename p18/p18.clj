@@ -42,13 +42,15 @@
 
 ; on one line
 
-(reduce (fn [low high] (map (fn [a b c] (+ a (max b c))) high low (rest low))) (first array) (rest array))
+(reduce (fn [low high] (map #(+ %1 (max %2 %3)) high low (rest low))) (first array) (rest array))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; one line with shorter syntax
+(defn rollup [f rows]
+    (reduce (fn [bottom-row top-row] (map f top-row bottom-row (rest bottom-row))) rows))
 
-(reduce (fn [low high] (map #(+ %1 (max %2 %3)) high low (rest low))) (first array) (rest array))
+(print (rollup #(+ %1 (max %2 %3)) (reverse array)))
+; (1074)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
