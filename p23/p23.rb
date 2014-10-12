@@ -13,16 +13,14 @@
 # maybe i should try starting at 12 and the number. 12 + first abundant under input a hit?
 # is next abundant up from 12 and next abundant underneath input a hit? etc
 
- 
+
 
 
 def abundant? input
-    	a = 0
+    a = 0
 	(2..Math.sqrt(input)).each do |foo|
 		a += (foo + (input / foo)) if (input % foo).zero?
-		if a > input
-			return true
-		end
+		return true if a > input
 	end
 	return false
 end
@@ -53,6 +51,6 @@ total = 0
 #end
 
 p total
-# 3_921_457 
+# 3_921_457
 # turns out this is way too much
 # and currently takes over 6 minutes

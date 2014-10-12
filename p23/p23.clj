@@ -8,13 +8,28 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defn is_div [total div]
+(defn is_divisible? [total div]
   (= 0 (mod total div)))
 
 (defn take_divs [input]
-  (filter #(is_div input %) (range 1 input)))
+  (filter #(is_divisible? input %) (range 1 input)))
 
 (defn sum_divs [input]
   (apply + (take_divs input)))
+
+(defn abundant? [input]
+  (> (sum_divs input) input))
+
+(defn lower_abundants [input]
+  (filter #(abundant? %) (range 1 input)))
+
+(defn is_sum_of_abundant? [input]
+  (let [abundants (lower_abundants input)]
+    (some #(= input %)
+      (for [x abundants y abundants]
+        (+ x y)))))
+
+(reduce + (filter (partial is_sum_of_abundant?) (range 24 28123)))
+
 
 
