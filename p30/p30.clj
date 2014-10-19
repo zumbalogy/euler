@@ -14,14 +14,11 @@
 (defn extract_digits [input]
   (map read-string (split (str input) #"")))
 
-(defn reduce_to_pow [input pow]
+(defn pow_reducer [input pow]
   (reduce #(+ %1 (Math/pow %2 pow)) 0 input))
 
-(defn sum_digits_to_pow [input pow]
-  (reduce_to_pow (extract_digits input) pow))
-
 (defn eq_pow_sum [input pow]
-  (== input (sum_digits_to_pow input pow)))
+  (== input (pow_reducer (extract_digits input) pow)))
 
 (print
   (reduce +
