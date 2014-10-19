@@ -10,19 +10,14 @@
 
 # What is the first term in the Fibonacci sequence to contain 1000 digits?
 
-def count_digits input
-  input.to_s.length
-end
-
-def next_fibs((a, b))
-  [b, a + b]
-end
-
 term = 2
-fibs = [1, 1]
+a = 1
+b = 1
 
-until count_digits(fibs.last) >= 1000
-  fibs = next_fibs fibs
+until b.to_s.length == 1000
+  save = a + b
+  a = b
+  b = save
   term += 1
 end
 
