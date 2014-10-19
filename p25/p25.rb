@@ -10,9 +10,9 @@
 
 # What is the first term in the Fibonacci sequence to contain 1000 digits?
 
-term = 2
 a = 1
 b = 1
+term = 2
 
 until b.to_s.length == 1000
   save = a + b

@@ -14,8 +14,8 @@
 
 ; What is the first term in the Fibonacci sequence to contain 1000 digits?
 
-
-(def fibs
-  (lazy-cat [0 1]
-    (map +' fibs (rest fibs))))
-
+(loop [a 1 b 1 term 2]
+  (if (= 1000 (count (str b)))
+    (print term)
+    (recur b (+' a b) (inc term))))
+; 4782
