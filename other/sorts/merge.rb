@@ -3,8 +3,7 @@ def sort_pair array
     [array.min, array.max]
 end
 
-def merge (foo, bar)
-    bar = bar || []
+def merge (foo, bar = [])
     output = []
     until foo.empty? || bar.empty?
         if foo.first < bar.first
