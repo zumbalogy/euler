@@ -1,3 +1,13 @@
-# The series, 11 + 22 + 33 + ... + 1010 = 10405071317.
+# The series, 1^1 + 2^2 + 3^3 + ... + 10^10 = 10405071317.
 
-# Find the last ten digits of the series, 11 + 22 + 33 + ... + 10001000.
+# Find the last ten digits of the series, 1^1 + 2^2 + 3^3 + ... + 1000^1000.
+
+total = 0
+
+(1..1000).each do |i|
+  total += (i ** i) % 100000000000
+  total = total % 100000000000
+end
+
+puts total
+# 9110846700
