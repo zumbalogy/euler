@@ -5,8 +5,8 @@
 total = 0
 
 (1..1000).each do |i|
-  total += (i ** i) % 100000000000
-  total = total % 100000000000
+  total += i ** i
+  total %= 100000000000
 end
 
 puts total
