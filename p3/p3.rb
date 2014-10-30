@@ -3,14 +3,12 @@
 # What is the largest prime factor of the number 600851475143 ?
 
 require 'prime'
-require 'benchmark'
 
 def divisors input
     count = 1
-    until count * count > input
-        if input % count == 0 && Prime.prime?(count) # || count == 1 # if you want general case
-            output = count
-        end
+    sq = Math.sqrt input
+    until count > sq
+        output = count if input % count == 0 && Prime.prime?(count)
         count += 1
     end
     output
@@ -19,6 +17,10 @@ end
 p divisors(600851475143)
 
 # 6857
+
+##########################################
+
+require 'benchmark'
 
 Benchmark.bmbm do |bm|
     bm.report('main') do

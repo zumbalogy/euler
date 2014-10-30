@@ -30,7 +30,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn rollup [f rows]
-    (reduce #(map f %2 %1 (rest %1)) rows))
+  (reduce #(map f %2 %1 (rest %1)) rows))
 
 (print (rollup #(+ %1 (max %2 %3)) (reverse array)))
 ; (1074)

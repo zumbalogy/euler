@@ -9,7 +9,7 @@
 # Find delta for sum of  squares of the first one hundred natural numbers and square of the sum
 
 
-p ((101 * 50)**2) - (1..100).map {|n| n**2}.reduce(:+)
+p (101 * 50).abs2 - (1..100).reduce { |a, b| a + b.abs2 }
 # 25164150
 
 

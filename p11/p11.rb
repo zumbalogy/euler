@@ -43,7 +43,7 @@ grid.each_with_index do |row, row_num|
             diag2 =  cell * grid[row_num + 1][cell_num - 1] * grid[row_num + 2][cell_num - 2] * grid[row_num + 3][cell_num - 3]
         end
 
-        best = [best, right || 0, down || 0, diag || 0, diag2 || 0].max
+        best = [best, right, down, diag, diag2].compact.max
 
     end
 end
