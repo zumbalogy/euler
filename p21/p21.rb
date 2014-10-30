@@ -2,14 +2,14 @@
 
 # If d(a) = b and d(b) = a and a ≠ b, then a and b are amicable.
 
-# The divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 and 110; so d(220) = 284. 
+# The divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 and 110; so d(220) = 284.
 # The divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
 
 # Sum all amicable numbers under 10_000.
 
 def sum_div input
     # one counts as a divisor, but input does not
-    (2..Math.sqrt(input)).inject(1) do |a,b| 
+    (2..Math.sqrt(input)).reduce(1) do |a,b|
         input % b == 0 ? a + b + (input / b) : a
     end
 end
@@ -19,7 +19,7 @@ def amicable input
     input == sum_div(first) && input != first
 end
 
-puts (2..10_000).inject(0) { |a,b| amicable(b) ? a + b : a }
+puts (2..10_000).reduce(0) { |a,b| amicable(b) ? a + b : a }
 # 31_626
 
 # hitting all the pairs twice, but not that many pairs, so might be faster just doing this

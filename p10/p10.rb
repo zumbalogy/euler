@@ -16,3 +16,5 @@ end
 
 puts sum
 # 142_913_828_922
+
+# TODO: with sieve

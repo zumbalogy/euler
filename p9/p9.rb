@@ -9,9 +9,9 @@ output = 0
 
 (1..500).each do |a|
     (a..500).each do |b|
-        c = Math.sqrt((a**2) + (b**2))
+        c = Math.sqrt(a.abs2 + b.abs2)
         if a + b + c == 1000
-            output =  a*b*c
+            output = a * b * c
             break
         end
     end
@@ -32,9 +32,9 @@ output = 0
 
 (1..500).each do |a|
   (a..500).each do |b|
-    foo = ((1000 - a - b) ** 2) - a**2
+    foo = (1000 - a - b).abs2 - a.abs2
     if foo > 0 && b == Math.sqrt(foo)
-      output = a * b * Math.sqrt(a**2 + b**2)
+      output = a * b * Math.sqrt(a.abs2 + b.abs2)
       break
     end
   end
