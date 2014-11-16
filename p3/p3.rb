@@ -4,16 +4,11 @@
 
 require 'prime'
 
-def divisors input
-    count = 1
-    sq = Math.sqrt(input)
-    until count > sq
-        output = count if input % count == 0 && Prime.prime?(count)
-        count += 1
-    end
-    output
+def large_divisor(input)
+  check = Math.sqrt(input).floor
+  check -= 1 until input % check == 0 && Prime.prime?(check)
+  check
 end
 
-p divisors(600851475143)
-
+p large_divisor(600851475143)
 # 6857
