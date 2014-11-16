@@ -8,5 +8,17 @@
 
 # Find delta for sum of  squares of the first one hundred natural numbers and square of the sum
 
+
 p (101 * 50).abs2 - (1..100).reduce { |a, b| a + b.abs2 }
 # 25164150
+
+
+p ((101 * 50)**2) - ( (100 * 101 * 201) / 6)
+
+
+def e6 n
+  (((n+1) * (n/2)) ** 2) - ((n * (n+1) * ((2*n) + 1) / 6))
+end
+
+puts e6 100
+
