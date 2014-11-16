@@ -36,6 +36,7 @@ p total
 
 a = 1
 b = 2
+total = 0
 
 while b < 4_000_000
     total += b
@@ -65,3 +66,24 @@ p total
 
 # new time without loop (not DRY)
 # 4.246e-06
+
+#################################################
+
+
+a = 1
+b = 2
+total = 0
+
+def inc_fib3(a, b)
+  [a + b + b, a + a + b + b + b]
+end
+
+while b < 4_000_000
+  total += b
+  a, b = inc_fib3(a, b)
+end
+
+p total
+# 4613732
+
+
