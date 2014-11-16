@@ -19,4 +19,23 @@ end
 
 p output
 
-# 31875000
+# 200
+# 375
+# 425
+# ==
+# 31_875_000
+
+(1..500).each do |a|
+  (a..500).each do |b|
+    b_sq = (1000 - a - b).abs2 - a.abs2
+    next unless b_sq > 0
+    next unless b_sq == b.abs2
+    output = a * b * Math.sqrt(a.abs2 + b.abs2)
+    break
+  end
+  break if output
+end
+
+p output
+
+# 31875000.0
