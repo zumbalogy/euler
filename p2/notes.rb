@@ -87,3 +87,20 @@ p total
 # 4613732
 
 
+
+a = 1
+b = 2
+total = 0
+
+def inc_fib((a, b))
+  [b, a + b]
+end
+
+while b < 4_000_000
+  total += b
+  a, b = ([:inc_fib] * 3).reduce([a, b]) { |c, d| send(d, c)}
+end
+
+p total
+# 4613732
+

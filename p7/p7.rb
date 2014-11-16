@@ -1,27 +1,16 @@
 # By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
 
-# What is the 10 001st prime number?
+# What is the 10,001st prime number?
 
-require 'prime'
-
-a = Prime.new
-
-10_000.times do
-    a.next
+def next_prime(input)
+  input += 2
+  input += 2 until prime?(input)
+  input
 end
 
-puts a.next
-
-# 104743
-
-########################################
-
-def prime? input
-  return false if input == 1
-  return true if input == 2
-  return false if input.even?
+def prime?(input)
   i = 3
-  limit = Math.sqrt(input) + 1
+  limit = Math.sqrt(input).ceil
   until i > limit
     return false if input % i == 0
     i += 2
@@ -29,13 +18,8 @@ def prime? input
   return true
 end
 
-count = 0
-i = 1
-
-while count < 10000
-    i += 2
-    prime?(i) && count += 1
-end
+i = 3
+9999.times { i = next_prime(i) }
 
 puts i
 # 104743
