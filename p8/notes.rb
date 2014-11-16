@@ -14,6 +14,25 @@ end
 puts best
 # 40824
 
-# TODO: see updated question online, and solve it
+####################
+
+def product(input)
+  input.reduce(:*)
+end
+
+# this method is not totally correct, if the last x (where x is less than slice length) digits have a higher product than the last 13 or the best (due to a number less than one being avoided with the small slice)
+def find_best_product(array, slice_length)
+  head = array.first(slice_length)
+  out = array.reduce({best: 0, slice: head}) do |a, b|
+    best = [a[:best], product(a[:slice])].max
+    slice = a[:slice][1..-1] + [b]
+    { best: best, slice: slice }
+  end
+  out[:best]
+end
+
+array = number.split('').map(&:to_i)
+p find_best_product(array, 13)
+# 23514624000
 
 
