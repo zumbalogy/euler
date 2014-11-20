@@ -72,7 +72,7 @@ grid.each_with_index do |row, y|
              grid[y + 3][x + 3] if x < limit && y < limit
     diag_l = grid[y + 1][x - 1] *
              grid[y + 2][x - 2] *
-             grid[y + 3][x - 3] if x > 3 && row_idx < limit
+             grid[y + 3][x - 3] if x > 3 && y < limit
     local_best = [0, right, down, diag_r, diag_l].compact.map { |i| i * cell }.max
     best = [best, local_best].max
   end
@@ -80,6 +80,42 @@ end
 
 puts best
 
+
+############################################################
+
+
+best = 0
+
+limit = grid.length - 3
+
+grid.each_with_index do |row, y|
+  row.each_with_index do |cell, x|
+    if x < limit
+      right = cell *
+              row[x + 1] *
+              row[x + 2] *
+              row[x + 3]
+      diag_r = cell *
+               grid[y + 1][x + 1] *
+               grid[y + 2][x + 2] *
+               grid[y + 3][x + 3] if y < limit
+    end
+    if y < limit
+      down = cell *
+             grid[y + 1][x] *
+             grid[y + 2][x] *
+             grid[y + 3][x]
+      diag_l = cell *
+               grid[y + 1][x - 1] *
+               grid[y + 2][x - 2] *
+               grid[y + 3][x - 3] if x > 3
+    end
+    best = [best, right, down, diag_r, diag_l].compact.max
+  end
+end
+
+puts best
+# 70600674
 
 
 

@@ -25,27 +25,27 @@ best = 0
 
 limit = grid.length - 3
 
-grid.each_with_index do |row, row_idx|
-  row.each_with_index do |cell, cell_idx|
-
-    if cell_idx < limit
-      right = cell * row[cell_idx + 1] * row[cell_idx + 2] * row[cell_idx + 3]
-    end
-
-    if row_idx < limit
-      down = cell * grid[row_idx + 1][cell_idx] * grid[row_idx + 2][cell_idx] * grid[row_idx + 3][cell_idx]
-    end
-
-    if cell_idx < limit && row_idx < limit
-      diag_r = cell * grid[row_idx + 1][cell_idx + 1] * grid[row_idx + 2][cell_idx + 2] * grid[row_idx + 3][cell_idx + 3]
-    end
-
-    if cell_idx > 3 && row_idx < limit
-      diag_l = cell * grid[row_idx + 1][cell_idx - 1] * grid[row_idx + 2][cell_idx - 2] * grid[row_idx + 3][cell_idx - 3]
-    end
-
+grid.each_with_index do |row, y|
+  row.each_with_index do |cell, x|
+    y_valid = y < limit
+    x_valid = x < limit
+    right = cell *
+            row[x + 1] *
+            row[x + 2] *
+            row[x + 3] if x_valid
+    down = cell *
+           grid[y + 1][x] *
+           grid[y + 2][x] *
+           grid[y + 3][x] if y_valid
+    diag_r = cell *
+             grid[y + 1][x + 1] *
+             grid[y + 2][x + 2] *
+             grid[y + 3][x + 3] if x_valid && y_valid
+    diag_l = cell *
+             grid[y + 1][x - 1] *
+             grid[y + 2][x - 2] *
+             grid[y + 3][x - 3] if x > 3 && y_valid
     best = [best, right, down, diag_r, diag_l].compact.max
-
   end
 end
 
