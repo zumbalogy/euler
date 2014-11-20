@@ -25,27 +25,27 @@ grid = [[ 8, 2,22,97,38,15, 0,40, 0,75, 4, 5, 7,78,52,12,50,77,91, 8],
 best = 0
 
 grid.each_with_index do |row, row_num|
-  row.each_with_index do |cell, cell_num|
+    row.each_with_index do |cell, cell_num|
 
-    if cell_num < row.length - 3
-      right = cell * row[cell_num + 1] * row[cell_num + 2] * row[cell_num + 3]
+        if cell_num < row.length - 3
+            right = cell * row[cell_num + 1] * row[cell_num + 2] * row[cell_num + 3]
+        end
+
+        if row_num < grid.length - 3
+            down = cell * grid[row_num + 1][cell_num] * grid[row_num + 2][cell_num] * grid[row_num + 3][cell_num]
+        end
+
+        if cell_num < row.length - 3 && row_num < grid.length - 3
+            diag = cell * grid[row_num + 1][cell_num + 1] * grid[row_num + 2][cell_num + 2] * grid[row_num + 3][cell_num + 3]
+        end
+
+        if cell_num > 3 && row_num < grid.length - 3
+            diag2 =  cell * grid[row_num + 1][cell_num - 1] * grid[row_num + 2][cell_num - 2] * grid[row_num + 3][cell_num - 3]
+        end
+
+        best = [best, right, down, diag, diag2].compact.max
+
     end
-
-    if row_num < grid.length - 3
-      down = cell * grid[row_num + 1][cell_num] * grid[row_num + 2][cell_num] * grid[row_num + 3][cell_num]
-    end
-
-    if cell_num < row.length - 3 && row_num < grid.length - 3
-      diag = cell * grid[row_num + 1][cell_num + 1] * grid[row_num + 2][cell_num + 2] * grid[row_num + 3][cell_num + 3]
-    end
-
-    if cell_num > 3 && row_num < grid.length - 3
-      diag2 = cell * grid[row_num + 1][cell_num - 1] * grid[row_num + 2][cell_num - 2] * grid[row_num + 3][cell_num - 3]
-    end
-
-    best = [best, right, down, diag, diag2].compact.max
-
-  end
 end
 
 puts best

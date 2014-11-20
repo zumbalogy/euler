@@ -4,17 +4,5 @@
 
 require 'prime'
 
-a = Prime.new
-
-sum = 0
-save = 0
-
-while save < 2_000_000
-    sum += save
-    save = a.next
-end
-
-puts sum
+puts Prime.each(2000000).reduce(:+)
 # 142_913_828_922
-
-# TODO: with sieve
