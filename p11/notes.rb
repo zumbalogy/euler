@@ -25,23 +25,23 @@ best = 0
 
 limit = grid.length - 3
 
-grid.each_with_index do |row, row_num|
-  row.each_with_index do |cell, cell_num|
+grid.each_with_index do |row, row_idx|
+  row.each_with_index do |cell, cell_idx|
 
-    if cell_num < limit
-      right = cell * row[cell_num + 1] * row[cell_num + 2] * row[cell_num + 3]
+    if cell_idx < limit
+      right = cell * row[cell_idx + 1] * row[cell_idx + 2] * row[cell_idx + 3]
     end
 
-    if row_num < limit
-      down = cell * grid[row_num + 1][cell_num] * grid[row_num + 2][cell_num] * grid[row_num + 3][cell_num]
+    if row_idx < limit
+      down = cell * grid[row_idx + 1][cell_idx] * grid[row_idx + 2][cell_idx] * grid[row_idx + 3][cell_idx]
     end
 
-    if cell_num < limit && row_num < limit
-      diag_r = cell * grid[row_num + 1][cell_num + 1] * grid[row_num + 2][cell_num + 2] * grid[row_num + 3][cell_num + 3]
+    if cell_idx < limit && row_idx < limit
+      diag_r = cell * grid[row_idx + 1][cell_idx + 1] * grid[row_idx + 2][cell_idx + 2] * grid[row_idx + 3][cell_idx + 3]
     end
 
-    if cell_num > 3 && row_num < limit
-      diag_l = cell * grid[row_num + 1][cell_num - 1] * grid[row_num + 2][cell_num - 2] * grid[row_num + 3][cell_num - 3]
+    if cell_idx > 3 && row_idx < limit
+      diag_l = cell * grid[row_idx + 1][cell_idx - 1] * grid[row_idx + 2][cell_idx - 2] * grid[row_idx + 3][cell_idx - 3]
     end
 
     best = [best, right, down, diag_r, diag_l].compact.max
@@ -51,3 +51,35 @@ end
 
 puts best
 # 70600674
+
+
+#################################################
+
+best = 0
+
+limit = grid.length - 3
+
+grid.each_with_index do |row, y|
+  row.each_with_index do |cell, x|
+    right = row[x + 1] *
+            row[x + 2] *
+            row[x + 3] if x < limit
+    down = grid[y + 1][x] *
+           grid[y + 2][x] *
+           grid[y + 3][x] if y < limit
+    diag_r = grid[y + 1][x + 1] *
+             grid[y + 2][x + 2] *
+             grid[y + 3][x + 3] if x < limit && y < limit
+    diag_l = grid[y + 1][x - 1] *
+             grid[y + 2][x - 2] *
+             grid[y + 3][x - 3] if x > 3 && row_idx < limit
+    local_best = [0, right, down, diag_r, diag_l].compact.map { |i| i * cell }.max
+    best = [best, local_best].max
+  end
+end
+
+puts best
+
+
+
+
