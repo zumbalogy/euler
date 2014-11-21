@@ -116,6 +116,33 @@ end
 
 puts best
 # 70600674
+
+#############################################################################
+
+
+
+best = 0
+
+limit = grid.length - 3
+
+grid.each_with_index do |row, y|
+  row.each_with_index do |cell, x|
+    right, down, diag_r, diag_l = 1, 1, 1, 1
+    4.times do |t|
+      right *= row[x + t] if x < limit
+      next unless y < limit
+      down *= grid[y + t][x]
+      diag_r *= grid[y + t][x + t] if x < limit
+      diag_l *= grid[y + t][x - t] if x > 3
+    end
+    best = [best, right, down, diag_r, diag_l].max
+  end
+end
+
+puts best
+# 70600674
+
+
 ################################################################
 
 require 'matrix'
@@ -257,14 +284,12 @@ puts best
 
 def best_path(grid, x, y)
   limit = grid.length - 3
-  y_valid = y < limit
-  x_valid = x < limit
   down = grid[y..y + 3]
   paths = []
-  paths << grid[y][x..x + 3] if x_valid
-  paths << down.transpose[x] if y_valid
-  paths << (0..3).map { |i| down[i][x + i] } if x_valid && y_valid
-  paths << (0..3).map { |i| down[i][x - i] } if x > 3 && y_valid
+  paths << grid[y][x..x + 3]
+  paths << down.transpose[x]
+  paths << (0..3).map { |i| down[i][x + i] } if x < limit && y < limit
+  paths << (0..3).map { |i| down[i][x - i] } if x > 3 && y < limit
   paths.map { |path| path.reduce(:*) }.max || 0
 end
 
@@ -279,30 +304,10 @@ end
 puts best
 # 70600674
 
-##########################################################################
 
-def best_path(grid, x, y)
-  limit = grid.length - 3
-  y_valid = y < limit
-  x_valid = x < limit
-  down = grid[y..y + 3].transpose
-  paths = []
-  paths << grid[y][x..x + 3] if x_valid
-  paths << down.transpose[x] if y_valid
-  paths << (0..3).map { |i| down[i][x + i] } if x_valid && y_valid
-  paths << (0..3).map { |i| down[i][x - i] } if x > 3 && y_valid
-  paths.map { |path| path.reduce(:*) }.max || 0
-end
 
-best = 0
+#############################################################################
 
-grid.each_with_index do |row, y|
-  row.each_index do |x|
-    best = [best, best_path(grid, x, y)].max
-  end
-end
 
-puts best
-# 70600674
 
 

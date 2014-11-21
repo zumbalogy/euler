@@ -27,25 +27,15 @@ limit = grid.length - 3
 
 grid.each_with_index do |row, y|
   row.each_with_index do |cell, x|
-    y_valid = y < limit
-    x_valid = x < limit
-    right = cell *
-            row[x + 1] *
-            row[x + 2] *
-            row[x + 3] if x_valid
-    down = cell *
-           grid[y + 1][x] *
-           grid[y + 2][x] *
-           grid[y + 3][x] if y_valid
-    diag_r = cell *
-             grid[y + 1][x + 1] *
-             grid[y + 2][x + 2] *
-             grid[y + 3][x + 3] if x_valid && y_valid
-    diag_l = cell *
-             grid[y + 1][x - 1] *
-             grid[y + 2][x - 2] *
-             grid[y + 3][x - 3] if x > 3 && y_valid
-    best = [best, right, down, diag_r, diag_l].compact.max
+    right, down, diag_r, diag_l = 1, 1, 1, 1
+    4.times do |t|
+      right *= row[x + t] if x < limit
+      next unless y < limit
+      down *= grid[y + t][x]
+      diag_r *= grid[y + t][x + t] if x < limit
+      diag_l *= grid[y + t][x - t] if x > 3
+    end
+    best = [best, right, down, diag_r, diag_l].max
   end
 end
 
