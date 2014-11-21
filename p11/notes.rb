@@ -116,6 +116,143 @@ end
 
 puts best
 # 70600674
+################################################################
+
+require 'matrix'
+
+matrix = Matrix[grid]
+
+
+
+###########################################################################
+
+
+best = 0
+
+limit = grid.length - 3
+
+grid.each_with_index do |row, y|
+  row.each_with_index do |cell, x|
+    y_valid = y < limit
+    x_valid = x < limit
+    right = [row[x + 1], row[x + 2], row[x + 3]].reduce(cell, :*) if x_valid
+    down = [grid[y + 1][x], grid[y + 2][x], grid[y + 3][x]].reduce(cell, :*) if y_valid
+    diag_r = [grid[y + 1][x + 1], grid[y + 2][x + 2], grid[y + 3][x + 3]].reduce(cell, :*) if x_valid && y_valid
+    diag_l = [grid[y + 1][x - 1], grid[y + 2][x - 2], grid[y + 3][x - 3]].reduce(cell, :*) if x > 3 && y_valid
+    best = [best, right, down, diag_r, diag_l].compact.max
+  end
+end
+
+puts best
+# 70600674
+
+
+############################################################################
+
+
+best = 0
+
+limit = grid.length - 3
+
+grid.each_with_index do |row, y|
+  row.each_with_index do |cell, x|
+    y_valid = y < limit
+    x_valid = x < limit
+    right = row[x + 1..x + 3] if x_valid
+    down = [grid[y + 1][x], grid[y + 2][x], grid[y + 3][x]] if y_valid
+    diag_r = [grid[y + 1][x + 1], grid[y + 2][x + 2], grid[y + 3][x + 3]] if x_valid && y_valid
+    diag_l = [grid[y + 1][x - 1], grid[y + 2][x - 2], grid[y + 3][x - 3]] if x > 3 && y_valid
+    current_best = [right, down, diag_l, diag_r].compact.map { |array| array.reduce(cell, :*) }.max
+    best = [best, current_best].compact.max
+  end
+end
+
+puts best
+# 70600674
+
+
+
+##############################################################################
+
+
+limit = grid.length - 3
+
+grid.each_with_index do |row, y|
+  row.each_with_index do |cell, x|
+    y_valid = y < limit
+    x_valid = x < limit
+    paths = []
+    paths << row[x + 1..x + 3] if x_valid
+    paths << grid[y + 1..y + 3].map { |row| row[x] } if y_valid
+    paths << [grid[y + 1][x + 1], grid[y + 2][x + 2], grid[y + 3][x + 3]] if x_valid && y_valid
+    paths << [grid[y + 1][x - 1], grid[y + 2][x - 2], grid[y + 3][x - 3]] if x > 3 && y_valid
+    best = paths.map { |array| array.reduce(cell, :*) } + [best]
+    best = best.max
+  end
+end
+
+puts best
+# 70600674
+
+
+
+##########################################################################
+
+
+def best_path(grid, x, y)
+  limit = grid.length - 3
+  y_valid = y < limit
+  x_valid = x < limit
+  cell = grid[y][x]
+  paths = []
+  paths << grid[y][x + 1..x + 3] if x_valid
+  paths << grid[y + 1..y + 3].map { |row| row[x] } if y_valid
+  paths << [grid[y + 1][x + 1], grid[y + 2][x + 2], grid[y + 3][x + 3]] if x_valid && y_valid
+  paths << [grid[y + 1][x - 1], grid[y + 2][x - 2], grid[y + 3][x - 3]] if x > 3 && y_valid
+  paths.map { |array| array.reduce(cell, :*) }.max || 0
+end
+
+
+best = 0
+
+grid.each_with_index do |row, y|
+  row.each_index do |x|
+    best = [best, best_path(grid, x, y)].max
+  end
+end
+
+puts best
+# 70600674
+
+
+
+##########################################################################
+
+
+def best_path(grid, x, y)
+  limit = grid.length - 3
+  y_valid = y < limit
+  x_valid = x < limit
+  cell = grid[y][x]
+  paths = []
+  paths << grid[y][x..x + 3] if x_valid
+  paths << grid[y..y + 3].map { |row| row[x] } if y_valid
+  paths << [cell, grid[y + 1][x + 1], grid[y + 2][x + 2], grid[y + 3][x + 3]] if x_valid && y_valid
+  paths << [cell, grid[y + 1][x - 1], grid[y + 2][x - 2], grid[y + 3][x - 3]] if x > 3 && y_valid
+  paths.map { |array| array.reduce(:*) }.max || 0
+end
+
+
+best = 0
+
+grid.each_with_index do |row, y|
+  row.each_index do |x|
+    best = [best, best_path(grid, x, y)].max
+  end
+end
+
+puts best
+# 70600674
 
 
 

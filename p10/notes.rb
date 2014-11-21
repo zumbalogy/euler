@@ -59,4 +59,4 @@ puts out
 
 ##############################
 
-# implimenting a sieve might be slower, but fun
+# implimenting a sieve might be slower, but fun. could do it with an array of all numbers, then deleteing certain numbers, or with a bitmap and marking non-primes as 1
