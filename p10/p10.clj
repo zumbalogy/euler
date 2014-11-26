@@ -10,7 +10,21 @@
     (if (even? input)
       false
       (= [1]
-         (for [x (range 1 (inc (Math/sqrt input)) 2)
-                 :when (== (mod input x) 0)] x)))))
+        (for [x (range 1 (inc (Math/sqrt input)) 2)
+          :when (== (mod input x) 0)] x)))))
 
+(defn next_prime [prime]
+  (loop [i (+ 2 prime)]
+    (if (is_prime i)
+      i
+      (recur (+ 2 i)))))
 
+(def primes
+  (lazy-cat [2 3]
+    (conj primes (next_prime (last primes)))))
+
+(reduce + (filter (fn [a] (is_prime a)) (take 4000000 (range))))
+
+; (def fibs
+;   (lazy-cat [0 1]
+;     (map + fibs (rest fibs))))

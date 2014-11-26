@@ -5,8 +5,8 @@
 ;;  total the even fibs under 4m
 
 (def fibs
-    (lazy-cat [0 1]
-              (map + fibs (rest fibs))))
+  (lazy-cat [0 1]
+    (map + fibs (rest fibs))))
 
 (print
   (reduce + (filter even? (take-while (partial > 4000000) fibs))))
