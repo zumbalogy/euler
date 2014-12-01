@@ -19,12 +19,9 @@
       i
       (recur (+ 2 i)))))
 
-(def primes
-  (lazy-cat [2 3]
-    (conj primes (next_prime (last primes)))))
+(defn prime_from [n]
+  (cons n (lazy-seq (prime_from (next_prime n)))))
 
-(reduce + (filter (fn [a] (is_prime a)) (take 4000000 (range))))
+(def primes (lazy-cat [2] (primes_from 3)))
 
-; (def fibs
-;   (lazy-cat [0 1]
-;     (map + fibs (rest fibs))))
+(reduce + (take-while #(> 4000000 %) primes))
