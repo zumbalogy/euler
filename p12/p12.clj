@@ -32,4 +32,5 @@
 
 (print
   (first (filter #(< 500 (factor_count %)) triangles)))
+; 76576500
 
