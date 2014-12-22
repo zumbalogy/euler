@@ -20,11 +20,11 @@
 (defn abundant? [input]
   (> (sum_divs input) input))
 
-(defn lower_abundants [input]
+(defn low_abundants [input]
   (filter #(abundant? %) (range 1 input)))
 
 (defn is_sum_of_abundant? [input]
-  (let [abundants (lower_abundants input)]
+  (let [abundants (low_abundants input)]
     (some #(= input %)
       (for [x abundants y abundants]
         (+ x y)))))
@@ -32,7 +32,6 @@
 (reduce (fn [a b] (print a ".") (+ a b)) (filter (partial is_sum_of_abundant?) (range 24 28123)))
 
 
-
 ; 4,179,871 is anser supposily
 
-; .10,302,895, but i get this and beyond while priting its progess. not terminating correclty it seems or too many things are sum of abundants in its mind
+; 10,302,895, but i get this and beyond while priting its progess. not terminating correclty it seems or too many things are sum of abundants in its mind
