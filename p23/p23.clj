@@ -8,30 +8,39 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defn is_divisible? [total div]
-  (= 0 (mod total div)))
+(use 'clojure.set)
 
-(defn take_divs [input]
-  (filter #(is_divisible? input %) (range 1 input)))
+(defn is_factor? [total div]
+  (zero? (mod total div)))
 
-(defn sum_divs [input]
-  (apply + (take_divs input)))
+(defn take_divs [n]
+  (filter #(is_factor? n %) (range 1 n)))
 
-(defn abundant? [input]
-  (> (sum_divs input) input))
+(defn sum_divs [n]
+  (reduce + (take_divs n)))
 
-(defn low_abundants [input]
-  (filter #(abundant? %) (range 1 input)))
+(defn abundant? [n]
+  (< n (sum_divs n)))
 
-(defn is_sum_of_abundant? [input]
-  (let [abundants (low_abundants input)]
-    (some #(= input %)
-      (for [x abundants y abundants]
-        (+ x y)))))
+(def abundants
+  (filter abundant? (range)))
 
-(reduce (fn [a b] (print a ".") (+ a b)) (filter (partial is_sum_of_abundant?) (range 24 28123)))
+(defn low_abundants [n]
+  (take-while #(> n %) abundants))
 
+(defn add_pairs [input]
+  (for [x input y input] (+ x y)))
 
-; 4,179,871 is anser supposily
+(def my_abundants
+  (low_abundants 28123))
 
-; 10,302,895, but i get this and beyond while priting its progess. not terminating correclty it seems or too many things are sum of abundants in its mind
+(def my_combos
+  (set (add_pairs my_abundants)))
+
+(def non_abundant_set
+  (difference (set (range 28123)) my_combos))
+
+(print
+  (reduce + non_abundant_set))
+
+; 4,179,871
