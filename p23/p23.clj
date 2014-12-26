@@ -10,37 +10,24 @@
 
 (use 'clojure.set)
 
-(defn is_factor? [total div]
-  (zero? (mod total div)))
-
 (defn take_divs [n]
-  (filter #(is_factor? n %) (range 1 n)))
+  (filter #(zero? (mod n %)) (range 1 n)))
 
 (defn sum_divs [n]
   (reduce + (take_divs n)))
 
-(defn abundant? [n]
-  (< n (sum_divs n)))
-
 (def abundants
-  (filter abundant? (range)))
-
-(defn low_abundants [n]
-  (take-while #(> n %) abundants))
+  (filter #(< % (sum_divs %)) (range)))
 
 (defn add_pairs [input]
-  (for [x input y input] (+ x y)))
-
-(def my_abundants
-  (low_abundants 28123))
+  (set (for [x input y input] (+ x y)))) ; this is doing everything twice. only needs to do it for Ys after X
 
 (def my_combos
-  (set (add_pairs my_abundants)))
+  (add_pairs (take-while #(> 28123 %) abundants)))
 
 (def non_abundant_set
   (difference (set (range 28123)) my_combos))
 
 (print
   (reduce + non_abundant_set))
-
 ; 4,179,871
