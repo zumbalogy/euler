@@ -7,12 +7,13 @@
 
 ; Sum all amicable numbers under 10_000.
 
-
-(defn take_factors [n]
-  (filter #(zero? (mod n %)) (range 1 n)))
-
 (defn sum_factors [n]
-  (reduce + (take_factors n)))
+  (reduce
+    #(if (zero? (mod n %2))
+      (+ %1 %2 (/ n %2))
+      %1)
+    1
+    (range 2 (Math/sqrt n))))
 
 (defn amicable? [a]
   (let [b (sum_factors a)]
@@ -26,3 +27,5 @@
 
 ; There are 10 amicable numbers in this range.
 ; 220 284 1184 1210 2620 2924 5020 5564 6232 6368
+
+
