@@ -18,7 +18,7 @@
 (defn amicable? [a]
   (let [b (sum_factors a)]
     (and
-      (not (= a b))
+      (not= a b)
       (= a (sum_factors b)))))
 
 (print
@@ -27,5 +27,3 @@
 
 ; There are 10 amicable numbers in this range.
 ; 220 284 1184 1210 2620 2924 5020 5564 6232 6368
-
-
