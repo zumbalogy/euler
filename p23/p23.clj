@@ -9,15 +9,17 @@
 (use 'clojure.set)
 
 (defn sum_factors [n]
-  (let [sq (Math/sqrt n)]
+  (let [sq (Math/sqrt n)
+        floor (Math/floor n)
+        sq_floor (Math/ceil sq)
+        my_range (range 2 sq_floor)
+        start (if (= sq sq_floor) (inc sq) 1)]
     (reduce
       #(if (zero? (mod n %2))
         (+ %1 %2 (/ n %2))
         %1)
-      (if (= sq (Math/floor sq))
-        (inc sq)
-        1)
-      (range 2 sq))))
+      start
+      my_range)))
 
 (def abundants
   (filter #(< % (sum_factors %)) (range)))
