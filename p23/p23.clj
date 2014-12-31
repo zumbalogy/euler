@@ -8,11 +8,16 @@
 
 (use 'clojure.set)
 
-(defn take_factors [n]
-  (filter #(zero? (mod n %)) (range 1 n)))
-
 (defn sum_factors [n]
-  (reduce + (take_factors n)))
+  (let [sq (Math/sqrt n)]
+    (reduce
+      #(if (zero? (mod n %2))
+        (+ %1 %2 (/ n %2))
+        %1)
+      (if (= sq (Math/floor sq))
+        (inc sq)
+        1)
+      (range 2 sq))))
 
 (def abundants
   (filter #(< % (sum_factors %)) (range)))
@@ -29,3 +34,5 @@
 (print
   (reduce + non_abundant_set))
 ; 4,179,871
+
+
