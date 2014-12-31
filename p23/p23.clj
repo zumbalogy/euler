@@ -9,15 +9,24 @@
 (use 'clojure.set)
 
 (defn factors [n]
-  (reduce
-    #(conj %1 %2 (/ n %2))
-    #{1}
-    (filter
-      #(zero? (mod n %))
-      (range 2 (inc (Math/sqrt n))))))
+  (let [sq (Math/sqrt n)]
+    (reduce
+      #(conj %1 %2 (/ n %2))
+      (if (= sq (Math/floor sq)) [1 sq] [1])
+      (filter
+        #(zero? (mod n %))
+        (range 2 sq)))))
 
 (defn sum_factors [n]
   (reduce + (factors n)))
+
+; (defn sum_factors [n]
+;   (let [sq (Math/sqrt n)]
+;     (reduce
+;       #(+ %1 %2 (/ n %2))
+;       (if (= sq (Math/floor sq)) (inc sq) 1)
+;       (filter #(zero? (mod n %))
+;         (range 2 sq)))))
 
 (def abundants
   (filter #(< % (sum_factors %)) (range)))
