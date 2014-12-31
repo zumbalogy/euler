@@ -9,9 +9,10 @@
 
 (defn sum_factors [n]
   (reduce
-    #(if (zero? (mod n %2))
-      (+ %1 %2 (/ n %2))
-      %1)
+    (fn [a b]
+      (if (zero? (mod n b))
+        (+ a b (/ n b))
+        a))
     1
     (range 2 (Math/sqrt n))))
 

@@ -10,8 +10,7 @@
 
 (defn factors [n]
   (reduce
-    (fn [a b]
-      (conj a b (/ n b)))
+    #(conj %1 %2 (/ n %2))
     #{1}
     (filter
       #(zero? (mod n %))
