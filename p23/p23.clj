@@ -8,24 +8,23 @@
 
 (use 'clojure.set)
 
+(defn factors [n]
+  (reduce
+    (fn [a b]
+      (conj a b (/ n b)))
+    #{1}
+    (filter
+      #(zero? (mod n %))
+      (range 2 (inc (Math/sqrt n))))))
+
 (defn sum_factors [n]
-  (let [sq (Math/sqrt n)
-        floor (Math/floor n)
-        sq_floor (Math/ceil sq)
-        my_range (range 2 sq_floor)
-        start (if (= sq sq_floor) (inc sq) 1)]
-    (reduce
-      #(if (zero? (mod n %2))
-        (+ %1 %2 (/ n %2))
-        %1)
-      start
-      my_range)))
+  (reduce + (factors n)))
 
 (def abundants
   (filter #(< % (sum_factors %)) (range)))
 
-(defn add_pairs [input]
-  (set (for [x input y input] (+ x y))))
+(defn add_pairs [n]
+  (set (for [x n y n] (+ x y))))
 
 (def my_combos
   (add_pairs (take-while #(> 28123 %) abundants)))
@@ -36,5 +35,4 @@
 (print
   (reduce + non_abundant_set))
 ; 4,179,871
-
 
