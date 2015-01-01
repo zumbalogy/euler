@@ -12,25 +12,20 @@
 
 # NOTE: Once the chain starts the terms are allowed to go above one million.
 
-def col_step(input)
-  return input / 2 if input.even?
-  (3 * input) + 1
+def col_step(n)
+  return n / 2 if n.even?
+  (3 * n) + 1
 end
 
-def col_count(input)
-  total = 1
-  current = input
-  until current == 1
-    total += 1
-    current = col_step(current)
-  end
-  total
+def col_count(n, total = 1)
+  return total unless n > 1
+  col_count(col_step(n), total + 1) # TODO: benchmark this versus a loop
 end
 
 best = 0
 best_start = 0
 
-(1..1_000_000).each do |i|
+1_000_000.times do |i|
   foo = col_count(i)
   next unless foo > best
   best = foo
@@ -38,5 +33,5 @@ best_start = 0
 end
 
 puts best_start
-# 837_799
+# 837,799
 # with a 525 is best col count

@@ -22,3 +22,5 @@
     (if (= 1 n)
       total
       (recur (inc total) (collatz_step n)))))
+
+()
