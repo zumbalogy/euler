@@ -19,7 +19,7 @@
         (range 2 rt)))))
 
 (def abundants
-  (filter #(< % (sum_factors %)) (range)))
+  (filter #(< % (sum_factors %)) (drop 2 (range))))
 
 (defn add_pairs [n]
   (set (for [x n y n] (+ x y))))
