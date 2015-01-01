@@ -5,9 +5,11 @@
 (defn factorial [input]
   (reduce *' (range 2 (inc input))))
 
-(defn combination [from takes]
-  (/ (factorial from) (*' (factorial takes) (factorial (- from takes))))
-)
+(defn combination [a b]
+  (let [a! (factorial a)
+        b! (factorial b)
+        a-b! (factorial (- a b))]
+    (/ a! (*' b! a-b!))))
 
 (print (combination 40 20))
 ; 137846528820N
