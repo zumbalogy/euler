@@ -25,7 +25,7 @@
   (set (for [x n y n] (+ x y))))
 
 (def my_combos
-  (add_pairs (take-while #(> 28123 %) abundants)))
+  (add_pairs (take-while #(< % 28123) abundants)))
 
 (def non_abundant_set
   (difference (set (range 28123)) my_combos))
