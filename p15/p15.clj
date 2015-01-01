@@ -3,7 +3,7 @@
 ; How many such routes are there through a 20×20 grid?
 
 (defn factorial [input]
-  (reduce *' (range 2 (inc input))))
+  (reduce *' input (range 1 input)))
 
 (defn combination [a b]
   (let [a! (factorial a)
