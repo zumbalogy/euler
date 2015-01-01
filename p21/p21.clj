@@ -9,12 +9,11 @@
 
 (defn sum_factors [n]
   (reduce
-    (fn [a b]
-      (if (zero? (mod n b))
-        (+ a b (/ n b))
-        a))
+    #(+ %1 %2 (/ n %2))
     1
-    (range 2 (Math/sqrt n))))
+    (filter
+      #(zero? (mod n %))
+      (range 2 (Math/sqrt n)))))
 
 (defn amicable? [a]
   (let [b (sum_factors a)]

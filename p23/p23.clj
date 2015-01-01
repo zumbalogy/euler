@@ -8,25 +8,15 @@
 
 (use 'clojure.set)
 
-(defn factors [n]
-  (let [sq (Math/sqrt n)]
+(defn sum_factors [n]
+  (let [rt (Math/sqrt n)
+        sq? (= rt (Math/floor rt))]
     (reduce
-      #(conj %1 %2 (/ n %2))
-      (if (= sq (Math/floor sq)) [1 sq] [1])
+      #(+ %1 %2 (/ n %2))
+      (if sq? (inc rt) 1)
       (filter
         #(zero? (mod n %))
-        (range 2 sq)))))
-
-(defn sum_factors [n]
-  (reduce + (factors n)))
-
-; (defn sum_factors [n]
-;   (let [sq (Math/sqrt n)]
-;     (reduce
-;       #(+ %1 %2 (/ n %2))
-;       (if (= sq (Math/floor sq)) (inc sq) 1)
-;       (filter #(zero? (mod n %))
-;         (range 2 sq)))))
+        (range 2 rt)))))
 
 (def abundants
   (filter #(< % (sum_factors %)) (range)))
@@ -43,4 +33,3 @@
 (print
   (reduce + non_abundant_set))
 ; 4,179,871
-
