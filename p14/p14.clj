@@ -21,4 +21,12 @@
       total
       (recur (inc total) (collatz_step n)))))
 
-
+(loop [best 0 best_start 0 running 0]
+  (let [
+        running_score (collatz_count running)
+        is_better (> running_score best)
+        best (if is_better running_score best)
+        best_start (if is_better running best_start)]
+    (if (= 100 running)
+      best_start
+      (recur best best_start (inc running)))))
