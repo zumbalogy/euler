@@ -5,7 +5,7 @@
 (defn is_prime [input]
   (if (< input 3)
     (if (= input 1)
-      (false)
+      false
       (true))
     (if (even? input)
       false

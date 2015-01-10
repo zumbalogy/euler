@@ -84,5 +84,36 @@
 
 (last (for [x up_to :when (and (== (mod start x) 0)(is_prime x))] x))
 
+;;;;;;;;;;;;;;;;
+
+
+(take 5 (filter #(zero? (mod start %)) (range 1 start)))
+
+
+(take 5 (filter #(zero? (mod start %)) (range (/ start 3) 1 -1)))
+
+
+
+(take 5 (range (/ start 3) 1 -1))
+
+(= 0 (mod (first (take 5 (range (/ start 3) 1 -1))) 2))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(def foo (range (/ start 3) 1 -1))
+
+
+(first (filter #(= 0 (mod start %)) foo))
+
+
+
+(defn is-prime? [n]
+   (zero? (count (filter #(zero? (rem n %)) (range 3 n 2))))
+)
+
+
+(first (filter #(and (zero? (mod start %)) (is-prime? %)) foo))
+
+
 
 

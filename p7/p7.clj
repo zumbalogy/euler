@@ -5,7 +5,7 @@
     false
     (= [1]
        (for [x (range 1 (inc (Math/sqrt input)) 2)
-               :when (== (mod input x) 0)] x))))
+          :when (== (mod input x) 0)] x))))
 ; gives true for 1, false for 2
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

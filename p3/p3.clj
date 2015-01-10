@@ -2,46 +2,22 @@
 
 ;; What is the largest prime factor of the number 600851475143 ?
 
-(defn is_prime [input]
-  (= 1 (for [x (range 1 (inc (Math/sqrt input))) :when (== (mod input x) 0)] x)))
+
+(defn prime? [n]
+  (if (even? n)
+    false
+    (not-any? #(zero? (mod n %))
+      (range 3 (int (inc (Math/sqrt n))) 2))))
+
+(defn prime_factor? [a b]
+  (and
+    (zero? (mod a b))
+    (prime? b)))
 
 (def start (bigint 600851475143))
 
-(def up_to (range 1 start 2))
-
-(print
-  (last
-    (filter (zero? (partial start mod)) start)
-  )
-)
-;; 6857
-
-
-
-(take 5 (filter #(zero? (mod start %)) (range 1 start)))
-
-
-(take 5 (filter #(zero? (mod start %)) (range (/ start 3) 1 -1)))
-
-
-
-(take 5 (range (/ start 3) 1 -1))
-
-(= 0 (mod (first (take 5 (range (/ start 3) 1 -1))) 2))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(def foo (range (/ start 3) 1 -1))
-
-
-(first (filter #(= 0 (mod start %)) foo))
-
-
-
-(defn is-prime? [n]
-   (zero? (count (filter #(zero? (rem n %)) (range 3 n 2))))
-)
-
-
-(first (filter #(and (zero? (mod start %)) (is-prime? %)) foo))
+(first
+  (filter #(prime_factor? start %)
+    (range (int (Math/sqrt start)) 1 -1)))
+; 6857
 
