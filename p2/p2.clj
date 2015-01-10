@@ -8,19 +8,31 @@
   (lazy-cat [0 1]
     (map + fibs (rest fibs))))
 
-(print
-  (reduce + (filter even? (take-while (partial > 4000000) fibs))))
-
+(reduce +
+  (filter even?
+    (take-while (partial > 4000000)
+      fibs)))
 ; 4613732
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(reduce + (take-while (partial > 4000000) (take-nth 3 fibs)))
+(reduce +
+  (take-while (partial > 4000000)
+    (take-nth 3 fibs)))
+; every 3rd fib is even
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(reduce +
+  (take-while #(< % 4000000)
+    (take-nth 3 fibs)))
 ; every 3rd fib is even
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(reduce + (take-nth 3 (take-while (partial > 4000000) fibs)))
+(print
+  (reduce +
+    (take-nth 3 (take-while (partial > 4000000) fibs))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
