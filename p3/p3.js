@@ -13,7 +13,7 @@ function isPrime(input) {
 
 function bigFactor(input) {
   var sq = Math.ceil(Math.sqrt(input))
-  for (var i = sq; i > 1; i--)
+  for (var i = sq; i > 0; i--)
     if (input % i == 0 && isPrime(i))
       return i
 }
