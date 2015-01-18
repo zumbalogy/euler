@@ -4,24 +4,15 @@
 
 # By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
 
-a = 1
-b = 2
 total = 0
-
-def inc_fib(a, b)
-  [b, a + b]
-end
+a, b = [1, 2]
 
 while b < 4_000_000
   total += b
-  a, b = inc_fib(a, b)
-  a, b = inc_fib(a, b)
-  a, b = inc_fib(a, b)
+  a, b = [b, a + b]
+  a, b = [b, a + b]
+  a, b = [b, a + b]
 end
 
 p total
 # 4613732
-
-
-
-

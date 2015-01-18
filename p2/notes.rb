@@ -7,9 +7,9 @@
 start = [0, 1]
 total = 0
 until start.last >= 4_000_000
-    start << start[-1] + start[-2]
-    total += start.last if start.last.even?
-    start.shift
+  start << start[-1] + start[-2]
+  total += start.last if start.last.even?
+  start.shift
 end
 
 p total
@@ -24,10 +24,10 @@ second = 1
 total = 0
 
 until second >= 4_000_000
-    next_fib = first + second
-    total += next_fib if next_fib.even?
-    first = second
-    second = next_fib
+  next_fib = first + second
+  total += next_fib if next_fib.even?
+  first = second
+  second = next_fib
 end
 
 p total
@@ -39,19 +39,19 @@ b = 2
 total = 0
 
 while b < 4_000_000
-    total += b
+  total += b
 
-    save = b
-    b += a
-    a = save
+  save = b
+  b += a
+  a = save
 
-    save = b
-    b += a
-    a = save
+  save = b
+  b += a
+  a = save
 
-    save = b
-    b += a
-    a = save
+  save = b
+  b += a
+  a = save
 end
 
 p total
@@ -86,7 +86,7 @@ end
 p total
 # 4613732
 
-
+#######################################
 
 a = 1
 b = 2
@@ -103,4 +103,29 @@ end
 
 p total
 # 4613732
+
+
+##########################
+
+a = 1
+b = 2
+total = 0
+
+def inc_fib(a, b)
+  [b, a + b]
+end
+
+while b < 4_000_000
+  total += b
+  a, b = inc_fib(a, b)
+  a, b = inc_fib(a, b)
+  a, b = inc_fib(a, b)
+end
+
+p total
+# 4613732
+
+
+
+
 
