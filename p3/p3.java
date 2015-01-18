@@ -3,7 +3,7 @@
 
 public class p3 {
   public static boolean prime(long input) {
-    double sq = Math.ceil(Math.sqrt(input));
+    double sq = Math.sqrt(input);
     if(input % 2 == 0) {
       return false;
     }
@@ -16,7 +16,7 @@ public class p3 {
   }
 
   public static Integer greatest_prime_factor(long input) {
-    int start = (int) Math.ceil(Math.sqrt(input));
+    int start = (int) Math.sqrt(input);
     if(start % 2 == 0) {
       start += 1;
     }

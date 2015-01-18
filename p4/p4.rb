@@ -1,5 +1,4 @@
-# look for the largest palindome number (9009) that
-# is the product of 2 3-digit numbers.
+# Find the largest palindome number (9009) that is the product of 2 3-digit numbers.
 
 def to_pal(input)
   (input.to_s + input.to_s.reverse).to_i
