@@ -15,7 +15,7 @@ public class p3 {
     return true;
   }
 
-  public static Integer greatest_prime_factor(long input) {
+  public static int greatestPrimeFactor(long input) {
     int start = (int) Math.sqrt(input);
     if(start % 2 == 0) {
       start += 1;
@@ -28,7 +28,7 @@ public class p3 {
   }
 
   public static void main(String[] args) {
-    System.out.println(greatest_prime_factor(600851475143L));
+    System.out.println(greatestPrimeFactor(600851475143L));
   }
 }
 

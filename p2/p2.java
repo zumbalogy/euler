@@ -4,28 +4,25 @@
 // Sum the even terms in the Fibonacci sequence under four million
 
 public class p2 {
-  public static Integer sum_even_fibs_under(int limit) {
+  static int sumEvenFibsUnder(int limit) {
     int total = 0;
     int a = 1;
     int b = 2;
     int next;
     while(b < limit) {
       total += b;
-      next = a + b;
-      a = b;
-      b = next;
-      next = a + b;
-      a = b;
-      b = next;
-      next = a + b;
-      a = b;
-      b = next;
+      for(int i = 0; i < 3; i++) {
+        next = a + b;
+        a = b;
+        b = next;
+        next = a + b;
+      }
     }
     return total;
   }
 
   public static void main(String[] args) {
-    System.out.println(sum_even_fibs_under(4000000));
+    System.out.println(sumEvenFibsUnder(4000000));
   }
 }
 
