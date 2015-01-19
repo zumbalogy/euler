@@ -5,7 +5,6 @@
 
 public class p2 {
   public static Integer sum_even_fibs_under(int limit) {
-    long start = System.nanoTime();
     int total = 0;
     int a = 1;
     int b = 2;
@@ -22,7 +21,6 @@ public class p2 {
       a = b;
       b = next;
     }
-    System.out.println(System.nanoTime() - start);
     return total;
   }
 
