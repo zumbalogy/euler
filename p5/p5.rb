@@ -3,7 +3,7 @@
 # What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
 
 def gcd(a, b)
-  b == 0 ? a : gcd(b, a % b)
+  b.zero? ? a : gcd(b, a % b)
 end
 
 def lcm(a, b)
