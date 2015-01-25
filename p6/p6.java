@@ -8,11 +8,18 @@
 
 // Find delta for sum of squares of the first one hundred natural numbers and square of the sum
 
-function e6(n) {
-  var sqSum = Math.pow((n / 2) * (n + 1), 2)
-  var sumSq = (n * (n + 1) * ((2 * n) + 1)) / 6
-  return sqSum - sumSq
+public class p6 {
+
+  static int sumSqVsSqSum(int n) {
+    int sum = (n / 2) * (n + 1);
+    int sqSum = sum * sum;
+    int sumSq = (n * (n + 1) * ((2 * n) + 1)) / 6;
+    return sqSum - sumSq;
+  }
+
+  public static void main(String[] args) {
+    System.out.println(sumSqVsSqSum(100));
+  }
 }
 
-console.log(e6(100))
 // 25164150
