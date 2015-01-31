@@ -26,16 +26,16 @@ best = 0
 limit = grid.length - 3
 
 grid.each_with_index do |row, y|
-  row.each_with_index do |cell, x|
-    right, down, diag_r, diag_l = 1, 1, 1, 1
+  row.each_index do |x|
+    r, d, dr, dl = 1, 1, 1, 1
     4.times do |t|
-      right *= row[x + t] if x < limit
+      r *= row[x + t] if x < limit
       next unless y < limit
-      down *= grid[y + t][x]
-      diag_r *= grid[y + t][x + t] if x < limit
-      diag_l *= grid[y + t][x - t] if x > 3
+      d *= grid[y + t][x]
+      dr *= grid[y + t][x + t] if x < limit
+      dl *= grid[y + t][x - t] if x > 3
     end
-    best = [best, right, down, diag_r, diag_l].max
+    best = [best, r, d, dr, dl].max
   end
 end
 
