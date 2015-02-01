@@ -19,6 +19,13 @@
     (range 1000)))
 ;; 233168
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(- (+ (reduce + (range 0 1000 3))
+      (reduce + (range 0 1000 5)))
+   (reduce + (range 0 1000 15)))
+;; 233168
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -30,9 +37,6 @@
 (def uniqfoobar (distinct foobar))
 
 (reduce + uniqfoobar)
-
-
-
 
 
 (seq [1 2 3])
