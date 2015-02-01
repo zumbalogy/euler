@@ -21,41 +21,61 @@
            [20 73 35 29 78 31 90  1 74 31 49 71 48 86 81 16 23 57  5 54]
            [ 1 70 54 71 83 51 54 69 16 92 33 48 61 43 52  1 89 19 67 48]])
 
-(defn diagonals [cols]
+(defn diagonal [grid]
   (apply map vector
-    (map-indexed #(drop %1 %2) cols)))
+    (map-indexed #(drop %1 %2) grid)))
 
 (defn products [row]
   (map #(apply * %)
     (partition 4 1 row)))
 
-(defn diagonal_products [grid]
+(defn diag_products [grid]
   (map #(apply * %)
-    (mapcat diagonals (partition 4 1 grid))))
+    (mapcat diagonal (partition 4 1 grid))))
 
-(def runs
+(def grid_products
   (concat
-    (map products                       grid)
-    (map products     (apply map vector grid))
-    (diagonal_products                  grid)
-    (diagonal_products         (reverse grid))))
+    (map products grid)
+    (map products (apply map vector grid))
+    (diag_products grid)
+    (diag_products (reverse grid))))
 
-(println
-  (reduce max (flatten runs)))
+(time
+  (reduce max (flatten grid_products)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defn diagonals  [cols]
+; logic/code from friend
+
+(defn diagonals [cols]
   (apply map vector
     (map-indexed #(drop %1 %2) cols)))
 
 (def runs
-  (lazy-cat
+  (concat
     (mapcat #(partition 4 1 %) grid)
     (mapcat #(partition 4 1 %) (apply map vector grid))
     (mapcat diagonals (partition 4 1 grid))
     (mapcat diagonals (partition 4 1 (reverse grid)))))
 
-(println
+(time
   (reduce max (map #(apply * %) runs)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn products [input]
+  (map #(apply * %)
+    (partition 4 1 (keep identity input))))
+
+(def adjacents
+  (apply concat grid
+    (for [i (range 20)]
+      (conj []
+        (for [x (range 20)] (get (get grid       x)       i))
+        (for [x (range 20)] (get (get grid       x)  (+ x i)))
+        (for [x (range 20)] (get (get grid       x)  (- x i)))
+        (for [x (range 20)] (get (get grid (- 19 x)) (+ x i)))
+        (for [x (range 20)] (get (get grid (- 19 x)) (- x i)))))))
+
+(time
+  (reduce max (flatten (map products adjacents))))

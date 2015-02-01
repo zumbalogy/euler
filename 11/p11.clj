@@ -22,7 +22,7 @@
            [ 1 70 54 71 83 51 54 69 16 92 33 48 61 43 52  1 89 19 67 48]])
 
 (defn products [input]
-  (map (partial reduce *)
+  (map #(apply * %)
     (partition 4 1 (keep identity input))))
 
 (def adjacents
@@ -38,5 +38,3 @@
 (print
   (reduce max (flatten (map products adjacents))))
 ; 70600674
-
-
