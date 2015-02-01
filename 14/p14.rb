@@ -17,7 +17,7 @@ end
 
 def col_count(n, total = 1)
   return total unless n > 1
-  col_count(col_step(n), total + 1) # TODO: benchmark this versus a loop
+  col_count(col_step(n), total + 1)
 end
 
 best = 0
@@ -32,4 +32,4 @@ end
 
 puts best_start
 # 837,799
-# with a 525 is best col count
+# count of 525
