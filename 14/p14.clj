@@ -20,13 +20,13 @@
         (if (even? n) (quot n 2) (inc (* 3 n)))))))
 
 (defn longest_collatz_under [limit]
-  (loop [best 1 best_start 1 current 1]
+  (loop [current 1 top 1 top_start 1]
     (if (= current limit)
-      best_start
+      top_start
       (let [current_count (collatz_count current)]
-        (if (< best current_count)
-          (recur current_count current (inc current))
-          (recur best best_start (inc current)))))))
+        (if (< top current_count)
+          (recur (inc current) current_count current)
+          (recur (inc current) top top_start))))))
 
 (print
   (longest_collatz_under 1000001))
