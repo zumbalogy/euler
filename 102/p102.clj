@@ -3,7 +3,6 @@
 ; Consider the following two triangles:
 
 ; A(-340,495), B(-153,-910), C(835,-947)
-
 ; X(-175,41), Y(-421,-714), Z(574,-645)
 
 ; It can be verified that triangle ABC contains the origin, whereas triangle XYZ does not.
@@ -13,14 +12,13 @@
 ; NOTE: The first two examples in the file represent the triangles in the example given above.
 
 (defn same_side_as_origin [[x1 y1] [x2 y2] [x3 y3]]
-  (let [xdiff (- x2 x1)
-        m (/ (- y2 y1) (if (zero? xdiff) 100000 xdiff)) ; approximates undefined slope
-        b (- y1 (* m x1))
-        xrelation (+ b (* m x3))]
+  (let [dy (- y1 y2)
+        dx (if (= x1 x2) 0.001 (- x1 x2))
+        m (/ dy dx)
+        b (- y1 (* m x1))]
     (if (> 0 b)
-      (> y3 xrelation)
-      (< y3 xrelation))))
-; would have to decide what you want to do when origin is the y-intercept (b)
+      (> y3 (+ b (* m x3)))
+      (< y3 (+ b (* m x3))))))
 
 (defn tri_has_o [[p1 p2 p3]]
   (and
@@ -29,7 +27,7 @@
     (same_side_as_origin p3 p1 p2)))
 
 (defn line_to_tri [line]
-  ((fn [[x1 y1 x2 y2 x3 y3]] [[x1 y1] [x2 y2] [x3 y3]])
+  (partition 2
     (map read-string (clojure.string/split line #","))))
 
 (def triangles
@@ -40,12 +38,3 @@
 (print
   (count (filter tri_has_o triangles)))
 ; 228
-
-
-
-
-
-
-
-
-
