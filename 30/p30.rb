@@ -9,23 +9,10 @@
 
 # Find the sum of all the numbers that can be written as the sum of fifth powers of their digits.
 
-def sum_of_digits_to_5th? input
+def sum_of_digits_to_5th?(input)
   input == input.to_s.split('').reduce(0) { |a, b| a + (b.to_i ** 5) }
 end
 
-total = 0
-
-(2..999999).each do |i| # TODO: figure out why and where it starts and stops
-  total += i if sum_of_digits_to_5th?(i)
-end
-
-puts total
+puts (2..999999).reduce(0) { |a, b| sum_of_digits_to_5th?(b) ? a + b : a }
 # 443839
-
-# the numbers that qualify are:
-# 4150
-# 4151
-# 54748
-# 92727
-# 93084
-# 194979
+# from: 4150 4151 54748 92727 93084 194979
