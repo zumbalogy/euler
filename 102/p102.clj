@@ -13,10 +13,10 @@
 ; NOTE: The first two examples in the file represent the triangles in the example given above.
 
 (defn same_side_as_origin [[x1 y1] [x2 y2] [x3 y3]]
-  (let [ xdiff (- x2 x1)
-         m (/ (- y2 y1) (if (zero? xdiff) 100000 xdiff)) ; approximates undefined slope
-         b (- y1 (* m x1))
-         xrelation (+ b (* m x3))]
+  (let [xdiff (- x2 x1)
+        m (/ (- y2 y1) (if (zero? xdiff) 100000 xdiff)) ; approximates undefined slope
+        b (- y1 (* m x1))
+        xrelation (+ b (* m x3))]
     (if (> 0 b)
       (> y3 xrelation)
       (< y3 xrelation))))
@@ -25,18 +25,20 @@
 (defn tri_has_o [[p1 p2 p3]]
   (and
     (same_side_as_origin p1 p2 p3)
-    (same_side_as_origin p1 p3 p2)
-    (same_side_as_origin p2 p3 p1)))
+    (same_side_as_origin p2 p3 p1)
+    (same_side_as_origin p3 p1 p2)))
 
 (defn line_to_tri [line]
   ((fn [[x1 y1 x2 y2 x3 y3]] [[x1 y1] [x2 y2] [x3 y3]])
     (map read-string (clojure.string/split line #","))))
 
-(def triangles (pmap line_to_tri
-  (clojure.string/split-lines
-    (slurp "triangles.txt"))))
+(def triangles
+  (map line_to_tri
+    (clojure.string/split-lines
+      (slurp "triangles.txt"))))
 
-(print (reduce #(if (tri_has_o %2) (inc %1) %1) 0 triangles))
+(print
+  (count (filter tri_has_o triangles)))
 ; 228
 
 
