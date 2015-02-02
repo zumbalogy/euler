@@ -94,17 +94,15 @@
   (map #(apply * %)
     (partition 4 1 row)))
 
-(defn best_product [grid]
-  (reduce
-    #(max %1 (apply max (products %2)))
-    0
-    (lazy-cat
+(def grid_products
+  (map products
+    (concat
       grid
       (apply map vector grid)
       (diagonals grid)
       (diagonals (reverse grid)))))
 
 (time
-  (best_product grid))
+  (reduce max (flatten grid_products)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
