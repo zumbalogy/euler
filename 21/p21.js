@@ -9,24 +9,24 @@
 //////////////// d(a) = b and d(b) = a and a ≠ b
 //////////////// d(d(a)) = a
 
-function sum_div(input){
-    var total = 0
-    for (var i = 1; i < input; i++){ // should prbably be sq root thing
-        if (input % i == 0){
-            total += i
-        }
+function sum_div(input) {
+  var total = 0
+  for (var i = 1; i < input; i++) { // should prbably be sq root thing
+    if (input % i == 0) {
+      total += i
     }
-    return total
+  }
+  return total
 }
 
 var total = 0
 
-for (var i = 0; i < 10000; i++){
-    var first = sum_div(i)
-    var second = sum_div(first)
-    if (second == i && first != i){
-        total += i
-    }
+for (var i = 0; i < 10000; i++) {
+  var first = sum_div(i)
+  var second = sum_div(first)
+  if (second == i && first != i) {
+    total += i
+  }
 }
 
 console.log(total)

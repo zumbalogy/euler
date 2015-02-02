@@ -14,19 +14,19 @@
 var array = [1]
 var overflow = 0
 
-for (var a = 2; a < 101; a++){
-    var len = array.length
-    for (var b = 1; b <= len; b++){
-        var start = (array[array.length - b] * a) + overflow
-        overflow = Math.floor(start / 10)
-        array[array.length - b] = start % 10
-        if (b == len){
-            while (overflow > 0){
-                array.unshift(overflow % 10)
-                overflow = Math.floor(overflow / 10)
-            }
-        }
+for (var a = 2; a < 101; a++) {
+  var len = array.length
+  for (var b = 1; b <= len; b++) {
+    var start = (array[array.length - b] * a) + overflow
+    overflow = Math.floor(start / 10)
+    array[array.length - b] = start % 10
+    if (b == len) {
+      while (overflow > 0) {
+        array.unshift(overflow % 10)
+        overflow = Math.floor(overflow / 10)
+      }
     }
+  }
 }
 
 var total = array.reduce(function(a,b){return a+b})
