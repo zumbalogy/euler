@@ -35,6 +35,6 @@
         (for [x (range 20)] (get (get grid (- 19 x)) (+ x i)))
         (for [x (range 20)] (get (get grid (- 19 x)) (- x i)))))))
 
-(print
+(println
   (reduce max (flatten (map products adjacents))))
 ; 70600674

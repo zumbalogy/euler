@@ -79,3 +79,32 @@
 
 (time
   (reduce max (flatten (map products adjacents))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn diagonal [grid]
+  (apply map vector
+    (map-indexed #(drop %1 %2) grid)))
+
+(defn diagonals [grid]
+  (mapcat diagonal
+    (partition 4 1 grid)))
+
+(defn products [row]
+  (map #(apply * %)
+    (partition 4 1 row)))
+
+(defn best_product [grid]
+  (reduce
+    #(max %1 (apply max (products %2)))
+    0
+    (lazy-cat
+      grid
+      (apply map vector grid)
+      (diagonals grid)
+      (diagonals (reverse grid)))))
+
+(time
+  (best_product grid))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
