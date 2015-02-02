@@ -4,12 +4,10 @@
 
 # Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.
 
-########################
-
 def abundant? input
   a = 0
-  (2..Math.sqrt(input)).each do |foo|
-    a += (foo + (input / foo)) if (input % foo).zero?
+  (2..Math.sqrt(input)).each do |i|
+    a += i + (input / i) if input % i == 0
     return true if a > input
   end
   false
@@ -18,9 +16,7 @@ end
 def made_from_abundant? input
   return false if input.odd? && input % 5 == 0
   (12..(input/2)).each do |first|
-    if abundant?(first) && abundant?(input - first)
-      return true
-    end
+    return true if abundant?(first) && abundant?(input - first)
   end
   false
 end
