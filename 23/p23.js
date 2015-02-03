@@ -29,17 +29,21 @@ function totalNotFromAbundant() {
   var sums = []
   var len = abundants.length
   for(var a = 0; a < len; a++) {
-    for(var b = 0; b < len; b++) {
-      sums.push(abundants[a] + abundants[b])
+    for(var b = a; b < len; b++) {
+      ab = abundants[a] + abundants[b]
+      if(ab < 28123 && sums.indexOf(ab) == -1) {
+        sums.push(ab)
+      }
     }
   }
-  var total = 0
+  var sumAll = 0
   for(var i = 1; i < 28123; i++) {
-    if (sums.indexOf(i) == -1) {
-      total += i
-    }
+    sumAll += i
   }
-  return total
+  var sumFromAbundants = sums.reduce(function(a, b) {
+    return a + b
+  })
+  return sumAll - sumFromAbundants
 }
 
 console.log(totalNotFromAbundant())
