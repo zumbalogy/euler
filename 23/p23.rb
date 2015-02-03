@@ -4,39 +4,30 @@
 
 # Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.
 
-def abundant? input
-  a = 0
-  (2..Math.sqrt(input)).each do |i|
-    a += i + (input / i) if input % i == 0
-    return true if a > input
+require 'set'
+
+def abundant?(input)
+  sq = Math.sqrt(input)
+  sum = 1
+  sum += sq if sq.floor == sq
+  (2...sq).each do |i|
+    sum += i + (input / i) if input % i == 0
+    return true if sum > input
   end
   false
 end
 
-def made_from_abundant? input
-  return false if input.odd? && input % 5 == 0
-  (12..(input/2)).each do |first|
-    return true if abundant?(first) && abundant?(input - first)
-  end
-  false
+def total_not_from_abundant_pair
+  abundants = (12..28123).select(&method(:abundant?))
+  combos = abundants.combination(2)
+  sums = combos.map { |(a, b)| a + b }.to_set
+  sums += abundants.map { |a| a + a }
+  diff = (1..28123).to_set - sums
+  diff.reduce(:+)
 end
 
-puts abundant? 11
-puts abundant? 12
-puts abundant? 18
-puts abundant? 28
-puts made_from_abundant? 30
-puts
-puts made_from_abundant? 24
+puts total_not_from_abundant_pair
+# 4,179,871
 
-total = 0
 
-#(12..28_123).each do |i|
- #   p i
-  #  total += i unless made_from_abundant?(i)
-#end
 
-p total
-# 3_921_457
-# turns out this is way too much
-# and currently takes over 6 minutes

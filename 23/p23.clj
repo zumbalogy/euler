@@ -9,11 +9,10 @@
 (use 'clojure.set)
 
 (defn sum_factors [n]
-  (let [rt (Math/sqrt n)
-        sq? (= rt (Math/floor rt))]
+  (let [rt (Math/sqrt n)]
     (reduce
-      #(+ %1 %2 (/ n %2))
-      (if sq? (inc rt) 1)
+      #(+ %1 %2 (quot n %2))
+      (if (== 0 (mod rt 1)) (inc rt) 1)
       (filter
         #(zero? (mod n %))
         (range 2 rt)))))
@@ -30,6 +29,6 @@
 (def non_abundant_set
   (difference (set (range 28123)) my_combos))
 
-(print
+(println
   (reduce + non_abundant_set))
 ; 4,179,871
