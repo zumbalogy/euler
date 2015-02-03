@@ -9,8 +9,7 @@ function abundant(input) {
   var sum = sq % 1 == 0 ? sq + 1 : 1
   for(var i = 2; i < sq; i++) {
     if (input % i == 0) {
-      sum += i
-      sum += input / i
+      sum += i + (input / i)
       if (sum > input) {
         return true
       }
