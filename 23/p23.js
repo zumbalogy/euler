@@ -7,9 +7,10 @@
 function abundant(input) {
   var sq = Math.sqrt(input)
   var sum = sq % 1 == 0 ? sq + 1 : 1
-  for(var i = 1; i < sq; i++) {
+  for(var i = 2; i < sq; i++) {
     if (input % i == 0) {
-      sum += i + input / i
+      sum += i
+      sum += input / i
       if (sum > input) {
         return true
       }
@@ -25,7 +26,6 @@ function totalNotFromAbundant() {
       abundants.push(i)
     }
   }
-  console.log(5)
   var sums = []
   var len = abundants.length
   for(var a = 0; a < len; a++) {
@@ -33,12 +33,6 @@ function totalNotFromAbundant() {
       sums.push(abundants[a] + abundants[b])
     }
   }
-  // abundants.forEach(function(a1) {
-  //   abundants.forEach(function(a2) {
-  //     sums.push(a1 + a2)
-  //   })
-  // })
-  console.log(6)
   var total = 0
   for(var i = 1; i < 28123; i++) {
     if (sums.indexOf(i) == -1) {
@@ -49,5 +43,6 @@ function totalNotFromAbundant() {
 }
 
 console.log(totalNotFromAbundant())
+// 4179871
 
 
