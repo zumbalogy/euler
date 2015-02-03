@@ -26,24 +26,23 @@ function totalNotFromAbundant() {
       abundants.push(i)
     }
   }
-  var sums = []
+  var sums = Set()
   var len = abundants.length
   for(var a = 0; a < len; a++) {
     for(var b = a; b < len; b++) {
       ab = abundants[a] + abundants[b]
-      if(ab < 28123 && sums.indexOf(ab) == -1) {
-        sums.push(ab)
+      if(ab < 28123) {
+        sums.add(ab)
       }
     }
   }
   var sumAll = 0
   for(var i = 1; i < 28123; i++) {
-    sumAll += i
+    if(!sums.has(i)) {
+      sumAll += i
+    }
   }
-  var sumFromAbundants = sums.reduce(function(a, b) {
-    return a + b
-  })
-  return sumAll - sumFromAbundants
+  return sumAll
 }
 
 console.log(totalNotFromAbundant())
