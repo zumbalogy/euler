@@ -29,10 +29,7 @@ function totalNotFromAbundant() {
   var len = abundants.length
   for(var a = 0; a < len; a++) {
     for(var b = a; b < len; b++) {
-      ab = abundants[a] + abundants[b]
-      if(ab < 28123) {
-        sums.add(ab)
-      }
+      sums.add(abundants[a] + abundants[b])
     }
   }
   var sumAll = 0
@@ -41,6 +38,8 @@ function totalNotFromAbundant() {
       sumAll += i
     }
   }
+  // could get the sumAll via smart way, then reduce the set with the for(in) syntax, then subtract, and voila
+  // do this after checking that ab < 28123 : this could be enforced smartly by looping b up until a limit that is where a+b would be over
   return sumAll
 }
 

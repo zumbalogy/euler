@@ -9,8 +9,7 @@ function abundant(input) {
   var sum = sq % 1 == 0 ? sq + 1 : 1
   for(var i = 2; i < sq; i++) {
     if (input % i == 0) {
-      sum += i
-      sum += input / i
+      sum += i + (input / i)
       if (sum > input) {
         return true
       }
@@ -36,7 +35,7 @@ function totalNotFromAbundant() {
       }
     }
   }
-  var sumAll = 0
+  var sumAll = 0 // there is a better way to grab this (like, half 28123 times 28123)
   for(var i = 1; i < 28123; i++) {
     sumAll += i
   }
