@@ -18,30 +18,31 @@ function abundant(input) {
   return false
 }
 
-function totalNotFromAbundant() {
+function totalNotFromAbundant(limit) {
   var abundants = []
-  for(var i = 12; i < 28123; i++) {
+  for(var i = 1; i < limit; i++) {
     if (abundant(i)) {
       abundants.push(i)
     }
   }
-  var sums = Set()
+  var sums = new Set()
   var len = abundants.length
+  var current = 0
+  var ab = 0
   for(var a = 0; a < len; a++) {
+    current = abundants[a]
     for(var b = a; b < len; b++) {
-      sums.add(abundants[a] + abundants[b])
+      ab = current + abundants[b]
+      if(ab < limit) {
+        sums.add(current + abundants[b])
+      }
     }
   }
-  var sumAll = 0
-  for(var i = 1; i < 28123; i++) {
-    if(!sums.has(i)) {
-      sumAll += i
-    }
-  }
-  // could get the sumAll via smart way, then reduce the set with the for(in) syntax, then subtract, and voila
-  // do this after checking that ab < 28123 : this could be enforced smartly by looping b up until a limit that is where a+b would be over
-  return sumAll
+  var sumAll = ((limit - 1) / 2) * limit
+  var sumFromAbundants = 0
+  sums.forEach(function(s) { sumFromAbundants += s })
+  return sumAll - sumFromAbundants
 }
 
-console.log(totalNotFromAbundant())
+console.log(totalNotFromAbundant(28123))
 // 4179871

@@ -18,32 +18,32 @@ function abundant(input) {
   return false
 }
 
-function totalNotFromAbundant() {
+function totalNotFromAbundant(limit) {
   var abundants = []
-  for(var i = 12; i < 28123; i++) {
+  for(var i = 1; i < limit; i++) {
     if (abundant(i)) {
       abundants.push(i)
     }
   }
   var sums = []
   var len = abundants.length
+  var current = 0
+  var ab = 0
   for(var a = 0; a < len; a++) {
+    current = abundants[a]
     for(var b = a; b < len; b++) {
-      ab = abundants[a] + abundants[b]
-      if(ab < 28123 && sums.indexOf(ab) == -1) {
+      ab = current + abundants[b]
+      if(ab < limit && sums.indexOf(ab) == -1) {
         sums.push(ab)
       }
     }
   }
-  var sumAll = 0 // there is a better way to grab this (like, half 28123 times 28123)
-  for(var i = 1; i < 28123; i++) {
-    sumAll += i
-  }
+  var sumAll = ((limit - 1) / 2) * limit
   var sumFromAbundants = sums.reduce(function(a, b) {
     return a + b
   })
   return sumAll - sumFromAbundants
 }
 
-console.log(totalNotFromAbundant())
+console.log(totalNotFromAbundant(28123))
 // 4179871
