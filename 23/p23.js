@@ -25,23 +25,19 @@ function totalNotFromAbundant(limit) {
       abundants.push(i)
     }
   }
-  var sums = []
+  var sums = new Set()
   var len = abundants.length
-  var current = 0
-  var ab = 0
   for(var a = 0; a < len; a++) {
-    current = abundants[a]
     for(var b = a; b < len; b++) {
-      ab = current + abundants[b]
-      if(ab < limit && sums.indexOf(ab) == -1) {
-        sums.push(ab)
+      var ab = abundants[a] + abundants[b]
+      if(ab < limit) {
+        sums.add(ab)
       }
     }
   }
   var sumAll = ((limit - 1) / 2) * limit
-  var sumFromAbundants = sums.reduce(function(a, b) {
-    return a + b
-  })
+  var sumFromAbundants = 0
+  sums.forEach(function(s) { sumFromAbundants += s })
   return sumAll - sumFromAbundants
 }
 

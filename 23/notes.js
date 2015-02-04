@@ -4,6 +4,50 @@
 
 // Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.
 
+/*
+
+// for performace:
+
+var sums = new Set()
+var len = abundants.length
+for(var a = 0; a < len; a++) {
+  for(var b = a; b < len; b++) {
+    var ab = abundants[a] + abundants[b]
+    if(ab < limit) {
+      sums.add(ab)
+    }
+  }
+}
+
+// could be something like
+
+var sums = new Set()
+var len = abundants.length
+var current = null
+var ab = null
+for(var a = 0; a < len; a++) {
+  current = abundants[a]
+  for(var b = a; b < len; b++) {
+    ab = current + abundants[b]
+    if(ab < limit) {
+      sums.add(ab)
+    }
+  }
+}
+
+// but that a little less clean.
+
+// there is also
+
+sums.forEach(function(s) { sumFromAbundants += s })
+
+// which might be faster in a for(let i of foo){} block
+// or just looping though all 28123 and summing them is the set does not .has() them
+
+*/
+
+// below is non-es6 solution
+
 function abundant(input) {
   var sq = Math.sqrt(input)
   var sum = sq % 1 == 0 ? sq + 1 : 1
@@ -25,7 +69,7 @@ function totalNotFromAbundant(limit) {
       abundants.push(i)
     }
   }
-  var sums = new Set()
+  var sums = []
   var len = abundants.length
   var current = 0
   var ab = 0
@@ -33,14 +77,15 @@ function totalNotFromAbundant(limit) {
     current = abundants[a]
     for(var b = a; b < len; b++) {
       ab = current + abundants[b]
-      if(ab < limit) {
-        sums.add(current + abundants[b])
+      if(ab < limit && sums.indexOf(ab) == -1) {
+        sums.push(ab)
       }
     }
   }
   var sumAll = ((limit - 1) / 2) * limit
-  var sumFromAbundants = 0
-  sums.forEach(function(s) { sumFromAbundants += s })
+  var sumFromAbundants = sums.reduce(function(a, b) {
+    return a + b
+  })
   return sumAll - sumFromAbundants
 }
 
