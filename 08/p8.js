@@ -6,15 +6,15 @@ var array = "7316717653133062491922511967442657474235534919493496983520312774506
 var best = 0
 
 for (var i = 0; i < array.length; i++){
-    array[i] = parseInt(array[i])
+  array[i] = parseInt(array[i])
 }
 
 
 for (var i = 0; i < array.length; i++){
-    var sum = array[i] * array[i+1] * array[i+2] * array[i+3] * array[i+4]
-    if (sum > best) {
-        best = sum
-    } 
+  var sum = array[i] * array[i+1] * array[i+2] * array[i+3] * array[i+4]
+  if (sum > best) {
+      best = sum
+  }
 }
 
 console.log(best)

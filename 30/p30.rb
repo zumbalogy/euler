@@ -10,7 +10,7 @@
 # Find the sum of all the numbers that can be written as the sum of fifth powers of their digits.
 
 def sum_of_digits_to_5th?(input)
-  input == input.to_s.split('').reduce(0) { |a, b| a + (b.to_i ** 5) }
+  input == input.to_s.each_char.reduce(0) { |a, b| a + (b.to_i ** 5) }
 end
 
 puts (2..999999).reduce(0) { |a, b| sum_of_digits_to_5th?(b) ? a + b : a }
