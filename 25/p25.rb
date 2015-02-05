@@ -21,5 +21,6 @@ until b.to_s.length == 1000
   term += 1
 end
 
+puts b
 puts term
 # 4780

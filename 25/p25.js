@@ -39,13 +39,11 @@ function crazyAdd(a, b) {
 }
 
 function firstFibOfLength(len) {
-  var a = [1]
-  var b = [2]
-  var count = 0
-  while(b.length < len) {
-    var temp = crazyAdd(a, b)
-    a = b
-    b = temp
+  var fibs = [[1], [2]]
+  var count = 3
+  while(fibs[1].length < len) {
+    fibs.push(crazyAdd(fibs[0].slice(0), fibs[1].slice(0)))
+    fibs.shift()
     count++
   }
   return count
