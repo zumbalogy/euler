@@ -2,12 +2,6 @@
 
 # What is the 10,001st prime number?
 
-def next_prime(input)
-  input += 2
-  input += 2 until prime?(input)
-  input
-end
-
 def prime?(input)
   i = 3
   limit = Math.sqrt(input).ceil
@@ -15,11 +9,17 @@ def prime?(input)
     return false if input % i == 0
     i += 2
   end
-  return true
+  true
 end
 
-i = 3
-9999.times { i = next_prime(i) }
+def nth_prime(n)
+  i = 1
+  until n == 1
+    i += 2
+    n -=1 if prime?(i)
+  end
+  i
+end
 
-puts i
+puts nth_prime(10001)
 # 104743
