@@ -2,26 +2,26 @@
 
 // Find the sum of all the primes below two million.
 
-
-
 function prime(input){
-    if (input % 2 == 0)
-        return false
-    for (var i = 3; i <= Math.sqrt(input); i += 2)
-        if (input % i == 0)
-            return false
-    return true
+  if (input % 2 == 0) {
+    return false
+  }
+  for (var i = 3; i <= Math.sqrt(input); i += 2) {
+    if (input % i == 0) {
+      return false
+    }
+  }
+  return true
 }
 
-var total = 0
+var total = 2
 
-for (var i = 2; i < 2000000; i++)
-    if (prime(i))
-        total += i
-
-
+for (var i = 2; i < 2000000; i++) {
+  if (prime(i)) {
+    total += i
+  }
+}
 
 console.log(total)
 
 // 142913828922
-
