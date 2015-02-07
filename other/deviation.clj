@@ -22,7 +22,7 @@
 
 
 (defn deviate [array inputRange]
-    ;recursivly, take 3 from array (then 3 from rest array, etc)
-    ; then find the max diff within those 3 each time
-    ; max of all those is the awnser
-    )
+  ;recursivly, take 3 from array (then 3 from rest array, etc)
+  ; then find the max diff within those 3 each time
+  ; max of all those is the awnser
+  )
