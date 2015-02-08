@@ -5,18 +5,17 @@
 # There exists exactly one Pythagorean triplet for which a + b + c = 1000.
 # Find the product abc.
 
-output = nil
-
-(1..500).each do |a|
-  (a..500).each do |b|
-    c = Math.sqrt(a.abs2 + b.abs2)
-    next unless a + b + c == 1000
-    output = a * b * c
-    break
+def triplet_of_sum(sum)
+  (1..sum).each do |a|
+    b = a
+    while b < sum - b
+      c = Math.sqrt(a.abs2 + b.abs2)
+      return a * b * c if a + b + c == 1000
+      b += 1
+    end
   end
-  break if output
 end
 
-p output
-
+puts triplet_of_sum(1000)
 # 31875000
+# 200 375 425
