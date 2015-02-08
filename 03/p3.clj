@@ -17,6 +17,6 @@
     (filter #(prime_factor? n %)
       (range (int (Math/sqrt n)) 1 -1))))
 
-(print
+(println
   (largest_prime_factor 600851475143))
 ; 6857
