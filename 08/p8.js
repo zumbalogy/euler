@@ -15,7 +15,7 @@ function bestProduct(array, sliceLen) {
     var product = array.slice(i, i + sliceLen).reduce(function(a, b) {
       return a * b
     })
-    if (product > best) {
+    if(product > best) {
       best = product
     }
   }
