@@ -1,11 +1,11 @@
 ; If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
 ; Find the sum of all the multiples of 3 or 5 below 1000.
 
-(defn sum_all_under [input]
+(defn sum_under [input]
   (* input (/ (inc input) 2)))
 
 (defn sum_steps [step limit]
-  (* step (sum_all_under (int (/ (dec limit) step)))))
+  (* step (sum_under (int (/ (dec limit) step)))))
 
 (println
   (-

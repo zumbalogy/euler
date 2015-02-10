@@ -6,12 +6,12 @@ public class p1 {
     return (limit / 2) * (limit + 1);
   }
 
-  static double sumStepUnder(double step, double limit) {
+  static double sumSteps(double step, double limit) {
     return step * sumUnder(Math.floor((limit - 1) / step));
   }
 
   public static void main(String[] args) {
-    System.out.println(sumStepUnder(3, 1000) + sumStepUnder(5, 1000) - sumStepUnder(15, 1000));
+    System.out.println(sumSteps(3, 1000) + sumSteps(5, 1000) - sumSteps(15, 1000));
   }
 }
 // 233168
