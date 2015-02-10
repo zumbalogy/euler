@@ -3,32 +3,17 @@
 
 // Sum the even terms in the Fibonacci sequence under four million
 
-var start = [0, 1]
 var total = 0
+var a = 1
+var b = 2
+var c = null
 
-while (start[1] < 4000000){
-  start.push(start[0] + start[1])
-  if (start[1] % 2 == 0) { total += start[1] }
-  start.shift()
+while(b < 4000000) {
+  total += b;
+  c = a + b
+  a = b + c
+  b = a + c
 }
 
 console.log(total)
-// 4613732
-
-///////////////////////////////////
-
-var a = 0;
-var b = 1;
-var total2 = 0;
-
-while (b < 4000000) {
-  if (b % 2 == 0) {
-    total2 += b
-  }
-  var save = b;
-  b += a;
-  a = save;
-}
-
-console.log(total2)
 // 4613732

@@ -4,13 +4,14 @@
 # Sum the even terms in the Fibonacci sequence under four million
 
 total = 0
-a, b = [1, 2]
+a = 1
+b = 2
 
 while b < 4_000_000
   total += b
-  a, b = [b, a + b]
-  a, b = [b, a + b]
-  a, b = [b, a + b]
+  c = a + b
+  a = b + c
+  b = a + c
 end
 
 p total

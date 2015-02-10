@@ -8,15 +8,12 @@ public class p2 {
     int total = 0;
     int a = 1;
     int b = 2;
-    int next;
+    int c;
     while(b < limit) {
       total += b;
-      for(int i = 0; i < 3; i++) {
-        next = a + b;
-        a = b;
-        b = next;
-        next = a + b;
-      }
+      c = a + b;
+      a = b + c;
+      b = a + c;
     }
     return total;
   }
