@@ -2,8 +2,6 @@
 
 ; What is the sum of the digits of the number 2^1000?
 
-(defn count_chars [input]
-
-)
+(defn count_chars [input])
 
 ; 1366
