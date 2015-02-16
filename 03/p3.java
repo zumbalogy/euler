@@ -2,11 +2,8 @@
 // What is the largest prime factor of the number 600851475143?
 
 public class p3 {
-  public static boolean prime(long input) {
+  static boolean prime(long input) {
     double sq = Math.sqrt(input);
-    if(input % 2 == 0) {
-      return false;
-    }
     for(int i = 3; i <= sq; i += 2) {
       if(input % i == 0) {
         return false;
@@ -15,7 +12,7 @@ public class p3 {
     return true;
   }
 
-  public static int greatestPrimeFactor(long input) {
+  static int greatestPrimeFactor(long input) {
     int start = (int) Math.sqrt(input);
     if(start % 2 == 0) {
       start += 1;
