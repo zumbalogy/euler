@@ -9,7 +9,7 @@
 function pythagoreanTripletOfSum(sum) {
   for (var a = 1; a < sum; a++) {
     for (var b = a; b < sum - b; b++) {
-      var c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2))
+      var c = Math.sqrt(a * a + b * b)
       if (a + b + c == sum) {
         return a * b * c
       }

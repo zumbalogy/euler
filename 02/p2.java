@@ -22,5 +22,4 @@ public class p2 {
     System.out.println(sumEvenFibsUnder(4000000));
   }
 }
-
 // 4613732
