@@ -16,9 +16,8 @@
         dx (if (= x1 x2) 0.001 (- x1 x2))
         m (/ dy dx)
         b (- y1 (* m x1))]
-    (if (> 0 b)
-      (> y3 (+ b (* m x3)))
-      (< y3 (+ b (* m x3))))))
+    (= (> 0 b)
+      (> y3 (+ b (* m x3))))))
 
 (defn tri_has_o [[p1 p2 p3]]
   (and
@@ -35,6 +34,6 @@
     (clojure.string/split-lines
       (slurp "triangles.txt"))))
 
-(print
+(println
   (count (filter tri_has_o triangles)))
 ; 228
