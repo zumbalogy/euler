@@ -3,68 +3,38 @@
 // What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
 
 function gcd(a,b){
-    if (b === 0) {
-        return a
-    } else {
-        return gcd(b, a % b)
-    }
+  if (b === 0) {
+    return a
+  } else {
+    return gcd(b, a % b)
+  }
 }
 
 function gcd2(a,b) {
-    while (b !== 0) {
-        save = b
-        b = a % b
-        a = save
-    }
-    return a
+  while (b !== 0) {
+    save = b
+    b = a % b
+    a = save
+  }
+  return a
 }
 
 function gcd3(a,b) {
-    while (a !== b)
-        a > b ? a -= b : b -= a
-    return a
+  while (a !== b)
+    a > b ? a -= b : b -= a
+  return a
 }
 
 function lcm(a, b){
-    return (a * b) / gcd2(a, b)
+  return (a * b) / gcd2(a, b)
 }
 
-// var start = new Date().getTime();
+for (var x = 0; x < 50000; x++) {
+  var total = 20;
+  for (var i = 11; i < 20; i++) {
+    total = lcm(total, i)
+  }
+}
 
-// for (var x = 0; x < 50000; x++) {
-    var total = 20;
-    for (var i = 11; i < 20; i++) {
-        total = lcm(total, i)
-    };
-// }
-
-// var end = new Date().getTime();
-// console.log(end-start); //this is milliseconds.
-
-console.log(total); // 232792560
-
-
-//  0.011 milliseconds for best in ruby once
-//  30.000 ms to do in js 50,000 times
-//  18.333 times faster in js, extrapolating
-//  and note that rubies built in functions
-//  were faster than writing our own, which we had to do here
-
-// also note benchmarks are fuzzy thing
-
-/////////////////////////////////////////////////////////////
-
-// var start = new Date().getTime();
-
-// for (var x = 0; x < 50000; x++) {
-    lcm(20, lcm(19, lcm(18, lcm(17, lcm(16, lcm(15, lcm(14, lcm(13, lcm(12, 11)))))))))
-    // this tends to be slower than the above one
-// }
-
-// var end = new Date().getTime();
-// console.log(end-start); //this is milliseconds.
-
-// 32
-// vs
-// 33
-
+console.log(total)
+// 232792560

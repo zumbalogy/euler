@@ -2,7 +2,7 @@
 
 public class p4 {
 
-  public static Boolean is_pal(int input) {
+  static Boolean is_pal(int input) {
     String string = Integer.toString(input);
     int len = string.length();
     for(int i = 0; i < len / 2; i++) {
@@ -13,7 +13,7 @@ public class p4 {
     return true;
   }
 
-  public static Integer large_palindome_number() {
+  static Integer large_palindome_number() {
     int out = 0;
     int current;
     for(int a = 999; a > 99; a--) {

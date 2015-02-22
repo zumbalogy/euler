@@ -37,3 +37,8 @@
 (println
   (count (filter tri_has_o triangles)))
 ; 228
+
+
+(let [x (atom 0)]
+  (defn ix [] (swap! x inc)) 
+  (defn dx [] (swap! x dec)))
