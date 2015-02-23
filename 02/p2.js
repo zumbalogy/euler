@@ -9,7 +9,7 @@ var b = 2
 var c = null
 
 while(b < 4000000) {
-  total += b;
+  total += b
   c = a + b
   a = b + c
   b = a + c
