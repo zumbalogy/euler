@@ -12,7 +12,7 @@ Using triangles.txt (right click and 'Save Link/Target As...'), a 27K text file 
 
 =end
 
-triangles = File.readlines('./triangles.txt').map do |line|
+triangles = File.readlines(File.dirname($0) + '/triangles.txt').map do |line|
   x1, y1, x2, y2, x3, y3 = line.split(',').map(&:to_i)
   [[x1, y1], [x2, y2], [x3, y3]]
 end

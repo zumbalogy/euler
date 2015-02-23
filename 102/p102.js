@@ -10,8 +10,9 @@ It can be verified that triangle ABC contains the origin, whereas triangle XYZ d
 Using triangles.txt, a text file containing the co-ordinates of a thousand "random" triangles, find the number of triangles which contain the origin.
 */
 
+var fs = require('fs')
+
 function readTriangles(file) {
-  var fs = require('fs')
   var tris = fs.readFileSync(file, 'utf8').split('\n')
   return tris.map(function(tri) {
     return tri.split(',').map(Number)
@@ -31,4 +32,4 @@ function triHasO(t) {
   sameSideO(t[4], t[5], t[0], t[1], t[2], t[3])
 }
 
-console.log(readTriangles('./triangles.txt').filter(triHasO).length)
+console.log(readTriangles(__dirname + '/triangles.txt').filter(triHasO).length)
