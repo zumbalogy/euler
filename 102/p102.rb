@@ -29,4 +29,5 @@ def tri_has_o?((p1, p2, p3))
   same_side_as_origin?(p2, p3, p1)
 end
 
-p triangles.count(&method(:tri_has_o?))
+puts triangles.count(&method(:tri_has_o?))
+# 228
