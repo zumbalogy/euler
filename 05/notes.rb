@@ -19,7 +19,6 @@ p (11..20).reduce &:lcm
 
 require 'benchmark'
 
-
 # 232_792_560
 
 Benchmark.bmbm do |bm|

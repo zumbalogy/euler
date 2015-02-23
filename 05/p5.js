@@ -2,16 +2,16 @@
 
 // What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
 
-function gcd(a,b){
-  if (b === 0) {
+function gcd(a, b) {
+  if (b == 0) {
     return a
   } else {
     return gcd(b, a % b)
   }
 }
 
-function gcd2(a,b) {
-  while (b !== 0) {
+function gcd2(a, b) {
+  while (b != 0) {
     save = b
     b = a % b
     a = save
@@ -19,13 +19,14 @@ function gcd2(a,b) {
   return a
 }
 
-function gcd3(a,b) {
-  while (a !== b)
+function gcd3(a, b) {
+  while (a != b) {
     a > b ? a -= b : b -= a
+  }
   return a
 }
 
-function lcm(a, b){
+function lcm(a, b) {
   return (a * b) / gcd2(a, b)
 }
 
