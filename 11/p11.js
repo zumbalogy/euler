@@ -21,23 +21,33 @@ var grid = [[ 8, 2,22,97,38,15, 0,40, 0,75, 4, 5, 7,78,52,12,50,77,91, 8],
             [20,73,35,29,78,31,90, 1,74,31,49,71,48,86,81,16,23,57, 5,54],
             [ 1,70,54,71,83,51,54,69,16,92,33,48,61,43,52, 1,89,19,67,48]]
 
-var best = 0;
-
-for (var row = 0; row < grid.length; row++){
-    for (var cell = 0; cell < grid[row].length; cell++){
-        if (cell < 17)
-            var across = grid[row][cell] * grid[row][cell+1] * grid[row][cell+2] * grid[row][cell+3]
-        if (row < 17)
-            var down = grid[row][cell] * grid[row+1][cell] * grid[row+2][cell] * grid[row+3][cell]
-        if (row < 17 && cell < 17)
-            var diag = grid[row][cell] * grid[row+1][cell+1] * grid[row+2][cell+2] * grid[row+3][cell+3]
-        if (row < 17 && cell > 3)
-            var diag2 = grid[row][cell] * grid[row+1][cell-1] * grid[row+2][cell-2] * grid[row+3][cell-3]
-
-        best = Math.max(best, across || 0, down || 0, diag || 0, diag2 || 0)
-
-    }
+function bestSliceProduct(sliceLen, grid) {
+  var limit = grid[0].length - (sliceLen - 1)
+  var best = 0
+  grid.forEach(function(row, y) {
+    row.forEach(function(cell, x) {
+      var r = 1
+      var d = 1
+      var dr = 1
+      var dl = 1
+      for (var i = 0; i < sliceLen; i++) {
+        if (x < limit) {
+          r *= row[x + i]
+        }
+        if (y < limit == false) { continue }
+        d += grid[y + i][x]
+        if (x < limit) {
+          dr += grid[y + i][x + i]
+        }
+        if (x > 3) {
+          dl *= grid[y + i][x - i]
+        }
+      }
+      best = Math.max(best, r, d, dr, dl)
+    })
+  })
+  return best
 }
 
-console.log(best)
+console.log(bestSliceProduct(4, grid))
 // 70600674

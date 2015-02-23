@@ -13,7 +13,7 @@ function sqSum(n) {
 }
 
 function sumSq(n) {
-  return (n * (n + 1) * ((2 * n) + 1)) / 6
+  return (n * (n + 1) * ((n * 2) + 1)) / 6
 }
 
 console.log(sqSum(100) - sumSq(100))

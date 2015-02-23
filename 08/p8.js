@@ -5,11 +5,11 @@ var digits = '731671765313306249192251196744265747423553491949349698352031277450
 function bestProduct(array, sliceLen) {
   var best = 0
   var limit = array.length - sliceLen
-  for(var i = 0; i < limit; i++) {
+  for (var i = 0; i < limit; i++) {
     var product = array.slice(i, i + sliceLen).reduce(function(a, b) {
       return a * b
     })
-    if(product > best) {
+    if (product > best) {
       best = product
     }
   }
