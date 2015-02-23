@@ -8,11 +8,13 @@
 
 // Find delta for sum of squares of the first one hundred natural numbers and square of the sum
 
-function e6(n) {
-  var sqSum = Math.pow((n / 2) * (n + 1), 2)
-  var sumSq = (n * (n + 1) * ((2 * n) + 1)) / 6
-  return sqSum - sumSq
+function sqSum(n) {
+  return Math.pow((n / 2) * (n + 1), 2)
 }
 
-console.log(e6(100))
+function sumSq(n) {
+  return (n * (n + 1) * ((2 * n) + 1)) / 6
+}
+
+console.log(sqSum(100) - sumSq(100))
 // 25164150

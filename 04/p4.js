@@ -1,8 +1,8 @@
 // Find the largest palindome number (9009) that is the product of 2 3-diget numbers.
 
 function is_pal(input){
-  var string = input.toString();
-  var len = string.length;
+  var string = input.toString()
+  var len = string.length
 
   for (var i = 0; i < len; i++) {
     if (string[i] != string[len - (i + 1)]) {
