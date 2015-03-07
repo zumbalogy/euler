@@ -30,7 +30,6 @@
 (defn factor_count [n]
   (* 2 (count (filter #(mods_0? n %) (sq_range n)))))
 
-(print
+(println
   (first (filter #(< 500 (factor_count %)) triangles)))
 ; 76576500
-

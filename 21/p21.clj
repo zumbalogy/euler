@@ -21,7 +21,7 @@
       (not= a b)
       (= a (sum_factors b)))))
 
-(print
+(println
   (reduce + (filter amicable? (range 1 10000))))
 ; 31626
 

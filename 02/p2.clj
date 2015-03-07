@@ -7,14 +7,12 @@
   (lazy-cat [0 1]
     (map + fibs (rest fibs))))
 
-(reduce +
-  (take-while #(< % 4000000)
-    (take-nth 3 fibs)))
-; every 3rd fib is even
+(defn fibsUnder [limit]
+  (reduce +
+    (take-while #(< % limit)
+      (take-nth 3 fibs))))
+      ; every 3rd fib is even
+
+(println
+  (fibsUnder 4000000))
 ; 4613732
-
-
-
-
-
-
