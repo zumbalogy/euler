@@ -33,4 +33,20 @@
 ; so, on the tree of factors, the first prime right handed factor is the greatest. that makes sense and is how you do it by hand in grade school.
 
 (defn factor [n]
-  )
+  (quot n (first ; could prolly be quot
+    (filter #(let [a (/ n %)] (= a (long a)))
+      (range 2 n)))))
+
+(defn largest_prime_factor [n]
+  (loop [n (factor n)]
+    (if (prime? n)
+      n
+      (recur (factor n)))))
+
+
+  (println
+    (largest_prime_factor 600851475143))
+    ; "Elapsed time: 1.671437 msecs
+
+    (time
+      (largest_prime_factor 600851475143))
