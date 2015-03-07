@@ -8,16 +8,12 @@
       (range 3 (int (inc (Math/sqrt n))) 2))))
 
 (defn factor [n]
-  (quot n (first
-    (filter #(let [a (/ n %)] (= a (long a)))
-      (range 2 n)))))
-
-(defn largest_prime_factor [n]
-  (loop [n (factor n)]
-    (if (prime? n)
-      n
-      (recur (factor n)))))
+  (if (prime? n)
+    n
+    (factor (quot n (first
+      (filter #(let [a (/ n %)] (= a (long a)))
+        (range 2 n)))))))
 
 (println
-  (largest_prime_factor 600851475143))
+  (factor 600851475143))
 ; 6857
