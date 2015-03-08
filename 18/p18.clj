@@ -27,31 +27,9 @@
            [ 4 62 98 27 23  9 70 98 73 93 38 53 60  4 23]])
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (defn rollup [f rows]
   (reduce #(map f %2 %1 (rest %1)) rows))
 
-(print (rollup #(+ %1 (max %2 %3)) (reverse array)))
+(println  
+  (rollup #(+ %1 (max %2 %3)) (reverse array)))
 ; (1074)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-; TODO: impliment a solution using zippers
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-(defn add_cells [top down1 down2]
-  (+ top (max down1 down2)))
-
-(defn add_rows [bottom top]
-  (map add_cells top bottom (rest bottom)))
-
-(defn reduce_triangle [array]
-  (reduce add_rows (first array) (rest array)))
-
-(print (reduce_triangle (reverse array)))
-; (1074)
-
-

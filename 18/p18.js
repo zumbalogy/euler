@@ -29,14 +29,13 @@ array = [
 [ 4, 62, 98, 27, 23,  9, 70, 98, 73, 93, 38, 53, 60,  4, 23] ]
 
 for (var i = 2; i < array.length+1; i++){
-    for (var cell = 0; cell < array[array.length - i].length; cell++){
-        var right = array[array.length - (i-1)][cell] || 0
-        var left = array[array.length - (i-1)][cell + 1] || 0
-        var top = right > left ? right : left 
-        array[array.length - i][cell] += top
-    }
+  for (var cell = 0; cell < array[array.length - i].length; cell++){
+    var right = array[array.length - (i-1)][cell] || 0
+    var left = array[array.length - (i-1)][cell + 1] || 0
+    var top = right > left ? right : left
+    array[array.length - i][cell] += top
+  }
 }
 
 console.log(array[0][0])
 // 1074
-

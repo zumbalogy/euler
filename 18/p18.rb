@@ -30,11 +30,11 @@ array = [
 
 
 (2..array.length).each do |i|
-    array[-i].each_with_index do |cell, index|
-        left = array[1 - i][index]
-        right = array[1 - i][index+1]
-        array[-i][index] += [left, right].max
-    end
+  array[-i].each_with_index do |cell, index|
+    left = array[1 - i][index]
+    right = array[1 - i][index+1]
+    array[-i][index] += [left, right].max
+  end
 end
 
 p array
