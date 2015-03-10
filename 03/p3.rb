@@ -3,29 +3,13 @@
 
 require 'prime'
 
-def large_divisor(input)
-  check = Math.sqrt(input).floor
-  check -= 1 if check.even?
-  check -= 2 until input % check == 0 && Prime.prime?(check)
-  check
+def factor(n)
+  return n if Prime.prime?(n)
+  return factor(n / 2) if n % 2 == 0
+  a = 3.0
+  a += 2 until (n / a) % 1 == 0
+  factor(n / a)
 end
 
-p large_divisor(600851475143)
+puts factor(600851475143)
 # 6857
-
-require 'benchmark'
-
-def large_divisor2(input)
-  check = Math.sqrt(input).floor
-  check -= 1 until input % check == 0 && Prime.prime?(check)
-  check
-end
-
-Benchmark.bmbm do |bm|
-  bm.report('main') do
-    100.times { large_divisor(600851475143) }
-  end
-  bm.report('old') do
-    100.times { large_divisor2(600851475143) }
-  end
-end
