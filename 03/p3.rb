@@ -7,7 +7,7 @@ def factor(n)
   return n if Prime.prime?(n)
   return factor(n / 2) if n % 2 == 0
   a = 3.0
-  a += 2 until (n / a) % 1 == 0
+  a += 2 until n % a == 0
   factor(n / a)
 end
 
