@@ -12,20 +12,23 @@ public class p3 {
     return true;
   }
 
-  static int greatestPrimeFactor(long input) {
-    int start = (int) Math.sqrt(input);
-    if(start % 2 == 0) {
-      start += 1;
-    }
-    for(int i = start; true; i -= 2) {
-      if(input % i == 0 && prime(i)) {
-        return i;
+  static long factor(long input) {
+    while(!prime(input)) {
+      if(input % 2 == 0) {
+        input /= 2;
+      }
+      for(double i = 3; true; i += 2) {
+        if((input / i) % 1 == 0) {
+          input /= i;
+          break;
+        }
       }
     }
+    return input;
   }
 
   public static void main(String[] args) {
-    System.out.println(greatestPrimeFactor(600851475143L));
+    System.out.println(factor(600851475143L));
   }
 }
 
