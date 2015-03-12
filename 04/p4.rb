@@ -11,11 +11,12 @@ def product_of_2_3s(input)
   false
 end
 
-start = 999
+def large_pal
+  n = 999
+  n -= 1 until product_of_2_3s(to_pal(n))
+  to_pal(n)
+end
 
-start -= 1 until product_of_2_3s(to_pal(start))
-
-puts to_pal(start)
+puts large_pal
 # 906609
 # 913 * 993
-
