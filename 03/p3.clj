@@ -14,6 +14,6 @@
       (filter #(let [a (/ n %)] (= a (long a)))
         (cons 2 (range 3 n 2))))))))
 
-(time
+(println
   (factor 600851475143))
 ; 6857
