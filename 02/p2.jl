@@ -3,16 +3,18 @@
 
 # Sum the even terms in the Fibonacci sequence under four million
 
-total = 0
-a = 1
-b = 2
-
-while b < 4_000_000
-  total += b
-  c = a + b
-  a = b + c
-  b = a + c
+function sum_even_fibs_to(limit)
+  total = 0
+  a = 1
+  b = 2
+  while b < limit
+    total += b
+    c = a + b
+    a = b + c
+    b = a + c
+  end
+  total
 end
 
-puts total
+println(sum_even_fibs_to(4000000))
 # 4613732
