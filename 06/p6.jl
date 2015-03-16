@@ -8,5 +8,9 @@
 
 # Find delta for sum of  squares of the first one hundred natural numbers and square of the sum
 
-puts (101 * 50).abs2 - (1..100).reduce { |a, b| a + b.abs2 }
+sq_sum(n) = ((n / 2) * (n + 1)) ^ 2
+
+sum_sq(n) = n * (n + 1) * (n * 2 + 1) / 6
+
+println(sq_sum(100) - sum_sq(100))
 # 25164150
