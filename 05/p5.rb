@@ -10,6 +10,5 @@ def lcm(a, b)
   (a * b) / gcd(a, b)
 end
 
-p (11..20).reduce(&:lcm)
+puts (11..20).reduce(:lcm)
 # 232792560
-

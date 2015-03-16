@@ -15,13 +15,13 @@ function lcm(a, b) {
   return (a * b) / gcd(a, b)
 }
 
-function lcmUpTo(limit) {
-  var total = limit
-  for (var i = (limit / 2) + 1; i < limit; i++) {
-    total = lcm(total, i)
+function range(a, b) {
+  var out = []
+  for (a; a <= b; a++) {
+    out.push(a)
   }
-  return total
+  return out
 }
 
-console.log(lcmUpTo(20))
+console.log(range(11, 20).reduce(lcm))
 // 232792560
