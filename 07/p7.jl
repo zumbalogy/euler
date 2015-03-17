@@ -9,7 +9,6 @@ function prime(n)
   true
 end
 
-
 function nth_prime(n)
   i = 1
   while n > 1

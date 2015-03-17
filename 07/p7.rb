@@ -2,12 +2,9 @@
 
 # What is the 10,001st prime number?
 
-def prime?(input)
-  i = 3
-  limit = Math.sqrt(input)
-  until i > limit
-    return false if input % i == 0
-    i += 2
+def prime?(n)
+  (3..Math.sqrt(n)).step(2) do |t|
+    return false if n % t == 0
   end
   true
 end
