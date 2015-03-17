@@ -2,24 +2,22 @@
 
 # What is the 10,001st prime number?
 
-def prime?(input)
-  i = 3
-  limit = Math.sqrt(input)
-  until i > limit
-    return false if input % i == 0
-    i += 2
+function prime(n)
+  for i = 3:2:sqrt(n)
+    n % i == 0 && return false
   end
   true
 end
 
-def nth_prime(n)
+
+function nth_prime(n)
   i = 1
-  until n == 1
+  while n > 1
     i += 2
-    n -= 1 if prime?(i)
+    prime(i) && (n -= 1)
   end
   i
 end
 
-puts nth_prime(10001)
+println(nth_prime(10001))
 # 104743
