@@ -21,12 +21,33 @@ grid = [ 8  2 22 97 38 15  0 40  0 75  4  5  7 78 52 12 50 77 91  8;
         20 73 35 29 78 31 90  1 74 31 49 71 48 86 81 16 23 57  5 54;
          1 70 54 71 83 51 54 69 16 92 33 48 61 43 52  1 89 19 67 48]
 
+function best4(list)
+  current4 = [1, 1, 1, 1]
+  best = 0
+  for n in list
+    shift!(current4)
+    push!(current4, n)
+    current = prod(current4)
+    best = max(best, current)
+  end
+  best
+end
+
+gridl = rotl90(grid)
+
 best = 0
 
-limit = size(grid)[1]
-
-# grid[1:21:400]
-
+for i in 1:20
+  diag1 = best4(diag(grid, i))
+  diag2 = best4(diag(grid, 1 - i))
+  diag3 = best4(diag(gridl, i))
+  diag4 = best4(diag(gridl, 1 - i))
+  side = best4(grid[i, 1:end])
+  down = best4(grid[1:end, i])
+  best = max(best, side, down, diag1, diag2, diag3, diag4)
+end
 
 println(best)
 # 70600674
+
+# if i wanted to avoid having 2 grids, I could use something like grid[i:21:(420 - (20 * i))] to grab some diagnals
