@@ -8,7 +8,7 @@ function best_product(array, slice_len)
   len = length(array)
   while index < len - slice_len
     current = reduce(*, array[index:(index + slice_len)])
-    current > best && (best = current)
+    best = max(best, current)
     index += 1
   end
   best
