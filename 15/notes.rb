@@ -3,7 +3,13 @@
 # How many such routes are there through a 20×20 grid?
 
 def combination(from, take)
-  (2..from).reduce(:*) / ((2..take).reduce(:*) * (2..(from - take)).reduce(:*))
+  diff = from - take
+  a, b, c = [from, take, diff].sort
+  hash = {}
+  hash[a] = (2..a).reduce(:*)
+  hash[b] ||= hash[a] * (((a + 1)..b).reduce(:*) || 1)
+  hash[c] ||= hash[b] * (((b + 1)..c).reduce(:*) || 1)
+  hash[from] / (hash[take] * hash[diff])
 end
 
 puts combination(40, 20)
