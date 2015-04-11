@@ -23,7 +23,7 @@ colCount = (n) ->
 bestCount = (limit) ->
   bestScore = 0
   bestStart = 0
-  until --limit == 1
+  while 1 < limit--
     count = colCount(limit)
     if count > bestScore
       bestStart = limit
