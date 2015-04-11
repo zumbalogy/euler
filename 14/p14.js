@@ -21,13 +21,13 @@ function colCount(n) {
 }
 
 function bestCount(limit) {
-  var bestScore = 0
+  var best = 0
   var bestStart = 0
-  for (var i = 1; i < limit; i++) {
-    var count = colCount(i)
-    if (count > bestScore) {
-      bestStart = i
-      bestScore = count
+  while(1 < limit--) {
+    var count = colCount(limit)
+    if (count > best) {
+      best = count
+      bestStart = limit
     }
   }
   return bestStart
