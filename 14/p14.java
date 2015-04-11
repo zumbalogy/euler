@@ -10,7 +10,7 @@
 // NOTE: Once the chain starts the terms are allowed to go above one million.
 
 public class p14 {
-  static int colCount(int n) {
+  static int colCount(long n) {
     int count;
     for(count = 1; n > 1; count++) {
       if(n % 2 == 0) {
@@ -22,15 +22,12 @@ public class p14 {
     return count;
   }
 
-  static int bestCount(int n) {
-    int best = 0;
-    int bestStart = 0;
+  static long bestCount(long n) {
+    long best = 0;
+    long bestStart = 0;
     while(1 < n--) {
       int count = colCount(n);
       if(count > best) {
-        System.out.println(" ");
-        System.out.println(count);
-        System.out.println(n);
         best = count;
         bestStart = n;
       }
@@ -39,8 +36,7 @@ public class p14 {
   }
 
   public static void main(String[] args) {
-    // System.out.println(bestCount(1000000));
-    System.out.println(colCount(837799));
+    System.out.println(bestCount(1000000));
   }
 }
 
