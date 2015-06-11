@@ -14,7 +14,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 (defn square [input]
   (* input input))
 
@@ -24,7 +23,6 @@
 (def sumsq
   (square (reduce + (range 101))))
 
-
-(- sumsq sqsum)
-
+(println
+  (- sumsq sqsum))
 ; 25164150
