@@ -6,14 +6,8 @@
 
 def solution_count(total)
   output = 0
-  a = 0
-  third = total / 3.0
-  while a <= third
-    a += 1
-    half = (total - a) / 2.0
-    b = a
-    while b <= half
-      b += 1
+  (0..(total / 3)).each do |a|
+    (a..((total - a) / 2)).each do |b|
       c = Math.sqrt((a * a) + (b * b))
       output += 1 if a + b + c == total
     end
@@ -27,7 +21,7 @@ def max_solution_count(limit)
     current_count = solution_count(time)
     output = [time, current_count] if current_count > output.last
   end
-  output
+  output.first
 end
 
 puts max_solution_count(1001)
