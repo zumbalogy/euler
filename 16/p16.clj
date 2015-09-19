@@ -2,6 +2,12 @@
 
 ; What is the sum of the digits of the number 2^1000?
 
-(defn count_chars [input])
+(defn big-pow [n pow]
+  (reduce *' (repeat pow n)))
 
+(defn sum-digits [n]
+  (reduce + (map #(read-string (str %)) (char-array (str n)))))
+
+(println
+  (sum-digits (big-pow 2 1000)))
 ; 1366
