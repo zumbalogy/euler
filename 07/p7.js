@@ -1,9 +1,9 @@
 // What is the 10 001st prime number? (not including one)
 
-function oddPrime(input) {
-  var limit = Math.sqrt(input)
+function oddPrime(n) {
+  var limit = Math.sqrt(n)
   for (var i = 3; i <= limit; i += 2) {
-    if (input % i == 0) {
+    if (n % i == 0) {
       return false
     }
   }
@@ -21,4 +21,3 @@ function nthPrime(n) {
 
 console.log(nthPrime(10001))
 // 104743
-
