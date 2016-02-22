@@ -1,4 +1,5 @@
-# P is the perimeter of a right angle triangle with integral length sides, {a, b, c}. There are three solutions for p = 120.
+# P is the perimeter of a right angle triangle with integral length sides, {a, b, c}.
+# There are three solutions for p = 120.
 
 # {20, 48, 52}, {24, 45, 51}, {30, 40, 50}
 
@@ -16,12 +17,17 @@ def solution_count(total)
 end
 
 def max_solution_count(limit)
-  output = [0, 0]
+  best_time = 0
+  best_count = 0
   limit.times do |time|
     current_count = solution_count(time)
-    output = [time, current_count] if current_count > output.last
+    if current_count > best_count
+      best_time = time
+      best_count = current_count
+    end
   end
-  output.first
+  best_time
 end
 
 puts max_solution_count(1001)
+# 840

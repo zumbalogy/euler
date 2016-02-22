@@ -1,4 +1,5 @@
-; P is the perimeter of a right angle triangle with integral length sides, {a, b, c}. There are three solutions for p = 120.
+; P is the perimeter of a right angle triangle with integral length sides, {a, b, c}.
+; There are three solutions for p = 120.
 ;
 ; {20, 48, 52}, {24, 45, 51}, {30, 40, 50}
 ;
