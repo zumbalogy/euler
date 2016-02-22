@@ -17,16 +17,8 @@ def solution_count(total)
 end
 
 def max_solution_count(limit)
-  best_time = 0
-  best_count = 0
-  limit.times do |time|
-    current_count = solution_count(time)
-    if current_count > best_count
-      best_time = time
-      best_count = current_count
-    end
-  end
-  best_time
+  counts = limit.times.map(&method(:solution_count))
+  counts.index(counts.max)
 end
 
 puts max_solution_count(1001)
