@@ -20,10 +20,11 @@
 (defn eq_pow_sum_5 [input]
   (== input (pow_reducer (extract_digits input) 5)))
 
-(print
+(println
   (reduce +
     (filter eq_pow_sum_5 (range 2 999999))))
 ; 443839
 ; from: 4150 4151 54748 92727 93084 194979
 
-; could maybe do something smart with summing all combinations of the 5th power of each of the 10 digits, and seeing what ones sum to contain those numbers
+; could maybe do something smart with summing all combinations of the 5th power of each of the 10 digits,
+; and seeing what ones sum to contain those numbers
