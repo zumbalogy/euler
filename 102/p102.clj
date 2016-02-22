@@ -17,7 +17,7 @@
         m (/ dy dx)
         b (- y1 (* m x1))]
     (= (> 0 b)
-      (> y3 (+ b (* m x3))))))
+       (> y3 (+ b (* m x3))))))
 
 (defn tri_has_o [[p1 p2 p3]]
   (and
@@ -37,8 +37,3 @@
 (println
   (count (filter tri_has_o triangles)))
 ; 228
-
-
-(let [x (atom 0)]
-  (defn ix [] (swap! x inc)) 
-  (defn dx [] (swap! x dec)))
