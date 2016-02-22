@@ -10,6 +10,6 @@
 
 (loop [step 1 total 0]
   (if (= step 1001)
-    (print total)
+    (println total)
     (recur (inc step) (inc_tail step total))))
 ; 9110846700N
