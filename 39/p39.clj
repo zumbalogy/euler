@@ -8,21 +8,21 @@
 (defn make-c [a b]
   (Math/sqrt (+ (* a a) (* b b))))
 
-(defn perimeter-check [p a b]
+(defn valid-tri? [p a b]
   (== p (+ a b (make-c a b))))
 
-(defn solutions [total]
-  (let [a-range (range 1 (/ total 3))
-        get-b-range #(range % (/ (- total %) 2))]
-    (mapcat (fn [a]
-              (filter #(perimeter-check total a %)
-                       (get-b-range a)))
-         a-range)))
+(defn tris-of-p-a [p a]
+  (let [b-range (range a (/ (- p a) 2))]
+    (filter #(valid-tri? p a %) b-range)))
 
-(defn max-solution-count [limit]
-  (let [counts (map (comp count solutions) (range limit))]
+(defn tris-of-perimeter [p]
+  (let [a-range (range 1 (/ p 3))]
+    (count (mapcat #(tris-of-p-a p %) a-range))))
+
+(defn max-tri-count [limit]
+  (let [counts (map tris-of-perimeter (range limit))]
     (.indexOf counts (apply max counts))))
 
 (println
-  (max-solution-count 1001))
+  (max-tri-count 1001))
 ; 840
