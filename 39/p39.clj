@@ -5,19 +5,24 @@
 ;
 ; For which value of p ≤ 1000, is the number of solutions maximised?
 
-(defn solution_count [total]
-  (let [output (atom 0)]
-    (doseq [a (range 1  (/ total 3))]
-      (doseq [b (range a (/ (- total a) 2))]
-        (let [c (Math/sqrt (+ (* a a) (* b b)))]
-          (when (== total (+ a b c))
-            (swap! output inc)))))
-  @output))
+(defn make-c [a b]
+  (Math/sqrt (+ (* a a) (* b b))))
 
-(defn max_solution_count [limit]
-  (let [counts (map solution_count (range limit))]
+(defn perimeter-check [p a b]
+  (== p (+ a b (make-c a b))))
+
+(defn solutions [total]
+  (let [a-range (range 1 (/ total 3))
+        get-b-range #(range % (/ (- total %) 2))]
+    (mapcat (fn [a]
+              (filter #(perimeter-check total a %)
+                       (get-b-range a)))
+         a-range)))
+
+(defn max-solution-count [limit]
+  (let [counts (map (comp count solutions) (range limit))]
     (.indexOf counts (apply max counts))))
 
 (println
-  (max_solution_count 1001))
+  (max-solution-count 1001))
 ; 840
