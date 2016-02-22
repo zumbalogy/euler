@@ -7,7 +7,7 @@
 
 def solution_count(total)
   output = 0
-  (0..(total / 3)).each do |a|
+  (1..(total / 3)).each do |a|
     (a..((total - a) / 2)).each do |b|
       c = Math.sqrt((a * a) + (b * b))
       output += 1 if a + b + c == total
