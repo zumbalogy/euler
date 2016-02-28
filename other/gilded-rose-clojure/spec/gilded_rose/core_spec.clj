@@ -1,6 +1,6 @@
 (ns gilded-rose.core-spec
   (:require [speclj.core :refer :all]
-            [gilded-rose.core :refer [update-quality update-sell-in update-item-quality expired? normal-quality?]]))
+            [gilded-rose.core :refer :all]))
 
 (def vest "+5 Dexterity Vest")
 (def brie "Aged Brie")
@@ -9,15 +9,12 @@
 (def passes "Backstage passes to a TAFKAL80ETC concert")
 (def cake "Conjured Mana Cake")
 
-(def inventory
-  [
-    {:name vest :sell-in 10 :quality 20}
-    {:name brie :sell-in 2 :quality 0}
-    {:name elixir :sell-in 5 :quality 7}
-    {:name sulfuras :sell-in 0 :quality 80}
-    {:name passes  :sell-in 15 :quality 20}
-    {:name cake :sell-in 3 :quality 6}
-  ])
+(def inventory [{:name vest :sell-in 10 :quality 20}
+                {:name brie :sell-in 2 :quality 0}
+                {:name elixir :sell-in 5 :quality 7}
+                {:name sulfuras :sell-in 0 :quality 80}
+                {:name passes  :sell-in 15 :quality 20}
+                {:name cake :sell-in 3 :quality 6}])
 
 (defn update-quality-n-times [i, n]
   (loop [items i count 0]
@@ -27,6 +24,7 @@
 
 (defn item-by-name [item-name items]
   (first (filter (fn[item] (= item-name (:name item))) items)))
+
 (defn updated-sell-in [item-name updated-items]
   (:sell-in (item-by-name item-name updated-items)))
 

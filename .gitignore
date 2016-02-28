@@ -11,3 +11,4 @@ pom.xml
 .lein-deps-sum
 .lein-failures
 .lein-plugins
+/other/gilded-rose-clojure/target
