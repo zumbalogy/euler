@@ -36,27 +36,22 @@
     (describe "sell_in values"
       (it "decreases by 1 after one update for non-legendary items"
         (let [[updated-items] [(update-quality-n-times inventory 1)]]
-        (should= 9 (updated-sell-in vest updated-items))
-        (should= 1 (updated-sell-in brie updated-items))
-        (should= 4 (updated-sell-in elixir updated-items))
-        (should= 14 (updated-sell-in passes updated-items))
-          ))
+          (should= 9 (updated-sell-in vest updated-items))
+          (should= 1 (updated-sell-in brie updated-items))
+          (should= 4 (updated-sell-in elixir updated-items))
+          (should= 14 (updated-sell-in passes updated-items))))
 
       (it "decreases by 2 after two updates for non-legendary items"
         (let [[updated-items] [(update-quality (update-quality-n-times inventory 1))]]
-        (should= 8 (updated-sell-in vest updated-items))
-        (should= 0 (updated-sell-in brie updated-items))
-        (should= 3 (updated-sell-in elixir updated-items))
-        (should= 13 (updated-sell-in passes updated-items))
-          ))
+          (should= 8 (updated-sell-in vest updated-items))
+          (should= 0 (updated-sell-in brie updated-items))
+          (should= 3 (updated-sell-in elixir updated-items))
+          (should= 13 (updated-sell-in passes updated-items))))
 
       (it "stays constant for legendary items"
         (let [[items-updated-once] [(update-quality-n-times inventory 1)]]
-        (should= 0 (updated-sell-in sulfuras items-updated-once))
-
-        (should= 0 (updated-sell-in sulfuras (update-quality items-updated-once)))
-          ))
-    )
+          (should= 0 (updated-sell-in sulfuras items-updated-once))
+          (should= 0 (updated-sell-in sulfuras (update-quality items-updated-once))))))
 
     (describe "quality values"
       (describe "normal items"
@@ -65,20 +60,17 @@
           (should= 6 (updated-quality elixir (update-quality-n-times inventory 1))))
         (it "decreases the quality by 2 when item expired"
           (should= 8 (updated-quality vest (update-quality-n-times inventory 11)))
-          (should= 0 (updated-quality elixir (update-quality-n-times inventory 6))))
-      )
+          (should= 0 (updated-quality elixir (update-quality-n-times inventory 6)))))
 
       (describe "aged brie"
         (it "increases in quality as it ages"
           (should= 1 (updated-quality brie (update-quality-n-times inventory 1))))
         (it "never gets above 50 quality"
-          (should= 50 (updated-quality brie (update-quality-n-times inventory 55))))
-      )
+          (should= 50 (updated-quality brie (update-quality-n-times inventory 55)))))
 
       (describe "sulfuras"
         (it "never decreases in quality"
-          (should= 80 (updated-quality sulfuras (update-quality-n-times inventory 10))))
-      )
+          (should= 80 (updated-quality sulfuras (update-quality-n-times inventory 10)))))
 
       (describe "passes"
         (it "increases in quality by 1 with more than 10 days to sell"
@@ -88,8 +80,4 @@
         (it "increases in quality by 3 with more than 0 days and less than 5 to sell"
           (should= 50 (updated-quality passes (update-quality-n-times inventory 15))))
         (it "drops to 0 when expired"
-          (should= 0 (updated-quality passes (update-quality-n-times inventory 16))))
-      )
-    )
-  )
-)
+          (should= 0 (updated-quality passes (update-quality-n-times inventory 16))))))))
