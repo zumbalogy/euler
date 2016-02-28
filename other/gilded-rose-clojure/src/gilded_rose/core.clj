@@ -36,14 +36,3 @@
 
 (defn update-quality [items]
   (map mapper items))
-
-(defn item [item-name sell-in quality]
-  {:name item-name :sell-in sell-in :quality quality})
-
-(defn update-current-inventory[]
-  (let [inventory [(item vest     10 20)
-                   (item brie     2  0)
-                   (item elixir   5  7)
-                   (item sulfuras 0  80)
-                   (item passes   15 20)]]
-    (update-quality inventory)))
