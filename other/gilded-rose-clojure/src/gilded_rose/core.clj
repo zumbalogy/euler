@@ -7,14 +7,14 @@
 (def passes "Backstage passes to a TAFKAL80ETC concert")
 
 (defn change-item [item change]
-  (merge item {:quality (+ change (:quality item))
-               :sell-in (dec (:sell-in item))}))
+  (let [quality (min 50 (+ change (:quality item)))
+        sell-in (dec (:sell-in item))]
+    (merge item {:quality quality :sell-in sell-in})))
 
 (defn handle-concert [item]
   (let [quality (:quality item)
         sell-in (:sell-in item)]
     (change-item item (cond (<=   sell-in 0)  (- quality)
-                            (<= 50 quality)   0
                             (<= 1 sell-in 5)  3
                             (<= 6 sell-in 10) 2
                             :else             1))))
