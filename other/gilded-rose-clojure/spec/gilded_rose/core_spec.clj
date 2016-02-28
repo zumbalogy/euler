@@ -2,7 +2,7 @@
   (:require [speclj.core :refer :all]
             [gilded-rose.core :refer [update-quality]]))
 
-; there should be specs for things aging correctly, and for things never getting above 50 quality
+; there should be specs for things never getting above 50 quality
 
 (def vest "+5 Dexterity Vest")
 (def brie "Aged Brie")
