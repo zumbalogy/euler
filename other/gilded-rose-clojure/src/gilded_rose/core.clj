@@ -26,13 +26,11 @@
               (change-quality item 1)
               item)))
       (neg? sell-in)
-        (if (= concert name)
-          (merge item {:quality 0})
-          (if (or (= "+5 Dexterity Vest" name) (= "Elixir of the Mongoose" name))
-            (merge item {:quality (- quality 2)})
-            item))
+        (if (or (= "+5 Dexterity Vest" name) (= "Elixir of the Mongoose" name))
+          (change-quality item -2)
+          item)
       (or (= "+5 Dexterity Vest" name) (= "Elixir of the Mongoose" name))
-        (merge item {:quality (dec quality)})
+        (change-quality item -1)
       :else item)))
 
 (defn update-quality [items]
