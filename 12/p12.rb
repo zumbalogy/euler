@@ -12,7 +12,7 @@
 # What is the first triangle number to have over five hundred divisors?
 
 def factor_count(x)
-  range = (2..(Math.sqrt(x)))
+  range = 2..(Math.sqrt(x))
   count = range.count { |i| x % i == 0 }
   count * 2
 end
