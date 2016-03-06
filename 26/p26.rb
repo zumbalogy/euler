@@ -19,14 +19,12 @@
 require 'prime'
 
 def loop_len(x)
-  n = 1
-  n += 1 until ((10 ** n) - 1) % x == 0
-  n
+  (1..x).find { |n| ((10 ** n) - 1) % x == 0 }
 end
 
 primes = Prime.reverse_each(1000)
+
 output = primes.find { |x| x == loop_len(x) + 1 }
 
 puts output
-
 # 983
