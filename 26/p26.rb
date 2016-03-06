@@ -16,28 +16,38 @@
 
 # Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part.
 
-require 'bigdecimal'
+# 1/d has a cycle of n digits if 10n − 1 mod d = 0 for prime d
+# It follows that a prime number in the denominator, d, can yield up to d − 1 repeating decimal digits.
 
-def loop_len(x)
-  over_x = (BigDecimal(10) ** 10000) / x
-  clean_string = over_x.to_s('F').delete('.')
-  matches = clean_string.scan(/(.+?)\1+/)
-  top = matches.map(&:first).map(&:length).max
-  top || 0
+def prime?(n)
+  (3..Math.sqrt(n)).step(2) do |t|
+    return false if n % t == 0
+  end
+  true
 end
 
-best = 0
-best_index = 0
+def loop_len(x)
+  n = 1
+  until ((10 ** n) - 1) % x == 0
+    n += 1
+  end
+  n
+end
 
-(1..1001).each do |x|
-  current = loop_len(x)
-  if current > best
-    best = current
-    best_index = x
+output = nil
+
+(1..1000).step(2).reverse_each do |x|
+  if prime?(x)
+    len = loop_len(x)
+    if len + 1 == x
+      output = x
+      break
+    end
   end
 end
 
-puts best_index
+puts output
+
 # 983
 
 # 101729399796541200406917599186164801627670396744659206510681586978

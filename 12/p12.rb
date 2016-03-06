@@ -33,5 +33,5 @@ until value > 500
   count += 1
 end
 
-p triangle
+puts triangle
 # 76_576_500
