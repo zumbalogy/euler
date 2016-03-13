@@ -16,7 +16,7 @@
 
 # Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part.
 
-require 'prime'
+require('prime')
 
 def loop_len(x)
   (1..x).find { |n| ((10 ** n) - 1) % x == 0 }
