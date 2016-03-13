@@ -1,18 +1,15 @@
 ; Find the largest palindome number (9009) that
 ; is the product of 2 3-digit numbers.
 
-(use '[clojure.string :only [join split]])
+(require '[clojure.string :as string])
 
-(defn is-pal [input]
-  (= (str input) (join (reverse (str input)))))
+(defn to-pal [n]
+  (Integer. (str n (string/reverse (str n)))))
 
-(defn loop-check [input]
-  (some->> (reverse (range 100 1000))
-           (filter #(is-pal (* % input)))
-           first
-           (* input)))
+(defn pal-prod [n]
+  (some #(and (== 0 (mod n %)) (< (/ n %) 1000)) (range 100 1000)))
 
-(println
-  (apply max (remove nil? (map loop-check (range 99 1000)))))
+(println (to-pal
+  (first (filter #(pal-prod (to-pal %)) (reverse (range 1 1000))))))
 ; 906609
 ; from 913 993

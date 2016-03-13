@@ -6,12 +6,12 @@ def to_pal(n)
 end
 
 def pal_product?(n)
-  (100..999).any? do |i|
-    (n % i == 0) && (n / i) < 999
+  (100..1000).any? do |i|
+    (n % i == 0) && (n / i) < 1000
   end
 end
 
-range = (1..999).reverse_each
+range = (1..1000).reverse_each
 match = range.find { |i| pal_product?(to_pal(i)) }
 large_pal = to_pal(match)
 
