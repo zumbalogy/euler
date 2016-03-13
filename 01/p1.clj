@@ -8,8 +8,6 @@
   (* step (sum_under (int (/ (dec limit) step)))))
 
 (println
-  (-
-    (+ (sum_steps 3 1000) (sum_steps 5 1000))
-    (sum_steps 15 1000)))
-
+  (- (+ (sum_steps 3 1000) (sum_steps 5 1000))
+     (sum_steps 15 1000)))
 ; 233168
