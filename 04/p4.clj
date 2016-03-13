@@ -4,15 +4,16 @@
 (defn to-pal [n]
   (Integer. (str n (clojure.string/reverse (str n)))))
 
-(defn valid-prod [a b]
+(defn valid-prod? [a b]
   (and (== 0 (mod a b))
        (> 1000 (/ a b))))
 
-(defn has-prod [n]s
+(defn has-valid [n]
+  (some #(valid-prod? n %) (range 100 1000)))
 
 (println
   (->> (reverse (range 1 1000))
-       (filter #(has-prod (to-pal %)))
+       (filter #(has-valid (to-pal %)))
        first
        to-pal))
 ; 906609
