@@ -5,17 +5,12 @@
 
 (defn is-pal [input]
   (= (str input) (join (reverse (str input)))))
-
-; (defn loop-check [input]
-;   (loop [x 999]
-;     (when (< 99 x)
-;       (if (is-pal (* x input))
-;         (* x input)
-;         (recur (dec x))))))
-
+  
 (defn loop-check [input]
-  ; (let [r (reverse (range 100 1000))]))
-  (* input (or (first (filter #(is-pal (* % input)) (reverse (range 100 1000)))) 0)))
+  (let [r (reverse (range 100 1000))
+        pals (filter #(is-pal (* % input)) r)
+        f (first pals)]
+    (* input (or f 0))))
 
 (println
   (apply max (remove nil? (map loop-check (range 99 1000)))))
