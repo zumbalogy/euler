@@ -37,6 +37,3 @@
     (recur prime_count (inc current))))
 
 ; 104743
-
-
-
