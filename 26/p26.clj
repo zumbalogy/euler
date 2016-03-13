@@ -17,9 +17,16 @@
 ; Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part.
 
 ; with x as prime
-; def loop_len(x)
-;   (1..x).find { |n| ((10 ** n) - 1) % x == 0 }
-; end
+
+(defn pow [x y]
+  (reduce *' (repeat y x)))
 
 (defn loop-len [x]
-  (first (filter #(== 0 (mod (dec (Math/pow 10 %)) %)) (range 2 x))))
+  (or (first (filter #(== 0 (mod (dec (pow 10 %)) x)) (range 1 x))) 0))
+
+(defn loop-match [x]
+  (== x (inc (loop-len x))))
+
+(println
+  (first (filter loop-match (reverse (range 1000)))))
+; 983
