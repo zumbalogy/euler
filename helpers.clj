@@ -3,6 +3,12 @@
 (defn first-where [func x]
   (first (filter func x)))
 
+; some kinda serves this porpose if you want the change
+; (defn first-from [func x]
+;   ; (first (remove nil? (map func x))))
+;   (some func x))
+
+
 ; ((comp first (filter even?)) [1 2 3])
 ; also works
 

@@ -5,18 +5,15 @@
 ; There exists exactly one Pythagorean triplet for which a + b + c = 1000.
 ; Find the product abc.
 
-(defn first-from [func x]
-  (first (remove nil? (map func x))))
-
 (defn trip [a b]
   (let [c (Math/sqrt (+ (* a a) (* b b)))]
     (when (== 1000 (+ a b c))
       [a b c])))
 
 (defn my-check [a]
-  (first-from #(trip a %) (range a 500)))
+  (some #(trip a %) (range a 500)))
 
 (println
-  (reduce * (first-from my-check (range 1 500))))
+  (reduce * (some my-check (range))))
 ; # 31875000
 ; # 200 375 425
