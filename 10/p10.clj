@@ -3,25 +3,8 @@
 ; Find the sum of all the primes below two million.
 
 (defn is_prime [input]
-  (if (< input 3)
-    (if (= input 1)
-      false
-      (true))
-    (if (even? input)
-      false
-      (= [1]
-        (for [x (range 1 (inc (Math/sqrt input)) 2)
-          :when (== (mod input x) 0)] x)))))
+  (not-any? #(== 0 (mod input %)) (range 3 (inc (Math/sqrt input)) 2)))
 
-(defn next_prime [prime]
-  (loop [i (+ 2 prime)]
-    (if (is_prime i)
-      i
-      (recur (+ 2 i)))))
-
-(defn prime_from [n]
-  (cons n (lazy-seq (prime_from (next_prime n)))))
-
-(def primes (lazy-cat [2] (primes_from 3)))
-
-(reduce + (take-while #(> 4000000 %) primes))
+(println
+  (reduce + 2 (filter is_prime (range 3 2000000 2))))
+; 142_913_828_922
