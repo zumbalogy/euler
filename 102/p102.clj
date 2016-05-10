@@ -1,4 +1,4 @@
-; Three distinct points are plotted at random on a Cartesian plane, for which -1000 ≤ x, y ≤ 1000, such that a triangle is formed.
+; Three distinct points plotted randomly on a Cartesian plane, for which -1000 ≤ x, y ≤ 1000, form a triangle.
 
 ; Consider the following two triangles:
 
@@ -7,9 +7,8 @@
 
 ; It can be verified that triangle ABC contains the origin, whereas triangle XYZ does not.
 
-; Using triangles.txt (right click and 'Save Link/Target As...'), a 27K text file containing the co-ordinates of one thousand "random" triangles, find the number of triangles for which the interior contains the origin.
-
-; NOTE: The first two examples in the file represent the triangles in the example given above.
+; Using triangles.txt, a 27K text file containing co-ordinates of one thousand "random" triangles,
+; find the number of triangles which contain the origin.
 
 (defn same_side_as_origin [[x1 y1] [x2 y2] [x3 y3]]
   (let [dy (- y1 y2)
@@ -30,9 +29,10 @@
     (map read-string (clojure.string/split line #","))))
 
 (def triangles
-  (map line_to_tri
-    (clojure.string/split-lines
-      (slurp "triangles.txt"))))
+  (->> "triangles.txt"
+    slurp
+    clojure.string/split-lines
+    (map line_to_tri)))
 
 (println
   (count (filter tri_has_o triangles)))
