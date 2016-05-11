@@ -5,11 +5,9 @@
 (defn exp [base power]
   (reduce *' (repeat power base)))
 
-(defn inc_tail [step total]
+(defn inc_tail [total step]
   (mod (+' total (exp step step)) 10000000000))
 
-(loop [step 1 total 0]
-  (if (= step 1001)
-    (println total)
-    (recur (inc step) (inc_tail step total))))
+(println
+  (reduce inc_tail (range 1000)))
 ; 9110846700N
