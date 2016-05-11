@@ -6,7 +6,6 @@
 ; 8 5 9 3
 
 ; That is, 3 + 7 + 4 + 9 = 23.
-
 ; Find the max sum from top to bottom of the triangle.
 
 (def array [
