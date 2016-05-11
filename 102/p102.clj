@@ -1,38 +1,33 @@
-; Three distinct points plotted randomly on a Cartesian plane, for which -1000 ≤ x, y ≤ 1000, form a triangle.
-
-; Consider the following two triangles:
+; Consider the following two triangles. Triangle ABC contains the origin. Triangle XYZ does not.
 
 ; A(-340,495), B(-153,-910), C(835,-947)
 ; X(-175,41), Y(-421,-714), Z(574,-645)
 
-; It can be verified that triangle ABC contains the origin, whereas triangle XYZ does not.
+; In triangles.txt, how many triangles (of 1000) contain the origin?
 
-; Using triangles.txt, a 27K text file containing co-ordinates of one thousand "random" triangles,
-; find the number of triangles which contain the origin.
+(defn origin-ray-intersects [[[x1 y1] [x2 y2]]]
+  (and (or (<= y1 0 y2)
+           (<= y2 0 y1))
+       (< 0 (+ x1
+               (* (/ (- 0 y1)
+                     (- y2 y1))
+                  (- x2 x1))))))
 
-(defn same_side_as_origin [[x1 y1] [x2 y2] [x3 y3]]
-  (let [dy (- y1 y2)
-        dx (if (= x1 x2) 0.001 (- x1 x2))
-        m (/ dy dx)
-        b (- y1 (* m x1))]
-    (= (> 0 b)
-       (> y3 (+ b (* m x3))))))
+(defn tri_has_o [tri]
+  (odd? (count (filter origin-ray-intersects tri))))
 
-(defn tri_has_o [[p1 p2 p3]]
-  (and
-    (same_side_as_origin p1 p2 p3)
-    (same_side_as_origin p2 p3 p1)
-    (same_side_as_origin p3 p1 p2)))
-
-(defn line_to_tri [line]
-  (partition 2
-    (map read-string (clojure.string/split line #","))))
+(defn make-triangles [line]
+  (->> (clojure.string/split line #",")
+       (map read-string)
+       (partition 2)
+       cycle
+       (take 4)
+       (partition 2 1)))
 
 (def triangles
-  (->> "triangles.txt"
-    slurp
-    clojure.string/split-lines
-    (map line_to_tri)))
+  (->> (slurp "triangles.txt")
+       clojure.string/split-lines
+       (map make-triangles)))
 
 (println
   (count (filter tri_has_o triangles)))
