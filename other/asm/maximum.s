@@ -1,26 +1,22 @@
 #PURPOSE: This program finds the maximum number of  a
 #         set of data items.
 #
-
 #VARIABLES: The registers have the following uses:
 #
 # %edi - Holds the index of the data item being examined
 # %ebx - Lagest data item found
 # %eax - Curent data item
 #
-# The gollowing memory lactions are used:
+# The following memory locations are used:
 #
 # data_items - contains the item data. A 0 is used
 #              to terminate the data
 #
-
 .section .data
 
 data_items:
  .long 3,67,34,222,45,75,54,34,44,33,22,11,66,0
-
  .section .text
-
  .globl _start
 
 _start:
@@ -34,7 +30,6 @@ start_loop:
  cmpl %ebx, %eax   # compare values
  jle start_loop    # jump to beginning of loop if new
                    # one is not bigger
-
  movl %eax, %ebx   # move the value as the largest
  jmp start_loop
 
