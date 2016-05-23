@@ -21,6 +21,7 @@ data_items:
 
 _start:
  movl $0, %edi     # move 0 into the index register
+ movl data_items(,%edi,4), %ebx
 
 start_loop:
  movl data_items(,%edi,4), %eax
