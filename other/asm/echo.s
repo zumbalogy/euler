@@ -23,10 +23,10 @@ print:
   pop %rsi                    # address of string to output
   # TODO: this not popping right thing because stack frame function stuff needs to be done
 print_loop:
-  movb (%rsi), %r8b        # bx current location to print
-  cmpb $0, %r8b
+  mov (%rsi), %r8b            # r8b current byte to print
+  cmp $0, %r8b
   je print_exit
-  syscall                     # invoke OS to write
+  syscall
   inc %rsi
   jmp print_loop
 print_exit:

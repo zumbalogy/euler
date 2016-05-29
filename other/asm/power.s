@@ -8,51 +8,51 @@
 .globl _start
 
 _start:
-  pushq $3 # 2nd arg
-  pushq $2 # 1st arg
+  push $3 # 2nd arg
+  push $2 # 1st arg
   call power
-  addl $8, %esp # set the stack pointer back
+  add $8, %esp # set the stack pointer back
 
-  pushq %eax # save response from power
+  push %eax # save response from power
 
-  pushq $2 # 2nd arg
-  pushq $5 # 1st arg
+  push $2 # 2nd arg
+  push $5 # 1st arg
   call power
-  addl $8, %esp # set the stack pointer back
+  add $8, %esp # set the stack pointer back
 
-  popq %ebx # awnser from first call to power
+  pop %ebx # awnser from first call to power
 
-  addl %eax, %ebx # add the two responces
+  add %eax, %ebx # add the two responces
 
 exit:
-  movl $1, %eax # 1 is exit code (%ebx is returned)
+  mov $1, %eax # 1 is exit code (%ebx is returned)
   int $0x80
 
 .type power, @function
 power:
-  pushq %ebp # save old base pointer
-  movl %esp, %ebp # stack pointer to base pointer
-  subl $4, %esp # make room for local storage
+  push %ebp # save old base pointer
+  mov %esp, %ebp # stack pointer to base pointer
+  sub $4, %esp # make room for local storage
 
-  movl 8(%ebp), %ebx
-  movl 12(%ebp), %ecx
-  movl %ebx, -4(%ebp)
+  mov 8(%ebp), %ebx
+  mov 12(%ebp), %ecx
+  mov %ebx, -4(%ebp)
 
 power_loop_start:
-  cmpl $1, %ecx # base case. get it? "base"?
+  cmp $1, %ecx # base case. get it? "base"?
   je end_power
 
-  movl -4(%ebp), %eax # get current
+  mov -4(%ebp), %eax # get current
   imull %ebx, %eax # multiple current total by base
 
-  movl %eax, -4(%ebp) # store current
+  mov %eax, -4(%ebp) # store current
 
-  decl %ecx # dec power
+  dec %ecx # dec power
 
   jmp power_loop_start
 
 end_power:
-  movl -4(%ebp), %eax # return val to eax
-  movl %ebp, %esp # restore stack pointer
-  popq %ebp # restore base pointer
+  mov -4(%ebp), %eax # return val to eax
+  mov %ebp, %esp # restore stack pointer
+  pop %ebp # restore base pointer
   ret
