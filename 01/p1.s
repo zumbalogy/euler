@@ -2,6 +2,9 @@
 
 .globl _start
 
+message:
+  .ascii "Hello, world\n"
+
 _start:
   mov $0, %rbx # total
   mov $0, %rdi # index
