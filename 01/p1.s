@@ -1,14 +1,8 @@
 # Find the sum of all the multiples of 3 or 5 below 1000.
-
 .globl _start
-
-message:
-  .ascii "Hello, world\n"
-
 _start:
   mov $0, %rbx # total
   mov $0, %rdi # index
-
 start_loop:
   inc %rdi # inc index
   cmp $1000, %rdi
@@ -18,7 +12,6 @@ start_loop:
   mov $5, %rcx # divisor
   call check_div
   jmp start_loop
-
 check_div:
   mov $0, %rdx
   mov %rdi, %rax
@@ -26,11 +19,9 @@ check_div:
   cmp $0, %rdx
   je hit
   ret
-
 hit:
   add %rdi, %rbx
   jmp start_loop
-
 exit:
   sub $233168, %rbx
   mov $1, %rax # 1 is the exit() syscall
