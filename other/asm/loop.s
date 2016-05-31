@@ -4,7 +4,7 @@ swap:
 .section .text
 .global _start
 _start:
-  push $987654
+  push $8765  
   push $swap
   call print_register
 exit:
@@ -24,6 +24,7 @@ count_digits_loop:
   mov $0, %rdx                # prefix of rax for multiply and divide
   mov $10, %rcx               # will be divisor and multiplier
   mov %r8, %rax
+  # try using imul
   mul %rcx                    # rax * input => rdx:rax
   mov %rax, %r8
   mov %rsp, %rax
@@ -39,9 +40,13 @@ print_register_loop:
   mov $0, %rdx
   mov %rbx, %rax
   div %r8                    # rdx:rax / input => rax mod rdx
-  mov %rax, %rbx
-  add $48, %rax               # ascii 0-9 is 48-57
-  mov %rax, (%rsi)
+  mov %rax, %rsp
+  add $48, %rsp               # ascii 0-9 is 48-57
+  mov %rsp, (%rsi)
+  imul %r8, %rax
+  sub %rax, %rbx
+  # foo = multiple r8 and rax (to get current digit with proper zeros behind it)
+  # subtract foo from current total
   mov $1, %rax                # system call 1 is write
   mov $1, %rdi                # file handle 1 is stdout
   mov $1, %rdx                # number of bytes
