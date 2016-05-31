@@ -4,12 +4,12 @@ swap:
 .section .text
 .global _start
 _start:
-  push $8765  
+  push $8765
   push $swap
   call print_register
 exit:
   mov $60, %rax               # system call 60 is exit
-  xor %rdi, %rdi              # we want return code 0
+  mov $0, %rdi              # we want return code 0
   syscall                     # invoke operating system to exit
 print_register:
   pop %rsi                    # address of string to output
@@ -21,12 +21,7 @@ count_digits_start:
   mov %rbx, %rsp              # rsp = remaining digits
   mov $10, %rcx               # will be divisor and multiplier
 count_digits_loop:
-  mov $0, %rdx                # prefix of rax for multiply and divide
-  mov $10, %rcx               # will be divisor and multiplier
-  mov %r8, %rax
-  # try using imul
-  mul %rcx                    # rax * input => rdx:rax
-  mov %rax, %r8
+  imul $10, %r8
   mov %rsp, %rax
   mov $10, %rcx               # will be divisor and multiplier
   mov $0, %rdx                # prefix of rax for multiply and divide
@@ -45,8 +40,6 @@ print_register_loop:
   mov %rsp, (%rsi)
   imul %r8, %rax
   sub %rax, %rbx
-  # foo = multiple r8 and rax (to get current digit with proper zeros behind it)
-  # subtract foo from current total
   mov $1, %rax                # system call 1 is write
   mov $1, %rdi                # file handle 1 is stdout
   mov $1, %rdx                # number of bytes
