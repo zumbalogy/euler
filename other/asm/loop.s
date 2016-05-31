@@ -30,11 +30,10 @@ count_digits_loop:
   cmp $10, %rax               # 10 to avoid having 1 extra digit in rdi
   jg count_digits_loop
   # r8 is now a base 10 number with the same number of digits as rbx
-  #mov %r8, %rbx
 print_register_loop:
   mov $0, %rdx
   mov %rbx, %rax
-  div %r8                    # rdx:rax / input => rax mod rdx
+  div %r8                     # rdx:rax / input => rax mod rdx
   mov %rax, %rsp
   add $48, %rsp               # ascii 0-9 is 48-57
   mov %rsp, (%rsi)
