@@ -30,7 +30,7 @@ exit:
   push %rbx
   push $swap
   call print_register
-  # 233168%
+  # 233168
   mov $1, %rax # 1 is the exit() syscall
   int $0x80
 print_register:
