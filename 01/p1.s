@@ -73,4 +73,9 @@ print_register_loop:
   cmp $0, %r8
   jg print_register_loop
 print_register_exit:
+  movb $10, (%rsi)            # 10 is ascii newline
+  mov $1, %rax                # system call 1 is write
+  mov $1, %rdi                # file handle 1 is stdout
+  mov $1, %rdx                # number of bytes
+  syscall
   ret
