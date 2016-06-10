@@ -2,7 +2,7 @@
 # What is the largest prime factor of the number 600851475143?
 
 def factor(n)
-  n /= 2 while n % 2 == 0
+  n /= 2 while n.even?
   i = 3
   while i < Math.sqrt(n)
     n /= i while n % i == 0
