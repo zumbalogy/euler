@@ -2,9 +2,7 @@
 
 # What is the largest prime factor of the number 600851475143 ?
 
-
 require 'prime'
-
 
 # enabling tail call optimization deos not seem to do much in terms of benchamraks from what i can tell.
 # also, maybe could do something funny with knowing when its gonna be odd vs even
@@ -59,47 +57,61 @@ def factor_new(n)
   n
 end
 
+def factor2(n)
+  n /= 2 while n.even?
+  i = 3
+  while i * i < n
+    n /= i while n % i == 0
+    i += 2
+  end
+  n
+end
+
 require 'benchmark'
+
+trials = 1000
+number = 600851475143
 
 Benchmark.bmbm do |bm|
   bm.report('main') do
-    100.times { large_divisor(600851475143) }
+    trials.times { large_divisor(number) }
   end
   bm.report('old') do
-    100.times { large_divisor2(600851475143) }
+    trials.times { large_divisor2(number) }
   end
   bm.report('oldest') do
-    100.times { large_divisor3(600851475143) }
+    trials.times { large_divisor3(number) }
   end
   bm.report('built in prime division') do
-    100.times { Prime.prime_division(600851475143).last }
+    trials.times { Prime.prime_division(number).last }
   end
-  bm.report('factor r') do
-    100.times { factor_r(600851475143) }
-  end
-  bm.report('factor l') do
-    100.times { factor_l(600851475143) }
-  end
+  # bm.report('factor r') do
+  #   trials.times { factor_r(number) }
+  # end
+  # bm.report('factor l') do
+  #   trials.times { factor_l(number) }
+  # end
   bm.report('factor new') do
-    100.times { factor_new(600851475143) }
+    trials.times { factor_new(number) }
+  end
+  bm.report('factor 2') do
+    trials.times { factor2(number) }
   end
 end
 
 # Rehearsal -----------------------------------------------------------
-# main                      1.080000   0.000000   1.080000 (  1.086730)
-# old                       2.170000   0.000000   2.170000 (  2.177371)
-# oldest                    4.420000   0.000000   4.420000 (  4.424136)
-# built in prime division   0.010000   0.000000   0.010000 (  0.010196)
-# factor r                  0.020000   0.000000   0.020000 (  0.028859)
-# factor l                  0.030000   0.000000   0.030000 (  0.027993)
-# factor new                0.020000   0.000000   0.020000 (  0.019184)
-# -------------------------------------------------- total: 7.750000sec
+# main                     13.820000   0.000000  13.820000 ( 13.833160)
+# old                      27.710000   0.000000  27.710000 ( 27.721971)
+# oldest                   56.450000   0.000000  56.450000 ( 56.498406)
+# built in prime division   0.120000   0.000000   0.120000 (  0.123992)
+# factor new                0.080000   0.000000   0.080000 (  0.073495)
+# factor 2                  0.040000   0.000000   0.040000 (  0.047078)
+# ------------------------------------------------- total: 98.220000sec
 #
 #                               user     system      total        real
-# main                      1.090000   0.000000   1.090000 (  1.091288)
-# old                       2.150000   0.000000   2.150000 (  2.153649)
-# oldest                    4.390000   0.000000   4.390000 (  4.390910)
-# built in prime division   0.010000   0.000000   0.010000 (  0.010043)
-# factor r                  0.020000   0.000000   0.020000 (  0.028300)
-# factor l                  0.020000   0.000000   0.020000 (  0.028111)
-# factor new                0.020000   0.000000   0.020000 (  0.018983)
+# main                     13.580000   0.000000  13.580000 ( 13.586276)
+# old                      27.310000   0.010000  27.320000 ( 27.357927)
+# oldest                   63.680000   0.010000  63.690000 ( 63.848952)
+# built in prime division   0.200000   0.000000   0.200000 (  0.202958)
+# factor new                0.090000   0.000000   0.090000 (  0.090821)
+# factor 2                  0.040000   0.000000   0.040000 (  0.046380)
