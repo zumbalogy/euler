@@ -60,7 +60,8 @@ end
 def factor2(n)
   n /= 2 while n.even?
   i = 3
-  while i * i < n
+  while i * i < n # this is faster than square root because just uses integers
+    # not faster in js, prolly due to no float/int distiction
     n /= i while n % i == 0
     i += 2
   end
