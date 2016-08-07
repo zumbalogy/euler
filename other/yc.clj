@@ -1,3 +1,5 @@
+; http://blog.klipse.tech/lambda/2016/08/07/almost-y-combinator-clojure.html
+
 (((fn [f]
     (f f))
   (fn [func]
