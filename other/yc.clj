@@ -74,3 +74,44 @@
       (* n ((f f) (dec n)))))))
 
 (my-fact2 3)
+
+
+(def factorial-no-names
+  ((fn [func]
+     (fn [n]
+       (if (zero? n)
+         1
+         (* n ((func func) (dec n))))))
+   (fn [func]
+     (fn [n]
+       (if (zero? n)
+         1
+         (* n ((func func) (dec n))))))))
+
+(factorial-no-names 13)
+
+; https://rosettacode.org/wiki/Y_combinator#Clojure
+
+(defn Y [f]
+  ((fn [x] (x x))
+   (fn [x]
+     (f (fn [& args]
+          (apply (x x) args))))))
+ 
+(def fac
+     (fn [f]
+       (fn [n]
+         (if (zero? n) 1 (* n (f (dec n)))))))
+ 
+(def fib
+     (fn [f]
+       (fn [n]
+         (condp = n
+           0 0
+           1 1
+           (+ (f (dec n))
+              (f (dec (dec n))))))))
+              
+
+
+
