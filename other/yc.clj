@@ -93,16 +93,18 @@
 ; https://rosettacode.org/wiki/Y_combinator#Clojure
 
 (defn Y [f]
-  ((fn [x] (x x))
+  (#(% %)
    (fn [x]
      (f (fn [& args]
           (apply (x x) args))))))
- 
+
 (def fac
      (fn [f]
        (fn [n]
          (if (zero? n) 1 (* n (f (dec n)))))))
- 
+
+((Y fac) 10)
+
 (def fib
      (fn [f]
        (fn [n]
@@ -111,7 +113,3 @@
            1 1
            (+ (f (dec n))
               (f (dec (dec n))))))))
-              
-
-
-
