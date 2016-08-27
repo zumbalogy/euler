@@ -28,11 +28,11 @@
 
 (def adjacents
   (apply map list
-    (for [i (range 20) x (range 20)]
-      [(get (get grid       i)       x)
-       (get (get grid       x)       i)
-       (get (get grid       x)  (+ x i))
-       (get (get grid (- 19 x)) (- x i))])))
+    (for [x (range 20) y (range 20)]
+      [(get-in grid [x y])
+       (get-in grid [y x])
+       (get-in grid [y (+ y x)])
+       (get-in grid [(- 19 y) (- y x)])])))
 
 (println
   (reduce max (flatten (map products adjacents))))
