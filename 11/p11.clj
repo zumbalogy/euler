@@ -1,4 +1,4 @@
-; What is the greatest product of 4 adjacent numbers in the same direction (up down left right diagonally) in grid?
+; What's the biggest product of 4 adjacent numbers in the same direction (up down left right diagonal) in grid?
 
 (def grid [[ 8  2 22 97 38 15  0 40  0 75  4  5  7 78 52 12 50 77 91  8]
            [49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48  4 56 62  0]
@@ -22,20 +22,18 @@
            [ 1 70 54 71 83 51 54 69 16 92 33 48 61 43 52  1 89 19 67 48]])
 
 (defn products [input]
-  (map #(apply * %)
-    (partition 4 1 (keep identity input))))
+  (->> (partition 4 1 input)
+       (filter #(every? identity %))
+       (map #(apply * %))))
 
 (def adjacents
-  (apply concat
-    (for [i (range 20)]
-      (conj []
-        (get grid i)
-        (for [x (range 20)] (get (get grid       x)       i))
-        (for [x (range 20)] (get (get grid       x)  (+ x i)))
-        (for [x (range 20)] (get (get grid       x)  (- x i)))
-        (for [x (range 20)] (get (get grid (- 19 x)) (+ x i)))
-        (for [x (range 20)] (get (get grid (- 19 x)) (- x i)))))))
+  (apply map list
+    (for [i (range 20) x (range 20)]
+      [(get (get grid       i)       x)
+       (get (get grid       x)       i)
+       (get (get grid       x)  (+ x i))
+       (get (get grid (- 19 x)) (- x i))])))
 
 (println
-  (apply max (flatten (map products adjacents))))
+  (reduce max (flatten (map products adjacents))))
 ; 70600674
