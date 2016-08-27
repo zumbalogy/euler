@@ -6,7 +6,7 @@
   (* input (/ (inc input) 2)))
 
 (defn sum_steps [step limit]
-  (* step (sum_under (int (/ (dec limit) step)))))
+  (* step (sum_under (quot (dec limit) step))))
 
 (println
   (- (+ (sum_steps 3 1000) (sum_steps 5 1000))
