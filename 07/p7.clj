@@ -4,7 +4,7 @@
   (if (even? n)
     false
     (not-any? #(zero? (mod n %))
-      (range 3 (int (inc (Math/sqrt n))) 2))))
+      (range 3 (inc (Math/sqrt n)) 2))))
 ; gives true for 1, false for 2
 
 (println
