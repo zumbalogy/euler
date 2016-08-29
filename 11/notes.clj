@@ -118,7 +118,19 @@
        (get-in grid [y (+ y x)] 0) ; zeros as default values, so that any off-map stuff gets killed
        (get-in grid [(- 19 y) (- y x)] 0)])))
 
-; or can filter out ones with nils
+; or can filter out ones with nils. this way is more explicit i guess, though needs a bit more code.
+; i am unsure as to what one to prefer. what is better?:
+; 1) requiring more understanding of this code,
+; 2) requiring more understaing of clojure
+; 3) requiring more understanding of the problem/domain
+; 4) requiring more understanding of computer science stuff?
+
+; this is kind of a case of (1|2) vs 3. maybe 'understanding' could be swapped out for
+; entwining. as in, in general, i can marry this code more to clojure, more to my other code,
+; more to cs, etc.
+
+; in this situation, one does not seem more perfomant or maintainable or testable than the other
+
 
 (defn products [input]
   (->> (partition 4 1 input)
