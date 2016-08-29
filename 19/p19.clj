@@ -10,24 +10,24 @@
 ; How many Sundays fell on the first of the month during the twentieth century (1 Jan 1901 to 31 Dec 2000)?
 
 (defn tick-date [date month year]
-  (let [feb (if (= 0 (mod year 4)) 29 28)
+  (let [feb (if (zero? (rem year 4)) 29 28)
         day-counts [31 feb 31 30 31 30 31 31 30 31 30 31]
         current (get day-counts month)]
-    (mod (inc date) current)))
+    (rem (inc date) current)))
 
-(defn tick [{date :date day :day month :month year :year}]
-  (let [new-date (tick-date date month year)
-        new-day (mod (inc day) 7)
-        new-month (mod (if (= 0 new-date) (inc month) month) 12)
-        new-year (if (and (= 0 new-date) (= 0 new-month)) (inc year) year)]
-    {:date new-date :day new-day :month new-month :year new-year}))
+(defn tick [{day :day date :date month :month year :year}]
+  (let [new-day (rem (inc day) 7)
+        new-date (tick-date date month year)
+        new-month (rem (if (zero? new-date) (inc month) month) 12)
+        new-year (if (and (zero? new-date) (zero? new-month)) (inc year) year)]
+    {:day new-day :date new-date :month new-month :year new-year}))
 
-(def start {:date 1 :day 0 :month 0 :year 1900})
+(def start {:day 0 :date 1 :month 0 :year 1900})
 
 (def century
   (filter #(< 1900 (:year %))
     (take-while #(> 2001 (:year %)) (iterate tick start))))
 
 (println
-  (count (filter #(and (= 0 (:date %)) (= 6 (:day %))) century)))
+  (count (filter #(and (zero? (:date %)) (= 6 (:day %))) century)))
 ; 171
