@@ -22,17 +22,15 @@
            [ 1 70 54 71 83 51 54 69 16 92 33 48 61 43 52  1 89 19 67 48]])
 
 (defn products [input]
-  (->> (partition 4 1 input)
-       (filter #(every? identity %))
-       (map #(apply * %))))
+  (map #(apply * %) (partition 4 1 input)))
 
 (def adjacents
   (apply map list
     (for [x (range 20) y (range 20)]
       [(get-in grid [x y])
        (get-in grid [y x])
-       (get-in grid [y (+ y x)])
-       (get-in grid [(- 19 y) (- y x)])])))
+       (get-in grid [y (+ y x)] 0)
+       (get-in grid [(- 19 y) (- y x)] 0)])))
 
 (println
   (reduce max (flatten (map products adjacents))))
