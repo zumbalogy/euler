@@ -106,3 +106,29 @@
   (reduce max (flatten grid_products)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn products [input]
+  (map #(apply * %) (partition 4 1 input)))
+
+(def adjacents
+  (apply map list
+    (for [x (range 20) y (range 20)]
+      [(get-in grid [x y])
+       (get-in grid [y x])
+       (get-in grid [y (+ y x)] 0) ; zeros as default values, so that any off-map stuff gets killed
+       (get-in grid [(- 19 y) (- y x)] 0)])))
+
+; or can filter out ones with nils
+
+(defn products [input]
+  (->> (partition 4 1 input)
+       (filter #(every? identity %))
+       (map #(apply * %))))
+
+(def adjacents
+  (apply map list
+    (for [x (range 20) y (range 20)]
+      [(get-in grid [x y])
+       (get-in grid [y x])
+       (get-in grid [y (+ y x)])
+       (get-in grid [(- 19 y) (- y x)])])))
