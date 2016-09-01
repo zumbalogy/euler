@@ -4,27 +4,11 @@
 
 -- Sum the even terms in the Fibonacci sequence under four million
 
--- TODO: needs memoization or such
--- fib 0 = 0
--- fib 1 = 1
--- fib x = fib (x - 1) + fib (x - 2)
---
--- under4m x = (fib x) < 4000000
---
--- total = sum [y | y <- [fib x | x <- (takeWhile under4m [1..])], mod y 2 == 0]
-
--- fib 0 = [0]
--- fib 1 = [0, 1]
--- fib x = (fib (x - 1)) ++ [((fib (x - 1)) !! (x - 1)) + ((fib (x - 1)) !! (x - 2))]
-
-
-start = [0, 1]
-
 nextFib x = [sum x, (last x) + (sum x)]
 
-under4m x = x < 4000000
+fibs = concat (iterate nextFib [0, 1])
 
-total = sum (filter even (takeWhile under4m (concat (iterate nextFib start))))
+total = sum (filter even (takeWhile (\x -> x < 4000000) fibs))
 
 main = putStrLn (show total)
-4613732
+-- 4613732
