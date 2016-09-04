@@ -8,7 +8,7 @@ nextFib x = [sum x, (last x) + (sum x)]
 
 fibs = concat (iterate nextFib [0, 1])
 
-total = sum (filter even (takeWhile (\x -> x < 4000000) fibs))
+total = sum (filter even (takeWhile (<4000000) fibs))
 
 main = putStrLn (show total)
 -- 4613732
