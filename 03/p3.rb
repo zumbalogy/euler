@@ -4,7 +4,7 @@
 def factor(n)
   n /= 2 while n.even?
   i = 3
-  while i * i < n
+  while i * i <= n
     n /= i while n % i == 0
     i += 2
   end
