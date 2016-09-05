@@ -9,21 +9,13 @@
 
 ; Find delta for the sum of squares of the first 100 natural numbers and square of the sum.
 
-(- (* 101 101 50 50) (/ (* 201 100 101) 6))
-; 25164150
+(defn sq-sum [x]
+  (* (inc x) (inc x) (/ x 2) (/ x 2)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defn sq [x]
-  (* x x))
-
-(defn sum-range [x]
-  (* (inc x) (/ x 2)))
-
-(defn sum-sq-range [x]
-  (reduce + (map sq (range (inc x)))))
+(defn sum-sq [x]
+  (/ (* x (inc x) (inc (* 2 x))) 6))
 
 (println
-  (- (sq (sum-range 100))
-     (sum-sq-range 100)))
+  (- (sq-sum 100)
+     (sum-sq 100)))
 ; 25164150
