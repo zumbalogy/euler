@@ -1,28 +1,29 @@
-; The sum of the squares of the first ten natural numbers is,
-
+; The sum of the squares of the first 10 natural numbers is
 ; 1^2 + 2^2 + ... + 10^2 = 385
-; The square of the sum of the first ten natural numbers is,
 
+; The square of the sum of the first 10 natural numbers is
 ; (1 + 2 + ... + 10)^2 = 55^2 = 3025
-; delta for sum of the squares of first ten natural numbers and square of the sum is 3025 − 385 = 2640
 
-; Find delta for sum of squares of the first one hundred natural numbers and square of the sum
+; The delta for the sum of the squares of the first 10 natural numbers
+; and the square of the sum is 3025 − 385 = 2640
 
-(- (* (* 101 50) (* 101 50)) (/ (* 100 101 201) 6))
+; Find delta for the sum of squares of the first 100 natural numbers and square of the sum.
 
+(- (* 101 101 50 50) (/ (* 201 100 101) 6))
 ; 25164150
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defn square [input]
-  (* input input))
+(defn sq [x]
+  (* x x))
 
-(def sqsum
-  (reduce + (map square (range 101))))
+(defn sum-range [x]
+  (* (inc x) (/ x 2)))
 
-(def sumsq
-  (square (reduce + (range 101))))
+(defn sum-sq-range [x]
+  (reduce + (map sq (range (inc x)))))
 
 (println
-  (- sumsq sqsum))
+  (- (sq (sum-range 100))
+     (sum-sq-range 100)))
 ; 25164150
