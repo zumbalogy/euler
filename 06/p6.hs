@@ -9,9 +9,8 @@
 
 -- Find delta for the sum of squares of the first 100 natural numbers and square of the sum.
 
-sumRange x = (x / 2) * (x + 1)
+sumSq x = ((x / 2) * (x + 1)) ^ 2
+sqSum x = (x * ((x + 1) * ((x * 2) + 1))) / 6
 
-delta = (sumRange 100) ^ 2 - (sum $ map (^2) [1..100])
-
-main = putStrLn $ show delta
+main = (putStrLn . show) $ (sumSq 100) - (sqSum 100)
 -- 2.516415e7

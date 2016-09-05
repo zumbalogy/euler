@@ -10,7 +10,7 @@
 ; Find delta for the sum of squares of the first 100 natural numbers and square of the sum.
 
 (defn sq-sum [x]
-  (* (inc x) (inc x) (/ x 2) (/ x 2)))
+  (* x x 1/4 (inc x) (inc x)))
 
 (defn sum-sq [x]
   (/ (* x (inc x) (inc (* 2 x))) 6))
