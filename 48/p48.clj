@@ -6,7 +6,7 @@
   (reduce *' (repeat power base)))
 
 (defn inc_tail [total step]
-  (mod (+' total (exp step step)) 10000000000))
+  (rem (+ total (exp step step)) 10000000000))
 
 (println
   (reduce inc_tail (range 1000)))

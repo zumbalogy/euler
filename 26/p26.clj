@@ -20,7 +20,7 @@
   (reduce *' (repeat y x)))
 
 (defn loop-len [x]
-  (first (filter #(= 0 (mod (dec (pow 10 %)) x))
+  (first (filter #(zero? (rem (dec (pow 10 %)) x))
                  (range 1 x))))
 
 (defn loop-match [x]
