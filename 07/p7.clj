@@ -1,9 +1,9 @@
-;; What is the 10 001st prime number?
+; What is the 10 001st prime number?
 
 (defn prime? [n]
   (if (even? n)
     false
-    (not-any? #(zero? (mod n %))
+    (not-any? #(zero? (rem n %))
       (range 3 (inc (Math/sqrt n)) 2))))
 ; gives true for 1, false for 2
 
