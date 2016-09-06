@@ -29,7 +29,7 @@
     #(zero? (rem x %))
     (range 1 (Math/sqrt x))))))
 
-(time (println
-  (first (filter #(< 500 (count-factors %)) (map triangle (range))))))
+(println
+  (first (filter #(< 500 (count-factors %)) (map triangle (range)))))
 ; 76576500
 ; the 12375 triangle number

@@ -2,8 +2,10 @@
 
 ; Find the sum of all the primes below two million.
 
+; TODO: slow, use a sieve or something. 
+
 (defn prime? [n]
-  (not-any? #(== 0 (mod n %)) (range 3 (inc (Math/sqrt n)) 2)))
+  (not-any? #(zero? (rem n %)) (range 3 (inc (Math/sqrt n)) 2)))
 
 (println
   (reduce + 2 (filter prime? (range 3 2000000 2))))
