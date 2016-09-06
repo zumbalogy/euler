@@ -15,14 +15,14 @@
       #(zero? (rem n %))
       (range 2 (Math/sqrt n)))))
 
-(defn amicable? [a]
+(defn amicables [a]
   (let [b (sum_factors a)]
     (if (and (< a b) (= a (sum_factors b)))
       (+ a b)
       0)))
 
 (println
-  (reduce + (map amicable? (range 1 10000))))
+  (reduce + (map amicables (range 1 10000))))
 ; 31626
 
 ; There are 10 amicable numbers in this range.
