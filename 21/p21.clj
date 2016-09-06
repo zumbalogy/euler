@@ -9,21 +9,21 @@
 
 (defn sum_factors [n]
   (reduce
-    #(+ %1 %2 (/ n %2))
+    #(+ %1 %2 (quot n %2))
     1
     (filter
-      #(zero? (mod n %))
+      #(zero? (rem n %))
       (range 2 (Math/sqrt n)))))
 
 (defn amicable? [a]
   (let [b (sum_factors a)]
-    (and
-      (not= a b)
-      (= a (sum_factors b)))))
+    (if (and (< a b) (= a (sum_factors b)))
+      (+ a b)
+      0)))
 
 (println
-  (reduce + (filter amicable? (range 1 10000))))
+  (reduce + (map amicable? (range 1 10000))))
 ; 31626
 
 ; There are 10 amicable numbers in this range.
-; 220 284 1184 1210 2620 2924 5020 5564 6232 6368
+; 220-284 1184-1210 2620-2924 5020-5564 6232-6368
