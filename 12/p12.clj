@@ -15,21 +15,15 @@
 ; 28 is the first triangle number to have over five divisors.
 ; What is the first triangle number to have over five hundred divisors?
 
-(defn triangle [n]
-  (* n (/ (inc n) 2)))
-
 (def triangles
-  (map triangle (range)))
+  (map #(* % (quot (inc %) 2)) (range)))
 
-(defn sq_range [n]
-  (range 1 (inc (Math/sqrt n))))
-
-(defn mods_0? [base n]
-  (zero? (mod base n)))
-
-(defn factor_count [n]
-  (* 2 (count (filter #(mods_0? n %) (sq_range n)))))
+(defn count-factors [n]
+  (* 2 (count (filter
+    #(zero? (rem n %))
+    (range 2 (Math/sqrt n))))))
 
 (println
-  (first (filter #(< 500 (factor_count %)) triangles)))
+  (first (filter #(< 500 (count-factors %)) triangles)))
 ; 76576500
+; the 12375 triangle number
