@@ -7,7 +7,7 @@
 
 ; Sum all amicable numbers under 10_000.
 
-(defn sum_factors [n]
+(defn sum-factors [n]
   (reduce
     #(+ %1 %2 (quot n %2))
     1
@@ -16,8 +16,8 @@
       (range 2 (Math/sqrt n)))))
 
 (defn amicables [a]
-  (let [b (sum_factors a)]
-    (if (and (< a b) (= a (sum_factors b)))
+  (let [b (sum-factors a)]
+    (if (and (< a b) (= a (sum-factors b)))
       (+ a b)
       0)))
 
