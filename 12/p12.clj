@@ -14,8 +14,12 @@
 ; 28 is the first triangle number to have over five divisors.
 ; What is the first triangle number to have over five hundred divisors?
 
-; PERSONAL NOTE: binary searching for number didnt seem to be working out
-; perf wise, the number of factors is only loosley sorted it seems.
+; PERSONAL NOTE: binary searching (powers of 2) for number didnt seem to be working out
+; perf wise, the number of factors is only loosley sorted.
+; can jump by 100 and quickly find a neighbor of 12375, but picking 100 seems cheating
+
+; TODO: maybe a generator for the triangles would be faster (only adding, no division), using lazy-seq or such
+; TODO: try out a parrallel filter function http://clojure.com/blog/2012/05/08/reducers-a-library-and-model-for-collection-processing.html
 
 (defn triangle [x]
   (* (inc x) (/ x 2)))
