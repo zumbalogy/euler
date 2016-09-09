@@ -25,9 +25,9 @@ beap = [
        [63, 66,  4, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31],
        [ 4, 62, 98, 27, 23,  9, 70, 98, 73, 93, 38, 53, 60,  4, 23]]
 
-foo old new = [(new !! i) + (max (old !! (i + 1)) (old !! i)) | i <- [0..(length new) - 1]]
+sumMaxChild old new = zipWith3 (\a b c -> a + (max b c)) new old (tail old)
 
-rollup rows = foldl foo (head rows) (tail rows)
+rollup rows = foldl sumMaxChild (head rows) (tail rows)
 
 main = (putStrLn . show) $ rollup (reverse beap)
 -- [1074]
