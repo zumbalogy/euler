@@ -42,7 +42,64 @@
     1
     (frequencies (prime-factors x))))
 
-(println
-  (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
+; (println (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
 ; 76576500
 ; the 12375 triangle number
+
+; (time (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
+; (println (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
+; (time (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
+; (time (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
+; (time (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
+; (time (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
+
+; "Elapsed time: 1426.561263 msecs"
+; 76576500
+; "Elapsed time: 1405.266988 msecs"
+; "Elapsed time: 1330.732704 msecs"
+; "Elapsed time: 1330.830501 msecs"
+; "Elapsed time: 1284.902334 msecs"
+
+; (time (first (filter #(< 500 %) (map count-factors (lazy-triangles)))))
+; (println (first (filter #(< 500 %) (map count-factors (lazy-triangles)))))
+; (time (first (filter #(< 500 %) (map count-factors (lazy-triangles)))))
+; (time (first (filter #(< 500 %) (map count-factors (lazy-triangles)))))
+; (time (first (filter #(< 500 %) (map count-factors (lazy-triangles)))))
+; (time (first (filter #(< 500 %) (map count-factors (lazy-triangles)))))
+;
+; ; "Elapsed time: 1790.564285 msecs"
+; ; 576 ; uhh, its heart is in the right place
+; ; "Elapsed time: 1442.459191 msecs"
+; ; "Elapsed time: 1295.216521 msecs"
+; ; "Elapsed time: 1314.22736 msecs"
+; ; "Elapsed time: 1295.625382 msecs"
+
+
+; (time (first (filter #(< 500 %) (pmap count-factors (lazy-triangles)))))
+; (println (first (filter #(< 500 %) (pmap count-factors (lazy-triangles)))))
+; (time (first (filter #(< 500 %) (pmap count-factors (lazy-triangles)))))
+; (time (first (filter #(< 500 %) (pmap count-factors (lazy-triangles)))))
+; (time (first (filter #(< 500 %) (pmap count-factors (lazy-triangles)))))
+; (time (first (filter #(< 500 %) (pmap count-factors (lazy-triangles)))))
+
+; "Elapsed time: 1109.231979 msecs"
+; 576
+; "Elapsed time: 1016.593385 msecs"
+; "Elapsed time: 983.876271 msecs"
+; "Elapsed time: 957.865752 msecs"
+; "Elapsed time: 980.755178 msecs"
+
+(time (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (lazy-triangles))))))
+(println (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (lazy-triangles))))))
+(time (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (lazy-triangles))))))
+(time (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (lazy-triangles))))))
+(time (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (lazy-triangles))))))
+(time (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (lazy-triangles
+
+;   e 12 clj
+; "Elapsed time: 1107.111812 msecs"
+; 76576500
+; "Elapsed time: 1028.126577 msecs"
+; "Elapsed time: 977.946355 msecs"
+; "Elapsed time: 994.324366 msecs"
+; "Elapsed time: 969.789985 msecs"
