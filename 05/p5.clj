@@ -8,7 +8,7 @@
     (gdc b (rem a b))))
 
 (defn lcm [a b]
-  (/ (* a b) (gdc a b)))
+  (quot (* a b) (gdc a b)))
 
 (println
   (reduce lcm (range 11 21)))
