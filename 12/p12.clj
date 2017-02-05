@@ -15,25 +15,10 @@
 ; 28 is the first triangle number to have over 5 divisors.
 ; What is the first triangle number to have over 500 divisors?
 
-; NOTE: binary searching (powers of 2) for number didnt seem to be working out
-; perf wise, the number of factors is only loosley sorted.
-; can jump by 100 and quickly find a neighbor of 12375, but picking 100 seems cheating
+; NOTE: number of divisors of N is related to the prime factorization of N.
+; N=24 = 2 2 2 3 = [1,2,3,4,6,8,12,24] = 8 = 2^3,3^1 = (3+1)x(1+1) = 4x2
 
-; NOTE: number of divisors of N is related to the prime factorization of N. N=12;2x2x3;[1,2,3,4,6,12];[1,2,3,[2,2],[2,3],12]
-
-; TODO: maybe a generator for the triangles would be faster (only adding, no division), using lazy-seq or such
 ; TODO: try out a parrallel filter function http://clojure.com/blog/2012/05/08/reducers-a-library-and-model-for-collection-processing.html
-
-; 24 = 2 2 2 3 = [1,2,3,4,6,8,12,24] = 8 = 2^3,3^1 = (3+1)x(1+1) = 4x2
-; 36 = 2 2 3 3 = 1 2 3 4 6 9 12 18 36 = 9 = 3x3
-; 48 = 2 2 2 2 3 = 1 2 3 4 6 8 12 16 24 48 = 10 = 5x2
-
-; 2^6,3^5,5^3,7^2
-
-
-
-(defn triangle [x]
-  (* (inc x) (/ x 2)))
 
 (defn lazy-triangles
   ([]
@@ -41,11 +26,6 @@
     (lazy-triangles 3 3))
   ([a b]
     (lazy-seq (cons a (lazy-triangles (+ a b) (inc b))))))
-
-; (defn count-factors2 [x]
-;   (* 2 (count (filter
-;     #(zero? (rem x %))
-;     (range 1 (Math/sqrt x))))))
 
 (defn prime-factors [x]
   (loop [n x i 2 results []]
@@ -62,48 +42,7 @@
     1
     (frequencies (prime-factors x))))
 
-; (time (first (filter #(< 500 (count-factors %)) (map triangle (range)))))
-; (println (first (filter #(< 500 (count-factors %)) (map triangle (range)))))
-; (time (first (filter #(< 500 (count-factors %)) (map triangle (range)))))
-; (time (first (filter #(< 500 (count-factors %)) (map triangle (range)))))
-; (time (first (filter #(< 500 (count-factors %)) (map triangle (range)))))
+(println
+  (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
 ; 76576500
 ; the 12375 triangle number
-
-; "Elapsed time: 6388.836709 msecs"
-; "Elapsed time: 5850.137237 msecs"
-; "Elapsed time: 5862.31082 msecs"
-; "Elapsed time: 5890.594769 msecs"
-; "Elapsed time: 5900.079994 msecs"
-
-
-; (time (first (filter #(< 500 (count-factors %)) (map triangle (range 2 999999)))))
-; (println (first (filter #(< 500 (count-factors %)) (map triangle (range 2 999999)))))
-; (time (first (filter #(< 500 (count-factors %)) (map triangle (range 2 999999)))))
-; (time (first (filter #(< 500 (count-factors %)) (map triangle (range 2 999999)))))
-; (time (first (filter #(< 500 (count-factors %)) (map triangle (range 2 999999)))))
-
-; "Elapsed time: 2995.348482 msecs"
-; 76576500N
-; "Elapsed time: 1450.806952 msecs"
-; "Elapsed time: 1448.608693 msecs"
-; "Elapsed time: 1471.040396 msecs"
-
-
-; (time (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
-; (println (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
-; (time (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
-; (time (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
-; (time (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
-
-; "Elapsed time: 1519.016464 msecs"
-; 76576500
-; "Elapsed time: 1388.602088 msecs"
-; "Elapsed time: 1330.660694 msecs"
-; "Elapsed time: 1352.914092 msecs"
-
-(time (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
-(println (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
-(time (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
-(time (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
-(time (first (filter #(< 500 (count-factors %)) (lazy-triangles))))
