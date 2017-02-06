@@ -18,47 +18,39 @@
 ; NOTE: number of divisors of N is related to the prime factorization of N.
 ; N=24 = 2 2 2 3 = [1,2,3,4,6,8,12,24] = 8 = 2^3,3^1 = (3+1)x(1+1) = 4x2
 
-;  1: 1^1
-;  3: 3^1
-;  6: 2^1,3^1
-; 10: 2^1,5^1
-; 15: 3^1,5^1
-; 21: 3^1,7^1
-; 28: 2^2,7^1
-; 36: 2^2,3^2
-
-; TODO: try out a parrallel filter function http://clojure.com/blog/2012/05/08/reducers-a-library-and-model-for-collection-processing.html
-
-(require '[clojure.core.reducers :as r])
-(require '[criterium.core :as c])
-
 (defn triangle [x]
   (* (inc x) (/ x 2)))
 
-; from clojure for the brave and true
 (defn ppmap [grain-size f & colls]
   (apply concat
     (apply pmap
       (fn [& pgroups] (doall (apply map f pgroups)))
       (map (partial partition-all grain-size) colls))))
 
+(def primes
+  (lazy-cat [2 3]
+    (filter
+      (fn [x]
+        (not-any? #(= 0 (rem x %))
+          (take-while #(<= (* % %) x)
+            primes)))
+      (drop 5 (range)))))
+
 (defn factors [x]
-  (if (= x 1)
-    []
-    (loop [n x i 2 results []]
-      ; note: would maybe want to unroll this and occasionally check to see if (* i i) is more than n. large primes are unfriendly at the moment
+  (loop [n x i-primes primes results []]
+    (let [i (first i-primes)]
       (if (zero? (rem n i))
         (if (= n i)
           (conj results n)
-          (recur (quot n i) i (conj results i)))
-        (recur n (inc i) results)))))
+          (recur (quot n i) i-primes (conj results i)))
+        (recur n (rest i-primes) results)))))
 
-(def m-factors (memoize factors))
+(def factors (memoize factors))
 
 (defn tri-factors [x]
   (if (even? x)
-    (concat (m-factors (inc x)) (m-factors (/      x  2)))
-    (concat (m-factors      x)  (m-factors (/ (inc x) 2)))))
+    (concat (factors (inc x)) (factors (/      x  2)))
+    (concat (factors      x)  (factors (/ (inc x) 2)))))
 
 (defn count-factors [x]
   (reduce
@@ -71,102 +63,15 @@
 ; 76576500
 ; the 12375 triangle number, has 576 factors
 
-(time (second (first (filter #(< 500 (first %)) (ppmap 128 (juxt count-factors identity) (range 3 9999999))))))
-(println (second (first (filter #(< 500 (first %)) (ppmap 128 (juxt count-factors identity) (range 3 9999999))))))
-(time (second (first (filter #(< 500 (first %)) (ppmap 128 (juxt count-factors identity) (range 3 9999999))))))
-(time (second (first (filter #(< 500 (first %)) (ppmap 128 (juxt count-factors identity) (range 3 9999999))))))
-(time (second (first (filter #(< 500 (first %)) (ppmap 128 (juxt count-factors identity) (range 3 9999999))))))
-(time (second (first (filter #(< 500 (first %)) (ppmap 128 (juxt count-factors identity) (range 3 9999999))))))
+(time (second (first (filter #(< 500 (first %)) (ppmap 128 (juxt count-factors identity) (drop 3 (range)))))))
+(println (second (first (filter #(< 500 (first %)) (ppmap 128 (juxt count-factors identity) (drop 3 (range)))))))
 
 
-; "non-memoized"
-; (time (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (range 3 9999999))))))
-; (println (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (range 3 9999999))))))
-; (time (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (range 3 9999999))))))
-; (time (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (range 3 9999999))))))
-; (time (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (range 3 9999999))))))
-; (time (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (range 3 9999999))))))
-
-; "Elapsed time: 1288.336132 msecs"
-; 12375
-; "Elapsed time: 1107.02131 msecs"
-; "Elapsed time: 948.656704 msecs"
-; "Elapsed time: 885.436804 msecs"
-; "Elapsed time: 875.600982 msecs"
+; "Elapsed time: 534.908748 msecs"
 
 
 
 
-; (time (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (lazy-triangles))))))
-; (println (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (lazy-triangles))))))
-; (time (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (lazy-triangles))))))
-; (time (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (lazy-triangles))))))
-; (time (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (lazy-triangles))))))
-; (time (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (lazy-triangles))))))
 
-; "Elapsed time: 1093.199636 msecs"
-; 76576500
-; "Elapsed time: 1036.869682 msecs"
-; "Elapsed time: 962.403979 msecs"
-; "Elapsed time: 960.942972 msecs"
-; "Elapsed time: 957.904248 msecs"
-
-; (time (second (first (filter #(< 500 (first %)) (pmap (juxt (comp count-factors triangle) identity) (range 2 9999999))))))
-; (println (second (first (filter #(< 500 (first %)) (pmap (juxt (comp count-factors triangle) identity) (range 2 9999999))))))
-; (time (second (first (filter #(< 500 (first %)) (pmap (juxt (comp count-factors triangle) identity) (range 2 9999999))))))
-; (time (second (first (filter #(< 500 (first %)) (pmap (juxt (comp count-factors triangle) identity) (range 2 9999999))))))
-; (time (second (first (filter #(< 500 (first %)) (pmap (juxt (comp count-factors triangle) identity) (range 2 9999999))))))
-; (time (second (first (filter #(< 500 (first %)) (pmap (juxt (comp count-factors triangle) identity) (range 2 9999999))))))
-
-; "Elapsed time: 1137.212062 msecs"
-; 12375
-; "Elapsed time: 921.453384 msecs"
-; "Elapsed time: 928.231082 msecs"
-; "Elapsed time: 937.764755 msecs"
-; "Elapsed time: 919.598576 msecs"
 
 ;
-; (def foo
-;   (juxt (comp count-factors triangle) identity))
-
-; (time (second (first (filter #(< 500 (first %)) (ppmap 32 foo (range 2 9999999))))))
-; (println (second (first (filter #(< 500 (first %)) (ppmap 32 foo (range 2 9999999))))))
-; (time (second (first (filter #(< 500 (first %)) (ppmap 32 foo (range 2 9999999))))))
-; (time (second (first (filter #(< 500 (first %)) (ppmap 32 foo (range 2 9999999))))))
-; (time (second (first (filter #(< 500 (first %)) (ppmap 32 foo (range 2 9999999))))))
-; (time (second (first (filter #(< 500 (first %)) (ppmap 32 foo (range 2 9999999))))))
-
-
-; (with-progress-reporting
-;   (quick-bench (second (first (filter #(< 500 (first %)) (ppmap 32 foo (range 2 9999999)))))))
-
-
-; (time (into [] (r/take 1 (r/filter #(< 500 (count-factors %)) (lazy-triangles)))))
-; (println (into [] (r/take 1 (r/filter #(< 500 (count-factors %)) (lazy-triangles)))))
-; (time (into [] (r/take 1 (r/filter #(< 500 (count-factors %)) (lazy-triangles)))))
-; (time (into [] (r/take 1 (r/filter #(< 500 (count-factors %)) (lazy-triangles)))))
-; (time (into [] (r/take 1 (r/filter #(< 500 (count-factors %)) (lazy-triangles)))))
-; (time (into [] (r/take 1 (r/filter #(< 500 (count-factors %)) (lazy-triangles)))))
-; (time (into [] (r/take 1 (r/filter #(< 500 (count-factors %)) (lazy-triangles)))))
-;
-; "Elapsed time: 1974.177823 msecs"
-; [76576500]
-; "Elapsed time: 1732.759683 msecs"
-; "Elapsed time: 1731.90068 msecs"
-; "Elapsed time: 1721.358883 msecs"
-; "Elapsed time: 1812.27257 msecs"
-; "Elapsed time: 1725.732095 msecs"
-
-; (defn sum-urls [len]
-;   (let [agents (repeatedly len #(agent 0))]
-;     (doseq [a agents] (send-off a #(+ 4 7 %)))
-;     (apply await agents)
-;     (reduce #(+ %1 @%2) 0 agents)))
-;
-;
-; (let [result (atom false)
-;       tris (partition 100 lazy-triangles)
-;       agents (repeatedly 100 #(agent 0))]
-;   (map #() agents tris))
-
-; i guess hunt for the min, not the 'first'
