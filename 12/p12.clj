@@ -21,29 +21,43 @@
 (defn triangle [x]
   (* (inc x) (/ x 2)))
 
-(defn ppmap [grain-size f & colls]
-  (apply concat
-    (apply pmap
-      (fn [& pgroups] (doall (apply map f pgroups)))
-      (map (partial partition-all grain-size) colls))))
+(defn take-until-sq [x lst]
+  (take-while #(<= (* % %) x) lst))
 
 (def primes
-  (lazy-cat [2 3]
+  ; 12373 max prime that will be used, the 1475th prime
+  (lazy-seq (concat [2 3]
     (filter
       (fn [x]
         (not-any? #(= 0 (rem x %))
-          (take-while #(<= (* % %) x)
-            primes)))
-      (drop 5 (range)))))
+          (take-until-sq x primes)))
+      (drop 5 (range))))))
+
+(defn repeat-hits [original prime]
+  ; this is doing one extra division, since we know that all these will rem0 at least once
+  (let [hits (loop [i 0 x original]
+               (if (= 0 (rem x prime))
+                 (recur (inc i) (quot x prime))
+                 i))]
+    (repeat hits prime)))
 
 (defn factors [x]
-  (loop [n x i-primes primes results []]
-    (let [i (first i-primes)]
-      (if (zero? (rem n i))
-        (if (= n i)
-          (conj results n)
-          (recur (quot n i) i-primes (conj results i)))
-        (recur n (rest i-primes) results)))))
+  ; (println x)
+  (let [half-x (quot (inc x) 2)
+        low-primes (take-while #(<= % x) primes)
+        hit-primes (filter #(= 0 (rem x %)) low-primes)]
+    ; (println "low" low-primes)
+    ; (println "hit" hit-primes)
+    (mapcat #(repeat-hits x %) hit-primes)))
+
+; (defn factors [x]
+;   (loop [n x i-primes primes results []]
+;     (let [i (first i-primes)]
+;       (if (zero? (rem n i))
+;         (if (= n i)
+;           (conj results n)
+;           (recur (quot n i) i-primes (conj results i)))
+;         (recur n (rest i-primes) results)))))
 
 (def factors (memoize factors))
 
@@ -63,13 +77,19 @@
 ; 76576500
 ; the 12375 triangle number, has 576 factors
 
-(time (second (first (filter #(< 500 (first %)) (ppmap 128 (juxt count-factors identity) (drop 3 (range)))))))
-(println (second (first (filter #(< 500 (first %)) (ppmap 128 (juxt count-factors identity) (drop 3 (range)))))))
-
+; (time (nth primes 1475))
+; (time (last (map factors (range 3 12376))))
+; (time (last (map tri-factors (range 3 12376))))
+; (time (last (map count-factors (range 3 12376))))
+;
+(time (second (first (filter #(< 500 (first %)) (map (juxt count-factors identity) (drop 3 (range)))))))
+(println (second (first (filter #(< 500 (first %)) (map (juxt count-factors identity) (drop 3 (range)))))))
 
 ; "Elapsed time: 534.908748 msecs"
 
+; "Elapsed time: 347.574188 msecs"
 
+; around 116ms of that is on prime generation
 
 
 
