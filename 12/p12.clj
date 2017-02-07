@@ -25,7 +25,6 @@
   (take-while #(<= (* % %) x) lst))
 
 (def primes
-  ; 12373 max prime that will be used, the 1475th prime
   (lazy-seq (concat [2 3]
     (filter
       (fn [x]
@@ -33,38 +32,36 @@
           (take-until-sq x primes)))
       (drop 5 (range))))))
 
-(defn repeat-hits [original prime]
-  ; this is doing one extra division, since we know that all these will rem0 at least once
-  (let [hits (loop [i 0 x original]
-               (if (= 0 (rem x prime))
-                 (recur (inc i) (quot x prime))
-                 i))]
-    (repeat hits prime)))
-
 (defn factors [x]
-  ; (println x)
-  (let [half-x (quot (inc x) 2)
-        low-primes (take-while #(<= % x) primes)
-        hit-primes (filter #(= 0 (rem x %)) low-primes)]
-    ; (println "low" low-primes)
-    ; (println "hit" hit-primes)
-    (mapcat #(repeat-hits x %) hit-primes)))
-
-; (defn factors [x]
-;   (loop [n x i-primes primes results []]
-;     (let [i (first i-primes)]
-;       (if (zero? (rem n i))
-;         (if (= n i)
-;           (conj results n)
-;           (recur (quot n i) i-primes (conj results i)))
-;         (recur n (rest i-primes) results)))))
+  (loop [n x i-primes primes results []]
+    (let [i (first i-primes)]
+      (if (zero? (rem n i))
+        (if (= n i)
+          (conj results n)
+          (recur (quot n i) i-primes (conj results i)))
+        (recur n (rest i-primes) results)))))
 
 (def factors (memoize factors))
 
-(defn tri-factors [x]
-  (if (even? x)
-    (concat (factors (inc x)) (factors (/      x  2)))
-    (concat (factors      x)  (factors (/ (inc x) 2)))))
+; (let [last-factor (atom [])]
+;   (defn tri-factors [x]
+;     (if (even? x)
+;       (let []
+;         (concat (factors (inc x)) (factors (/      x  2))))
+;       (let []
+;         (concat (factors      x)  (factors (/ (inc x) 2))))))
+
+(let [last-factors (atom [])]
+  (defn tri-factors [x]
+    (if (even? x)
+      (let [new-factors (factors (inc x))
+            output (concat new-factors @last-factors)]
+        (reset! last-factors new-factors)
+        output)
+      (let [new-factors (factors (/ (inc x) 2))
+            output (concat @last-factors new-factors)]
+          (reset! last-factors new-factors)
+          output))))
 
 (defn count-factors [x]
   (reduce
@@ -89,7 +86,7 @@
 
 ; "Elapsed time: 347.574188 msecs"
 
-; around 116ms of that is on prime generation
+; around 116ms of that is on prime generation, ;;;;;;;@@@ nvmd, less than that
 
 
 
