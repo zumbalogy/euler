@@ -53,7 +53,7 @@ puts Prime.each(2000000).reduce(:+)
 ##################
 
 out = 0
-Prime.each(2000000) {|p| out += p}
+Prime.each(2000000) { |p| out += p }
 puts out
 
 

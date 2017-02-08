@@ -26,5 +26,5 @@ tri_numbers = Enumerator.new do |out|
   end
 end
 
-puts tri_numbers.find { |x| factor_count(x) > 500 }
+puts tri_numbers.find { |x| 500 < factor_count(x) }
 # 76_576_500
