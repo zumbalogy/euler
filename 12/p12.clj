@@ -21,15 +21,12 @@
 (defn triangle [x]
   (* (inc x) (/ x 2)))
 
-(defn take-until-sq [x lst]
-  (take-while #(<= (* % %) x) lst))
-
 (def primes
   (lazy-seq (concat [2 3]
     (filter
       (fn [x]
         (not-any? #(= 0 (rem x %))
-          (take-until-sq x primes)))
+          (take-while #(<= (* % %) x) primes)))
       (drop 5 (range))))))
 
 (defn factors [x]
@@ -43,25 +40,10 @@
 
 (def factors (memoize factors))
 
-; (let [last-factor (atom [])]
-;   (defn tri-factors [x]
-;     (if (even? x)
-;       (let []
-;         (concat (factors (inc x)) (factors (/      x  2))))
-;       (let []
-;         (concat (factors      x)  (factors (/ (inc x) 2))))))
-
-(let [last-factors (atom [])]
-  (defn tri-factors [x]
-    (if (even? x)
-      (let [new-factors (factors (inc x))
-            output (concat new-factors @last-factors)]
-        (reset! last-factors new-factors)
-        output)
-      (let [new-factors (factors (/ (inc x) 2))
-            output (concat @last-factors new-factors)]
-          (reset! last-factors new-factors)
-          output))))
+(defn tri-factors [x]
+  (if (even? x)
+    (concat (factors (inc x)) (factors (/      x  2)))
+    (concat (factors      x)  (factors (/ (inc x) 2)))))
 
 (defn count-factors [x]
   (reduce
@@ -69,26 +51,7 @@
     1
     (frequencies (tri-factors x))))
 
-; (println
-;   (second (first (filter #(< 500 (first %)) (pmap (juxt count-factors identity) (range 3 9999999))))))
+(println
+  (triangle (first (filter #(< 500 (count-factors %)) (drop 3 (range))))))
 ; 76576500
 ; the 12375 triangle number, has 576 factors
-
-; (time (nth primes 1475))
-; (time (last (map factors (range 3 12376))))
-; (time (last (map tri-factors (range 3 12376))))
-; (time (last (map count-factors (range 3 12376))))
-;
-(time (second (first (filter #(< 500 (first %)) (map (juxt count-factors identity) (drop 3 (range)))))))
-(println (second (first (filter #(< 500 (first %)) (map (juxt count-factors identity) (drop 3 (range)))))))
-
-; "Elapsed time: 534.908748 msecs"
-
-; "Elapsed time: 347.574188 msecs"
-
-; around 116ms of that is on prime generation, ;;;;;;;@@@ nvmd, less than that
-
-
-
-
-;
