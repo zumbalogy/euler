@@ -1,7 +1,9 @@
 ; currently not in use, just a list of things that i think might be convenient.
 
-(defn first-where [func x]
-  (first (filter func x)))
+; (defn first-where [func x]
+;   (first (filter func x)))
+
+; better name would be ffilter
 
 ; some kinda serves this porpose if you want the change
 ; (defn first-from [func x]
@@ -38,3 +40,24 @@
 ; (~> 0
 ;     (- %% 6)
 ;     (- 18 %%))
+
+; or maybe better, a x-> where you chain things, but every other one is a name. so like
+
+; (x-> a 5
+;   b inc
+;   c (+ a))
+;
+; would return 11. but maybe thats kinda tangly. but it would be nice for commeting things out and logging them and such
+
+
+; sinstead of something like this:
+; #(<= (digit-count %) (digit-count n))
+; which could also be written as
+; #(apply <= (map digit-count [% n]))
+; maybe
+; #(apply-jump <= digital-count % n)
+; but thats kind of funny. maybe call it apply-with or apply-by but at least for an equality compariston it might be useful to have
+; something like
+;
+; (defn eq-by [func & args]
+;   (apply = (map func args)))
