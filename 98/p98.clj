@@ -41,10 +41,38 @@
 
 (def word-codes (map first coded-words))
 
-(defn code->digit-anagrams [code]
-  (let [mag (int (Math/pow 10 (count code)))
-        leads (filter #() (range mag (* 10 mag)))]
-        ; TODO
-        ))
+(def squares (map #(* % %) (range)))
 
-(println coded-words)
+(defn square? [n]
+  (let [h (bit-and n 0xF)]
+    (when (or (= h 0) (= h 1) (= h 4) (= h 9))
+      (let [t (int (Math/sqrt n))]
+        (= n (* t t))))))
+
+(defn reverse-digits [n]
+  ()) ; quot them out of n and multiply into an output in reverse order
+
+
+(def anagram-squares (filter #(square? (read-string (apply str (reverse (str %))))) squares))
+
+; (println coded-words)
+
+(assert (square? 9))
+(assert (square? 9))
+(assert (square? 25))
+(assert (square? 16))
+(assert (square? 36))
+(assert (square? 100))
+(assert (square? 1296))
+(assert (square? 9216))
+(assert (not (square? 9217)))
+(assert (not (square? 99)))
+(assert (not (square? 101)))
+(assert (not (square? 6)))
+(assert (not (square? 17)))
+
+(time (doall (map square? (range 1000000))))
+(time (doall (map square? (range 1000010))))
+
+
+(println "//////////////")
