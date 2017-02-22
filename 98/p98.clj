@@ -15,19 +15,7 @@
 ; It seems like number subsitutions have to be 0-9 for a letter, and no letters allowed to map to same value
 ; so all words with over 10 different letters are disqualified.
 
-; todo, maybe this shuld all be one threaded macro until words or anagrams
-
-(defn clean [input]
-  (clojure.string/lower-case (re-find #"\w+" input)))
-
-; (def words (-> (slurp "words.txt")
-;   ))
-
-(def file (slurp "words.txt"))
-
-(def raw-words (clojure.string/split file #","))
-
-(def words (map clean raw-words))
+(def words (re-seq #"\w+" (slurp "words.txt")))
 
 (def raw-anagrams (filter #(< 1 (count %)) (map last (group-by sort words))))
 ; this has one triplet
@@ -39,43 +27,24 @@
 
 (def anagrams (mapcat make-pairs raw-anagrams))
 
-(def squares (map #(* % %) (range)))
-
-(def digit-count (comp count str))
-
 (defn digit-anagram? [a b]
   (and (not= a b) (= (sort (str a)) (sort (str b)))))
 
-(defn sq-match [n]
-  (first (filter #(digit-anagram? n %)
-    (take-while #(<= (digit-count %) (digit-count n))
-      squares))))
-
-(def anagram-squares (filter last (map (juxt identity sq-match) squares)))
-
-(defn anagram-map [raw-a raw-b]
+; this should handle words with multiple of the same letter. right now CENTRE/RECENT (2 1 4 5 0 1), which is ok, but if multiple
+; duplicates, it will be ambiguous i think
+(defn anagram->code [raw-a raw-b]
   (let [a (str raw-a)
         b (str raw-b)]
     (map #(.indexOf b (str %)) a)))
 
-; try pmapping and partition-pmapping
-(def coded-squares (map (fn [n] [(apply anagram-map n) n]) anagram-squares))
-
-(def coded-words (apply hash-map (mapcat (fn [n] [(apply anagram-map n) n]) anagrams)))
+(def coded-words (apply hash-map (mapcat (fn [n] [(apply anagram->code n) n]) anagrams)))
 
 (def word-codes (map first coded-words))
 
-(println coded-words)
+(defn code->digit-anagrams [code]
+  (let [mag (int (Math/pow 10 (count code)))
+        leads (filter #() (range mag (* 10 mag)))]
+        ; TODO
+        ))
 
-; only need to take first half of squares with a ceritan digit, since sorted pairs, or, dont need to do the or with the reverse
-(def word-sq-matches
-  (keep
-    (fn [n]
-      (println (count n) n)
-      (first (filter #(or (= n (first %)) (= n (reverse (first %))))
-        (take-while #(do  (println n %) (>= (count n) (count (first %))))
-          coded-squares))))
-    word-codes))
-    
-(time
-  (apply max (map (comp last last) word-sq-matches)))
+(println coded-words)
