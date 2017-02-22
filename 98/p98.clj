@@ -16,8 +16,12 @@
 ; so all words with over 10 different letters are disqualified.
 
 ; todo, maybe this shuld all be one threaded macro until words or anagrams
+
 (defn clean [input]
   (clojure.string/lower-case (re-find #"\w+" input)))
+
+; (def words (-> (slurp "words.txt")
+;   ))
 
 (def file (slurp "words.txt"))
 
@@ -31,18 +35,9 @@
 (defn make-pairs [n]
   (vec (set
     (filter #(apply not= %)
-      (for [a n b n]
-        (sort [a b]))))))
+      (for [a n b n] (sort [a b]))))))
 
 (def anagrams (mapcat make-pairs raw-anagrams))
-
-; (defn -square? [n]
-;   (== 0 (mod n 1)))
-
-; (def a-z (map char (range 97 123)))
-
-; (defn square? [n]
-;   (some #{n} (take-while #(<= % n) squares)))
 
 (def squares (map #(* % %) (range)))
 
@@ -63,18 +58,24 @@
         b (str raw-b)]
     (map #(.indexOf b (str %)) a)))
 
-; user=> (anagram-map "care" "race")
-; (2 1 0 3)
-; user=> (anagram-map 1296 9216)
-; (2 1 0 3)
-;; TODO: make sure to also check the reverse of the anagram-maps
-;; ^ that that the anagram-squares list has both [a,b] and [b,a]
-
+; try pmapping and partition-pmapping
 (def coded-squares (map (fn [n] [(apply anagram-map n) n]) anagram-squares))
 
 (def coded-words (apply hash-map (mapcat (fn [n] [(apply anagram-map n) n]) anagrams)))
 
 (def word-codes (map first coded-words))
 
-; for each word code, look up to see if theres a coded square for it. do that by looking until the squares are too big to match.
-; then once have all those, the biggest one is the solution.
+(println coded-words)
+
+; only need to take first half of squares with a ceritan digit, since sorted pairs, or, dont need to do the or with the reverse
+(def word-sq-matches
+  (keep
+    (fn [n]
+      (println (count n) n)
+      (first (filter #(or (= n (first %)) (= n (reverse (first %))))
+        (take-while #(do  (println n %) (>= (count n) (count (first %))))
+          coded-squares))))
+    word-codes))
+    
+(time
+  (apply max (map (comp last last) word-sq-matches)))
