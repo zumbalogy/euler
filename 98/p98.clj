@@ -35,20 +35,6 @@
       (let [t (int (Math/sqrt n))]
         (= n (* t t))))))
 
-(defn reverse-digits [n]
-  (loop [in n out 0]
-    (if (= in 0)
-      out
-      (recur
-        (quot in 10)
-        (+ (* 10 out) (rem in 10))))))
-
-; maybe move out the anagram->code part for better seperation
-(defn make-square-pair [n]
-  (let [r (reverse-digits n)]
-    (when (and (not= r n) (square? r))
-      [(anagram->code n r) n r])))
-
 (def words (re-seq #"\w+" (slurp "words.txt")))
 
 (def raw-anagrams (filter #(< 1 (count %)) (map last (group-by sort words))))
@@ -58,16 +44,14 @@
 
 (def coded-words (apply hash-map (mapcat (fn [n] [(apply anagram->code n) n]) anagrams)))
 
-;;;;;;;;;
-
 (def squares (map #(* % %) (range)))
 
-(def clean-squares (filter #(not= 0 (rem % 10)) squares))
+(doseq [[code words] coded-words]
+  (let [squares-of-right-length "todo"
+        squares-transformed-via-code "todo"]
+    (println (filter square? squares-transformed-via-code))))
 
-(def anagram-squares (keep make-square-pair clean-squares))
 
-(defn find-match [[a b]]
-  (first (filter #(or (= (first %) (anagram->code a b)) (= (first %) (anagram->code b a))) (take-while #(bla bla bla) anagram-squares))))
 
-(println
-  (filter first (keep (juxt find-match identity) anagrams)))
+
+;
