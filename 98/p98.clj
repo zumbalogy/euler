@@ -15,20 +15,10 @@
 ; It seems like number subsitutions have to be 0-9 for a letter, and no letters allowed to map to same value
 ; so all words with over 10 different letters are disqualified.
 
-(def words (re-seq #"\w+" (slurp "words.txt")))
-
-(def raw-anagrams (filter #(< 1 (count %)) (map last (group-by sort words))))
-; this has one triplet
-
 (defn make-pairs [n]
   (vec (set
     (filter #(apply not= %)
       (for [a n b n] (sort [a b]))))))
-
-(def anagrams (mapcat make-pairs raw-anagrams))
-
-(defn digit-anagram? [a b]
-  (and (not= a b) (= (sort (str a)) (sort (str b)))))
 
 ; this should handle words with multiple of the same letter. right now CENTRE/RECENT (2 1 4 5 0 1), which is ok, but if multiple
 ; duplicates, it will be ambiguous i think
@@ -37,12 +27,8 @@
         b (str raw-b)]
     (map #(.indexOf b (str %)) a)))
 
-(def coded-words (apply hash-map (mapcat (fn [n] [(apply anagram->code n) n]) anagrams)))
-
-(def word-codes (map first coded-words))
-
-(def squares (map #(* % %) (range)))
-
+; https://burningmath.blogspot.com/2013/09/how-to-check-if-number-is-perfect-square.html
+; https://stackoverflow.com/questions/295579/fastest-way-to-determine-if-an-integers-square-root-is-an-integer
 (defn square? [n]
   (let [h (bit-and n 0xF)]
     (when (or (= h 0) (= h 1) (= h 4) (= h 9))
@@ -50,29 +36,38 @@
         (= n (* t t))))))
 
 (defn reverse-digits [n]
-  ()) ; quot them out of n and multiply into an output in reverse order
+  (loop [in n out 0]
+    (if (= in 0)
+      out
+      (recur
+        (quot in 10)
+        (+ (* 10 out) (rem in 10))))))
 
+; maybe move out the anagram->code part for better seperation
+(defn make-square-pair [n]
+  (let [r (reverse-digits n)]
+    (when (and (not= r n) (square? r))
+      [(anagram->code n r) n r])))
 
-(def anagram-squares (filter #(square? (read-string (apply str (reverse (str %))))) squares))
+(def words (re-seq #"\w+" (slurp "words.txt")))
 
-; (println coded-words)
+(def raw-anagrams (filter #(< 1 (count %)) (map last (group-by sort words))))
+; this has one triplet
 
-(assert (square? 9))
-(assert (square? 9))
-(assert (square? 25))
-(assert (square? 16))
-(assert (square? 36))
-(assert (square? 100))
-(assert (square? 1296))
-(assert (square? 9216))
-(assert (not (square? 9217)))
-(assert (not (square? 99)))
-(assert (not (square? 101)))
-(assert (not (square? 6)))
-(assert (not (square? 17)))
+(def anagrams (mapcat make-pairs raw-anagrams))
 
-(time (doall (map square? (range 1000000))))
-(time (doall (map square? (range 1000010))))
+(def coded-words (apply hash-map (mapcat (fn [n] [(apply anagram->code n) n]) anagrams)))
 
+;;;;;;;;;
 
-(println "//////////////")
+(def squares (map #(* % %) (range)))
+
+(def clean-squares (filter #(not= 0 (rem % 10)) squares))
+
+(def anagram-squares (keep make-square-pair clean-squares))
+
+(defn find-match [[a b]]
+  (first (filter #(or (= (first %) (anagram->code a b)) (= (first %) (anagram->code b a))) (take-while #(bla bla bla) anagram-squares))))
+
+(println
+  (filter first (keep (juxt find-match identity) anagrams)))
