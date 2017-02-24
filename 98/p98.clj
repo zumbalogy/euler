@@ -20,20 +20,36 @@
     (filter #(apply not= %)
       (for [a n b n] (sort [a b]))))))
 
-; this should handle words with multiple of the same letter. right now CENTRE/RECENT (2 1 4 5 0 1), which is ok, but if multiple
-; duplicates, it will be ambiguous i think
-(defn anagram->code [raw-a raw-b]
-  (let [a (str raw-a)
-        b (str raw-b)]
-    (map #(.indexOf b (str %)) a)))
+(defn anagram->code [a b]
+  (map #(.indexOf (str b) (str %)) (str a)))
 
 ; https://burningmath.blogspot.com/2013/09/how-to-check-if-number-is-perfect-square.html
 ; https://stackoverflow.com/questions/295579/fastest-way-to-determine-if-an-integers-square-root-is-an-integer
 (defn square? [n]
-  (let [h (bit-and n 0xF)]
+  (let [h (bit-and n 0xF)
+        t (int (Math/sqrt n))]
     (when (or (= h 0) (= h 1) (= h 4) (= h 9))
-      (let [t (int (Math/sqrt n))]
-        (= n (* t t))))))
+      (= n (* t t)))))
+
+(defn transform [n code]
+  (let [digits (map #(Character/digit % 10) (str n))
+        out (map #(nth digits %) code)]
+    (when (and (every? identity out)
+               (not= (apply str out) (str n))
+               (pos? (first out)))
+      (read-string (apply str out))))) ; might be faster to try/catch or maybe dont use read-string
+
+(defn sym-freqs [n]
+  (sort (map last (frequencies (str n)))))
+
+(defn get-sq-anagrams [[code words]]
+  (let [squares (map #(* % %) (range))
+        long-squares (drop-while #(> (count code) (count (str %))) squares)
+        capped-squares (take-while #(= (count code) (count (str %))) long-squares)
+        valid-squares (filter #(= (sym-freqs (first words)) (sym-freqs %)) capped-squares)
+        transformed-squares (map #(list (transform % code) %) valid-squares)
+        clean-pairs (filter first transformed-squares)]
+    (filter (comp square? first) clean-pairs)))
 
 (def words (re-seq #"\w+" (slurp "words.txt")))
 
@@ -44,14 +60,6 @@
 
 (def coded-words (apply hash-map (mapcat (fn [n] [(apply anagram->code n) n]) anagrams)))
 
-(def squares (map #(* % %) (range)))
-
-(doseq [[code words] coded-words]
-  (let [squares-of-right-length "todo"
-        squares-transformed-via-code "todo"]
-    (println (filter square? squares-transformed-via-code))))
-
-
-
-
-;
+(println
+  (apply max (flatten (map get-sq-anagrams coded-words))))
+; 18769
