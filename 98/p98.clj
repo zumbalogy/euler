@@ -42,14 +42,22 @@
 (defn sym-freqs [n]
   (sort (map last (frequencies (str n)))))
 
+(defn digit-count [n]
+  (inc (int (Math/log10 n))))
+
 (defn get-sq-anagrams [[code words]]
-  (let [squares (map #(* % %) (range))
-        long-squares (drop-while #(> (count code) (count (str %))) squares)
-        capped-squares (take-while #(= (count code) (count (str %))) long-squares)
-        valid-squares (filter #(= (sym-freqs (first words)) (sym-freqs %)) capped-squares)
-        transformed-squares (map #(list (transform % code) %) valid-squares)
-        clean-pairs (filter first transformed-squares)]
-    (filter (comp square? first) clean-pairs)))
+  (->>
+      ;  (range (int (Math/sqrt (Math/pow 10 (dec (count code))))) (Math/sqrt (Math/pow 10 (count code))))
+      ;  (range 1 (Math/sqrt (Math/pow 10 (count code))))
+      (range (Math/sqrt (Math/pow 10 (count code))))
+      (drop (int (Math/sqrt (Math/pow 10 (dec (count code))))))
+       (map #(* % %))
+      ;  (drop-while #(> (count code) (digit-count %)))
+      ;  (take-while #(= (count code) (digit-count %)))
+       (filter #(= (sym-freqs (first words)) (sym-freqs %)))
+       (map #(list (transform % code) %))
+       (filter first)
+       (filter (comp square? first))))
 
 (def words (re-seq #"\w+" (slurp "words.txt")))
 
@@ -60,6 +68,8 @@
 
 (def coded-words (apply hash-map (mapcat (fn [n] [(apply anagram->code n) n]) anagrams)))
 
-(println
+(time
   (apply max (flatten (map get-sq-anagrams coded-words))))
 ; 18769
+(println
+  (apply max (flatten (map get-sq-anagrams coded-words))))
