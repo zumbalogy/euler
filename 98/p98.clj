@@ -39,17 +39,6 @@
     (when (not= \0 (first out))
       (Integer/parseInt (apply str out)))))
 
-; (defn transform [n code]
-;   (as-> (map #(nth (str n) %) code) out
-;         (when (not= \0 (first out))
-;           (Integer/parseInt (apply str out)))))
-
-; (defn transform [n code]
-;   (as-> (map #(Character/digit % 10) (str n)) out
-;         (map #(nth out %) code)
-;         (when (pos? (first out))
-;           (Integer/parseInt (apply str out)))))
-
 (defn get-sq-anagrams [code]
   (->> (range (Math/sqrt (Math/pow 10 (count code))))
        (drop (int (Math/sqrt (Math/pow 10 (dec (count code))))))
@@ -67,8 +56,6 @@
        (mapcat make-pairs)
        (map anagram->code)))
 
-(time
-  (apply max (flatten (map get-sq-anagrams codes))))
 (println
   (apply max (flatten (map get-sq-anagrams codes))))
 ; 18769
