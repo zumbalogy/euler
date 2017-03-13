@@ -2,13 +2,13 @@
 ; The sum of these multiples is 23.
 ; Find the sum of all the multiples of 3 or 5 below 1000.
 
-(defn sum_under [input]
+(defn sum-under [input]
   (* input (/ (inc input) 2)))
 
-(defn sum_steps [step limit]
-  (* step (sum_under (quot (dec limit) step))))
+(defn sum-steps [step limit]
+  (* step (sum-under (quot (dec limit) step))))
 
 (println
-  (- (+ (sum_steps 3 1000) (sum_steps 5 1000))
-     (sum_steps 15 1000)))
+  (- (+ (sum-steps 3 1000) (sum-steps 5 1000))
+     (sum-steps 15 1000)))
 ; 233168

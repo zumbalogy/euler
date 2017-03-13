@@ -49,7 +49,8 @@
        (filter (comp square? first))))
 
 (def codes
-  (->> (slurp "words.txt")
+  (->> (str (.getParent (clojure.java.io/file *file*)) "/words.txt")
+       (slurp)
        (re-seq #"\w+")
        (group-by sort)
        (map last)

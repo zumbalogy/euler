@@ -49,6 +49,8 @@
 ;
 ; would return 11. but maybe thats kinda tangly. but it would be nice for commeting things out and logging them and such
 
+; i guess as-> provides some this functionality.
+; also i guess "let" is pretty much this, though let is lazy and non returning of last item
 
 ; sinstead of something like this:
 ; #(<= (digit-count %) (digit-count n))
@@ -61,3 +63,5 @@
 ;
 ; (defn eq-by [func & args]
 ;   (apply = (map func args)))
+
+; having a *pwd* alias of (.getParent (clojure.java.io/file *file*)) would maybe be nice
