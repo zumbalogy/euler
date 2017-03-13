@@ -13,4 +13,4 @@
 (println
   (reduce + (primes-until 2000000)))
 ; 142913828922
-; Note: half the time (about 500ms for me) is spent doing the keep-indexed
+; Note: ~500ms total for me, half of which is spent doing the keep-indexed
