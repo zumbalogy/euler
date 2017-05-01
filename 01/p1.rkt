@@ -5,10 +5,10 @@
 ; Find the sum of all the multiples of 3 or 5 below 1000.
 
 (define (sum-under limit)
-  (foldl + 0 (range 0 limit)))
+  (* limit (/ (+ limit 1) 2)))
 
 (define (sum-steps step limit)
-  (* step (sum-under (/ limit step))))
+  (* step (sum-under (floor (/ (- limit 1) step)))))
 
 (println
   (- (+ (sum-steps 3 1000) (sum-steps 5 1000)) (sum-steps 15 1000)))

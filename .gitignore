@@ -48,3 +48,5 @@ src/main/cljs/cljs/core.aot.js.map
 src/main/cljs/cljs/core.cljs.cache.aot.edn
 *.log
 *.js.map
+*_rkt.dep
+*_rkt.zo
