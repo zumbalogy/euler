@@ -18,3 +18,5 @@ large_pal = to_pal(match)
 puts large_pal
 # 906609
 # 913 * 993
+
+# note, this may have bug not finding numbers like 12321
