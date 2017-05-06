@@ -6,19 +6,9 @@
 
 ; Sum the even terms in the Fibonacci sequence under four million
 
-(time (let loop ([a 1] [b 2] [sum 0])
+(println (let loop ([a 1] [b 2] [sum 0])
   (if (< b 4000000)
     (loop b (+ a b) (if (even? b) (+ sum b) sum))
     sum)))
 
-(time (let loop ([a 1] [b 2] [sum 0])
-  (if (< b 4000000)
-    (loop (+ a b b) (+ a a b b b) (+ sum b))
-    sum)))
-
 ; 4613732
-
-; a b
-; b ab
-; ab abb
-; abb aabbb
