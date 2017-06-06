@@ -5,7 +5,7 @@
 
 ; In triangles.txt, how many triangles (of 1000) contain the origin?
 
-(defn origin-ray-intersects [[[x1 y1] [x2 y2]]]
+(defn o-ray-intersects? [[[x1 y1] [x2 y2]]]
   (and (or (<= y1 0 y2)
            (<= y2 0 y1))
        (< 0 (+ x1
@@ -14,7 +14,7 @@
                   (- x2 x1))))))
 
 (defn has-o? [shape]
-  (odd? (count (filter origin-ray-intersects shape))))
+  (odd? (count (filter o-ray-intersects? shape))))
 
 (defn make-shape [[x1 y1 :as points]]
   (->> (concat points [x1 y1])
