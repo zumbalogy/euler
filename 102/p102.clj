@@ -13,22 +13,21 @@
                      (- y2 y1))
                   (- x2 x1))))))
 
-(defn tri_has_o [tri]
-  (odd? (count (filter origin-ray-intersects tri))))
+(defn has-o? [shape]
+  (odd? (count (filter origin-ray-intersects shape))))
 
-(defn make-triangles [line]
-  (->> (clojure.string/split line #",")
-       (map read-string)
+(defn make-shape [[x1 y1 :as points]]
+  (->> (concat points [x1 y1])
        (partition 2)
-       cycle
-       (take 4)
        (partition 2 1)))
 
 (def triangles
   (->> (slurp "triangles.txt")
        clojure.string/split-lines
-       (map make-triangles)))
+       (map #(clojure.string/split % #","))
+       (map #(map read-string %))
+       (map make-shape)))
 
 (println
-  (count (filter tri_has_o triangles)))
+  (count (filter has-o? triangles)))
 ; 228
