@@ -7,11 +7,11 @@
 
 (defn o-ray-intersects? [[[x1 y1] [x2 y2]]]
   (and (or (< y1 0 y2)
-           (< y2 0 y1))
-       (pos? (+ x1
-                (* (- x2 x1)
-                   (/ (- y1)
-                      (- y2 y1)))))))
+           (> y1 0 y2))
+       (-> (/ (- y1) (- y2 y1))
+           (* (- x2 x1))
+           (+ x1)
+           pos?)))
 
 (defn has-o? [shape]
   (odd? (count (filter o-ray-intersects? shape))))
