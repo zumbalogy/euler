@@ -6,12 +6,12 @@
 ; In triangles.txt, how many triangles (of 1000) contain the origin?
 
 (defn o-ray-intersects? [[[x1 y1] [x2 y2]]]
-  (and (or (<= y1 0 y2)
-           (<= y2 0 y1))
-       (< 0 (+ x1
-               (* (/ (- 0 y1)
-                     (- y2 y1))
-                  (- x2 x1))))))
+  (and (or (< y1 0 y2)
+           (< y2 0 y1))
+       (pos? (+ x1
+                (* (- x2 x1)
+                   (/ (- y1)
+                      (- y2 y1)))))))
 
 (defn has-o? [shape]
   (odd? (count (filter o-ray-intersects? shape))))
