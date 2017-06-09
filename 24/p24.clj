@@ -5,10 +5,7 @@
 
 ; What is the millionth lexicographic permutation of the digits 0, 1, 2, 3 ,4 ,5 ,6 7, 8, and 9?
 
-; this would ignore duplicate permutations like ([1 1] [1 1])
-
-(ns my.combinatorics
-  (:require [clojure.math.combinatorics :as combo]))
+; NOTE: this code will ignore duplicate permutations like ([1 1] [1 1]) if there were any
 
 (defn shift-it [lex i]
   (let [rlex (reverse lex)
@@ -17,23 +14,9 @@
         tail (rest t)
         spot (.indexOf tail (first (filter #(< % n) tail)))
         [h2 t2] (split-at (inc spot) tail)
-        out-head (reverse (sort (reverse (concat head h2))))
-        out (reverse (concat out-head [n] t2))
-        alt-out (concat (rest lex) [n])]
-    ; (println
-    ;   "\n out" out
-    ;   "\n tail" tail
-    ;   "\n spot " spot
-    ;   "\n head" head
-    ;   "\n h2" h2
-    ;   "\n n" n
-    ;   "\n t2" t2
-    ;   )
-    (if (and (= (inc i) (count lex)) (= -1 spot) (> (first alt-out) (first lex)))
-      alt-out
-      (if (and (not= spot -1) (= (count lex) (count out)))
-        out
-        nil))))
+        out-head (sort > (concat head h2))]
+      (when (not= spot -1)
+        (reverse (concat out-head [n] t2)))))
 
 (defn sub-next-lex [lex]
   (first (keep #(shift-it lex %) (range (count lex)))))
@@ -48,22 +31,28 @@
           (concat head new-tail)
           (recur (inc i)))))))
 
+; (defn chop [lex i]
+;   (let [[h t] (split-at (- (count lex) i) lex)
+;         t2 (sub-next-lex t)]
+;     (when t2 (concat h t2))))
+;
+; (defn next-lex [lex]
+;   (or (first (keep #(chop lex %) (range 1 (inc (count lex)))))
+;       (concat (rest lex) [(first lex)])))
+
+(time (nth (iterate next-lex (range 10)) 10000))
+
 (assert (= (next-lex [0 1 2]) [0 2 1]))
 (assert (= (next-lex [0 2 1]) [1 0 2]))
 (assert (= (next-lex [1 0 2]) [1 2 0]))
 (assert (= (next-lex [1 2 0]) [2 0 1]))
 (assert (= (next-lex [2 0 1]) [2 1 0]))
-(assert (= (combo/nth-permutation (range 10) 4)
+(assert (= [0 1 2 3 4 5 6 9 7 8]
            (next-lex [0 1 2 3 4 5 6 8 9 7])))
+(assert (= [0 1 3 9 8 4 6 7 2 5]
+           (nth (iterate next-lex (range 10)) 10000)))
 
-
-(println (combo/nth-permutation (range 10) 999999))
-(println (nth (iterate next-lex (range 10)) 999999))
-
-
-; 7 9 8 6
-; 8 6 7 9
-
-
+(println
+  (nth (iterate next-lex (range 10)) 999999))
 
 ; 2783915460
