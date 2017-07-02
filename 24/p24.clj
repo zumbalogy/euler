@@ -24,9 +24,8 @@
 (def first-shift (memoize first-shift))
 
 (defn chop [lex i]
-  (let [[h t] (split-at (- (count lex) i) lex)
-        t2 (first-shift t)]
-    (when t2
+  (let [[h t] (split-at (- (count lex) i) lex)]
+    (when-let [t2 (first-shift t)]
       (concat h t2))))
 
 (defn next-lex [lex]
