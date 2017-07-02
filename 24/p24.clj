@@ -9,17 +9,19 @@
   ; TODO: do this the normal way
   (concat (take i lst) (drop (inc i) lst)))
 
-(defn factorial [n]
-  (reduce * (range 2 (inc n))))
-
 (defn grab [indexes bag]
-  (first (reduce (fn [[out new-bag] i] [(conj out (nth new-bag i)) (delete i new-bag)]) [[] bag] indexes)))
+  (first (reduce
+    (fn [[out new-bag] i]
+      [(conj out (nth new-bag i)) (delete i new-bag)]) 
+    [[] bag]
+    indexes)))
 
 (defn n-lex-reducer [[sum out] i]
-  (let [f (factorial i)
-        q (if (= 0 i) 0 (quot sum f))
-        x (- sum (* q f))]
-    [x (conj out q)]))
+  (let [fact (reduce * (range 2 (inc i)))
+        q (quot sum fact)
+        sum2 (- sum (* q fact))
+        out2 (conj out q)]
+    [sum2 out2]))
 
 (defn n-lex [n lex]
   (let [rrange (reverse (range (count lex)))
