@@ -5,38 +5,27 @@
 
 ; What is the millionth lexicographic permutation of the digits 0, 1, 2, 3 ,4 ,5 ,6 7, 8, and 9?
 
-; NOTE: this code will ignore duplicate permutations like ([1 1] [1 1]) if there were any
+(defn delete [i lst]
+  ; TODO: do this the normal way
+  (concat (take i lst) (drop (inc i) lst)))
 
-(defn shift-it [lex i]
-  (let [ri (dec (- (count lex) i))
-        n (nth lex ri)
-        [h t] (split-at ri lex)
-        tail (rest t)
-        spot (.indexOf h (last (filter #(< % n) h)))
-        [h2 t2] (split-at spot h)
-        out-tail (sort (concat t2 tail))]
-      (when (not= -1 spot)
-        (concat h2 [n] out-tail))))
+(defn factorial [n]
+  (reduce * (range 2 (inc n))))
 
-(defn first-shift [lex]
-  (some #(shift-it lex %) (range (count lex))))
+(defn grab [indexes bag]
+  (first (reduce (fn [[out new-bag] i] [(conj out (nth new-bag i)) (delete i new-bag)]) [[] bag] indexes)))
 
-(def first-shift (memoize first-shift))
+(defn n-lex-reducer [[sum out] i]
+  (let [f (factorial i)
+        q (if (= 0 i) 0 (quot sum f))
+        x (- sum (* q f))]
+    [x (conj out q)]))
 
-(defn chop [lex i]
-  (let [[h t] (split-at (- (count lex) i) lex)]
-    (when-let [t2 (first-shift t)]
-      (concat h t2))))
+(defn n-lex [n lex]
+  (let [rrange (reverse (range (count lex)))
+        indexes (last (reduce n-lex-reducer [n []] rrange))]
+    (grab indexes lex)))
 
-(defn next-lex [lex]
-  (or (some #(chop lex %) (range 1 (inc (count lex))))
-      (concat (rest lex) [(first lex)])))
-
-(println '(0 1 3 9 8 4 6 7 2 5) "<-correct")
-(time (println (nth (iterate next-lex (range 10)) 10000)))
-(time (nth (iterate next-lex (range 10)) 50000))
-
-
-; (println (time
-;   (nth (iterate next-lex (range 10)) 999999)))
+(println
+  (n-lex 999999 (range 10)))
 ; 2783915460
