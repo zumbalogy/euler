@@ -4,21 +4,24 @@
 
 program p1
   implicit none
-  integer :: i
-  integer :: out
 
-  out = 0
+  write(*,*) sum_step(5, 1000) + sum_step(3, 1000) - sum_step(15, 1000)
+  write(*,*) 233168
+  write(*,*) sum_step(3,10)
 
-  do i = 1,999
-     if (0 == mod(i,3)) then
-        out = out + i
-     else if (0 == mod(i,5)) then
-        out = out + i
-     end if
-  end do
+contains
 
-  write(*,*) out
+  integer function sum_step(step, limit)
+    integer :: step
+    integer :: limit
+    integer :: x
+    integer :: y
+
+    x = (limit - 1) / step
+
+    y = ((x * x) + x) / 2
+    sum_step = y * step
+    return
+  end function sum_step
 
 end program p1
-
-! 233168
