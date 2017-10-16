@@ -6,8 +6,6 @@ program p1
   implicit none
 
   write(*,*) sum_step(5, 1000) + sum_step(3, 1000) - sum_step(15, 1000)
-  write(*,*) 233168
-  write(*,*) sum_step(3,10)
 
 contains
 
@@ -18,10 +16,11 @@ contains
     integer :: y
 
     x = (limit - 1) / step
-
     y = ((x * x) + x) / 2
     sum_step = y * step
+
     return
   end function sum_step
 
 end program p1
+! 233168
