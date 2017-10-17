@@ -5,20 +5,34 @@
 program p3
   implicit none
 
-  write(*,*) largest_factor(600851475143)
+  integer, parameter :: long = 8
+  integer (kind=long) :: initial_number
+
+  initial_number = 600851475143_long
+
+  print *, largest_factor(initial_number)
 
 contains
 
   integer function largest_factor(input)
-    integer :: i, input
+    integer (kind=long) :: input
+    integer :: i
 
     i = 2
 
-    do while ()
+    do while (i * i < input)
 
+       if (0 == mod(input, i)) then
+          input = input / i
+       else
+          i = i + 1
+       end if
     end do
 
+    largest_factor = input
+    return
   end function largest_factor
 
 
 end program p3
+! 6857
