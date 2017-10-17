@@ -10,10 +10,8 @@ program p1
 contains
 
   integer function sum_step(step, limit)
-    integer :: step
-    integer :: limit
-    integer :: x
-    integer :: y
+    integer :: step, limit
+    integer :: x, y
 
     x = (limit - 1) / step
     y = ((x * x) + x) / 2

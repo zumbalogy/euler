@@ -9,28 +9,16 @@ program p2
   implicit none
   integer :: a, b, c, sum
 
+  sum = 0
   a = 0
   b = 1
-  sum = 0
 
   do while (b < 4000000)
+    c = a + b
+    a = b + c
+    b = a + c
     sum = sum + a
-
-    c = a + b
-    a = b
-    b = c
-
-    c = a + b
-    a = b
-    b = c
-
-    c = a + b
-    a = b
-    b = c
-
   end do
-
-  sum = sum + a
 
   write(*,*) sum
 
