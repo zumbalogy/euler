@@ -20,7 +20,7 @@ program p2
     sum = sum + a
   end do
 
-  write(*,*) sum
+  print *, sum
 
 end program p2
 

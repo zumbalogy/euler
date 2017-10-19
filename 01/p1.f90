@@ -5,7 +5,7 @@
 program p1
   implicit none
 
-  write(*,*) sum_step(5, 1000) + sum_step(3, 1000) - sum_step(15, 1000)
+  print *, sum_step(5, 1000) + sum_step(3, 1000) - sum_step(15, 1000)
 
 contains
 
