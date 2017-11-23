@@ -120,7 +120,8 @@ BC -- A
 
 and, you might now know the order of your top 3, but you will know they are in the top 3
 7 races.
-
+One of the key things here is that we know the ranking of the As to each other at this point.
+The first A is a shoe in, just have to see how the rest stacks up against its B and C.
 
 -------------------------------------------------------------
 
