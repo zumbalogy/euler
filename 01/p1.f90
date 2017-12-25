@@ -9,7 +9,8 @@ program p1
 
 contains
 
-  integer function sum_step(step, limit)
+  function sum_step(step, limit)
+    integer :: sum_step
     integer :: step, limit
     integer :: x, y
 
@@ -17,7 +18,6 @@ contains
     y = ((x * x) + x) / 2
     sum_step = y * step
 
-    return
   end function sum_step
 
 end program p1
