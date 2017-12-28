@@ -37,9 +37,9 @@ def build_tree(root_word, word_list, piblings = [])
   { root_word => clean_children }
 end
 
-def climb_tree(tree, path = [])
-  return [path] unless tree&.any?
-  tree.keys.map { |k| climb_tree(tree[k], path + [k]) }.flatten(1)
+def climb_tree(tree, out = [])
+  return [out] unless tree&.any?
+  tree.keys.map { |k| climb_tree(tree[k], out + [k]) }.flatten(1)
 end
 
 begin_word = 'hit'
