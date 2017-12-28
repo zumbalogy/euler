@@ -38,10 +38,8 @@ def build_tree(root_word, word_list, piblings = [])
 end
 
 def climb_tree(tree, path = [])
-  return { out: path } unless tree&.any?
-  keys = tree.keys
-  paths = keys.map { |k| climb_tree(tree[k], path + [k]) }
-  paths.flatten
+  return [path] unless tree&.any?
+  tree.keys.map { |k| climb_tree(tree[k], path + [k]) }.flatten(1)
 end
 
 begin_word = 'hit'
@@ -49,10 +47,10 @@ end_word = 'cog'
 word_list = ['hot', 'dot', 'dog', 'lot', 'log', 'cog']
 
 tree = build_tree(begin_word, word_list)
-paths = climb_tree(tree).map { |p| p[:out] }
+paths = climb_tree(tree)
 valid_paths = paths.select { |p| p.index(end_word) }
 clean_paths = valid_paths.map { |p| p.slice(0, p.index(end_word) + 1) }
 sorted_paths = clean_paths.sort_by(&:length)
 
-print sorted_paths
+print(sorted_paths)
 puts()
