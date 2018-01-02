@@ -2,12 +2,12 @@
 
 public class p1 {
 
-  static double sumUnder(double limit) {
-    return (limit / 2) * (limit + 1);
+  static int sumUnder(int limit) {
+    return ((limit * limit) + limit) / 2;
   }
 
-  static double sumSteps(double step, double limit) {
-    return step * sumUnder(Math.floor((limit - 1) / step));
+  static int sumSteps(int step, int limit) {
+    return step * sumUnder((limit - 1) / step);
   }
 
   public static void main(String[] args) {
