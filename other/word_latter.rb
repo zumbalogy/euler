@@ -1,7 +1,7 @@
 # https://leetcode.com/problems/word-ladder-ii/description/
 
 # Given two words (X and Y), and a word list,
-# find all transformation sequence(s) from X to Y, such that:
+# find the shortest transformation sequence(s) from X to Y, such that:
 # Only 1 letter changes per step and each step is in the word list.
 
 def grow_tree(root, nodes, adopt_fn, piblings = [])
