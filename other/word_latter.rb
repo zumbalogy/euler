@@ -6,7 +6,7 @@
 
 def grow_tree(root, nodes, adopt_fn)
   kids = nodes.select { |w| adopt_fn.call(root, w) }
-  branches = kids.map { |m| grow_tree(m, nodes - kids, adopt_fn) }
+  branches = kids.map { |m| grow_tree(m, nodes - [root], adopt_fn) }
   { root => branches.compact.reduce(&:merge) }
 end
 
