@@ -1,40 +1,14 @@
 # https://leetcode.com/problems/word-ladder-ii/description/
 
-# Given two words (beginWord and endWord), and a dictionary's word list,
-# find all shortest transformation sequence(s) from beginWord to endWord, such that:
+# Given two words (X and Y), and a word list,
+# find all transformation sequence(s) from X to Y, such that:
+# Only 1 letter changes per step and each step is in the word list.
 
-# Only one letter can be changed at a time
-# Each transformed word must exist in the word list. Note that beginWord is not a transformed word.
-# For example,
-
-# Given:
-# beginWord = 'hit'
-# endWord = 'cog'
-# wordList = ['hot','dot','dog','lot','log','cog']
-
-# Return
-#   [
-#     ['hit','hot','dot','dog','cog'],
-#     ['hit','hot','lot','log','cog'],
-#     ['hit', 'hot', 'dot', 'lot', 'log', 'cog'],
-#     ['hit', 'hot', 'lot', 'dot', 'dog', 'cog']
-#   ]
-
-def diff_char_count(a, b)
-  a.length.times.count { |i| a[i] != b[i] }
-end
-
-def build_neighbors(word, word_list)
-  word_list.select { |w| diff_char_count(w, word) == 1 }
-end
-
-def build_tree(root_word, word_list, piblings = [])
-  return nil unless word_list.any?
-  words = word_list - [root_word]
-  matches = build_neighbors(root_word, words)
-  children = matches.map { |m| build_tree(m, words - piblings, matches) }
-  clean_children = children.compact.reduce(&:merge)
-  { root_word => clean_children }
+def grow_tree(root, nodes, adopt_fn, piblings = [])
+  return unless nodes.any?
+  kids = nodes.select { |w| adopt_fn.call(root, w) }
+  branches = kids.map { |m| grow_tree(m, nodes - piblings, adopt_fn, kids) }
+  { root => branches.compact.reduce(&:merge) }
 end
 
 def climb_tree(tree, out = [])
@@ -42,15 +16,23 @@ def climb_tree(tree, out = [])
   tree.keys.map { |k| climb_tree(tree[k], out + [k]) }.flatten(1)
 end
 
-begin_word = 'hit'
-end_word = 'cog'
-word_list = ['hot', 'dot', 'dog', 'lot', 'log', 'cog']
+def diff_length(a, b)
+  a.length.times.count { |i| a[i] != b[i] }
+end
 
-tree = build_tree(begin_word, word_list)
+root = 'hit'
+target = 'cog'
+list = ['hot', 'dot', 'dog', 'lot', 'log', 'cog']
+
+adopt_proc = proc { |a, b| 1 == diff_length(a, b) }
+
+tree = grow_tree(root, list, adopt_proc)
 paths = climb_tree(tree)
-valid_paths = paths.select { |p| p.index(end_word) }
-clean_paths = valid_paths.map { |p| p.slice(0, p.index(end_word) + 1) }
-sorted_paths = clean_paths.sort_by(&:length)
 
-print(sorted_paths)
-puts()
+valid = paths.select { |p| p.index(target) }
+sliced = valid.map { |p| p.slice(0, p.index(target) + 1) }
+sorted = sliced.sort_by(&:length)
+top = sorted.take_while { |p| p.length == sorted.first.length }
+
+p(top)
+# [['hit', 'hot', 'dot', 'dog', 'cog'], ['hit', 'hot', 'lot', 'log', 'cog']]
