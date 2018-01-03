@@ -4,10 +4,9 @@
 # find the shortest transformation sequence(s) from X to Y, such that:
 # Only 1 letter changes per step and each step is in the word list.
 
-def grow_tree(root, nodes, adopt_fn, piblings = [])
-  return unless nodes.any?
+def grow_tree(root, nodes, adopt_fn)
   kids = nodes.select { |w| adopt_fn.call(root, w) }
-  branches = kids.map { |m| grow_tree(m, nodes - piblings, adopt_fn, kids) }
+  branches = kids.map { |m| grow_tree(m, nodes - kids, adopt_fn) }
   { root => branches.compact.reduce(&:merge) }
 end
 
