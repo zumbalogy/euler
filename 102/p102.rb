@@ -1,3 +1,4 @@
+# coding: utf-8
 =begin
 
 Three distinct points are plotted on a Cartesian plane, for which -1000 ≤ x, y ≤ 1000, forming a triangle.
@@ -17,16 +18,13 @@ triangles = File.readlines(File.dirname($0) + '/triangles.txt').map do |line|
   [[x1, y1], [x2, y2], [x3, y3]]
 end
 
-def same_side_as_origin?((x1, y1), (x2, y2), (x3, y3))
-  m = (y2 - y1) / (x2 - x1).to_f
-  b = y1 - (m * x1)
-  y3 > (m * x3) + b == 0 > b
+def o_ray_intersects?(((x1, y1), (x2, y2)))
+  return false unless 0 > (y1 * y2)
+  0 < x1 + ((x2 - x1) * ((- y1.to_f) / (y2 - y1)))
 end
 
-def tri_has_o?((p1, p2, p3))
-  same_side_as_origin?(p1, p2, p3) &&
-  same_side_as_origin?(p1, p3, p2) &&
-  same_side_as_origin?(p2, p3, p1)
+def tri_has_o?((a, b, c))
+  [[a, b], [a, c], [b, c]].count(&method(:o_ray_intersects?)).odd?
 end
 
 puts triangles.count(&method(:tri_has_o?))
