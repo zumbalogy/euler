@@ -3,7 +3,8 @@
 # Given n points on a 2D plane,
 # find the maximum number of points that lie on the same straight line.
 
-# I will assume I am given unique points for now.
+# I will assume I am given unique points for now. Giving points IDs or
+# scanning for duplicates at the end would be fixes for this.
 
 def intercepts(((x1, y1), (x2, y2)))
   return [x1, :undefined] if x1 == x2
