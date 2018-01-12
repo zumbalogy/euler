@@ -35,3 +35,11 @@ top = sorted.take_while { |p| p.length == sorted.first.length }
 
 p(top)
 # [['hit', 'hot', 'dot', 'dog', 'cog'], ['hit', 'hot', 'lot', 'log', 'cog']]
+
+# this tree code can also be used to solve this puzzle
+# climb_tree(grow_tree(8, (1..15).to_a, proc {|a,b| a != b && Math.sqrt(a+b) % 1 == 0 }))
+# https://youtu.be/G1m7goLCJDY
+# [8, 1, 15, 10, 6, 3, 13, 12, 4, 5, 11, 14, 2, 7, 9]
+
+# also note that one would maybe want to memoize the adopt_fn
+# or such for large trees or if the adopt_fn is expensive.

@@ -2,7 +2,8 @@
 
 // If d(a) = b and d(b) = a and a ≠ b, then a and b are called amicable numbers.
 
-// For example, the divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 and 110; so d(220) = 284. The divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
+// For example, the divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 and 110;
+// so d(220) = 284. The divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
 
 // Sum the amicable numbers under 10000.
 
