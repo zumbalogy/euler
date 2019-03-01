@@ -32,4 +32,7 @@ function triHasO(t) {
   sameSideO(t[4], t[5], t[0], t[1], t[2], t[3])
 }
 
-console.log(readTriangles(__dirname + '/triangles.txt').filter(triHasO).length)
+var triangles = readTriangles(__dirname + '/triangles.txt')
+
+console.log(triangles.filter(triHasO).length)
+// 228
