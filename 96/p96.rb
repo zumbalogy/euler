@@ -11,55 +11,9 @@
 #
 # Solve all 50 puzzles and find the sum of the 3-digit numbers found in the top left corner of each solution grid.
 
-
 text = File.read('sudoku.txt')
 chopped = text.split(/Grid.*\n/).drop(1)
 grids = chopped.map { |foo| foo.split("\n").map { |x| x.split('').map(&:to_i) } }
-
-require 'pry'
-
-# grid = [
-#   [0, 0, 3, 0, 2, 0, 6, 0, 0],
-#   [9, 0, 0, 3, 0, 5, 0, 0, 1],
-#   [0, 0, 1, 8, 0, 6, 4, 0, 0],
-#   [0, 0, 8, 1, 0, 2, 9, 0, 0],
-#   [7, 0, 0, 0, 0, 0, 0, 0, 8],
-#   [0, 0, 6, 7, 0, 8, 2, 0, 0],
-#   [0, 0, 2, 6, 0, 9, 5, 0, 0],
-#   [8, 0, 0, 2, 0, 3, 0, 0, 9],
-#   [0, 0, 5, 0, 1, 0, 3, 0, 0]
-# ]
-
-
-
-
-#  2  _  _    _  8  _    3  _  _
-#  _  6  _    _  7  _    _  8  4
-#  _  3  _    5  _  _    2  _  9
-#
-#  _  _  _    1  _  5    4  _  8
-#  _  _  _    _  _  _    _  _  _
-#  4  _  2    7  _  6    _  _  _
-#
-#  3  _  1    _  _  7    _  4  _
-#  7  2  _    _  4  _    _  6  _
-#  _  _  4    _  1  _    _  _  3
-
-
-
-# grid = [
-#  [2, 0, 0,   0, 8, 0,   3, 0, 0],
-#  [0, 6, 0,   0, 7, 0,   0, 8, 4],
-#  [0, 3, 0,   5, 0, 0,   2, 0, 9],
-#
-#  [0, 0, 0,   1, 0, 5,   4, 0, 8],
-#  [0, 0, 0,   0, 0, 0,   0, 0, 0],
-#  [4, 0, 2,   7, 0, 6,   0, 0, 0],
-#
-#  [3, 0, 1,   0, 0, 7,   0, 4, 0],
-#  [7, 2, 0,   0, 4, 0,   0, 6, 0],
-#  [0, 0, 4,   0, 1, 0,   0, 0, 3]
-# ]
 
 class Cell
   attr_accessor :solution
@@ -75,38 +29,18 @@ class Cell
     end
   end
 
-  def to_s
-    [
-      "solution: #{solution}",
-      "position: #{position}",
-      "is_not: #{is_not}"
-    ].join("\n")
-  end
-
-  def row
-    @position[1]
-  end
-
-  def col
-    @position[0]
-  end
-
-  def grid
-    @position[2]
-  end
-
-  def row_rest
-    all = @puzzle.cells.select { |x| x.row == self.row }
+  def col_rest
+    all = @puzzle.cells.select { |x| x.position[0] == @position[0] }
     all - [self]
   end
 
-  def col_rest
-    all = @puzzle.cells.select { |x| x.col == self.col }
+  def row_rest
+    all = @puzzle.cells.select { |x| x.position[1] ==  @position[1] }
     all - [self]
   end
 
   def grid_rest
-    all = @puzzle.cells.select { |x| x.grid == self.grid }
+    all = @puzzle.cells.select { |x| x.position[2] == @position[2] }
     all - [self]
   end
 
@@ -142,17 +76,15 @@ class Cell
           @is_not = (1..9).to_a - [target]
         end
       end
-
     end
-
   end
-
 end
 
 class Puzzle
   attr_accessor :cells
 
   def initialize(input_grid)
+    @cells = []
     input_grid.each_with_index do |row, row_index|
       row.each_with_index do |col, col_index|
         cell = Cell.new(col)
@@ -161,26 +93,18 @@ class Puzzle
         grid_index += 3 if row_index > 5
         cell.position = [col_index, row_index, grid_index]
         cell.puzzle = self
-        @cells ||= []
-        @cells << cell
+        @cells.push(cell)
       end
     end
   end
 
   def repeat_calc
-    foo = solved_count()
-    calc()
-    until foo == solved_count()
-      foo = solved_count()
-      calc()
-      calc()
-    end
-    # show_off()
-  end
-
-
-  def calc
+    tally = solved_count()
     @cells.each(&:calc)
+    until tally == solved_count()
+      tally = solved_count()
+      @cells.each(&:calc)
+    end
   end
 
   def guess(cell_index = 0)
@@ -200,27 +124,8 @@ class Puzzle
     end
   end
 
-  def show_off(timer = 0)
-    sleep 0.1
-    puts
-    rows = @cells.map { |x| x.solution ? x.solution : '_' }.each_slice(9)
-    rows.each_with_index { |x, index|
-      puts '______________________' if index == 3 || index == 6
-      x[2..2] = [x[2], '|']
-      x[6..6] = [x[6], '|']
-      puts x.join(' ')
-    }
-    puts
-    puts "solution length #{ solved_count }"
-    puts
-  end
-
   def solved_count
     @cells.select(&:solution).compact.count
-  end
-
-  def to_s
-    show_off
   end
 end
 
@@ -234,5 +139,4 @@ end
 firsts = puzzles.map { |x| x.cells.take(3).map(&:solution) }
 int_vals = firsts.map { |x| x.join().to_i }
 puts int_vals.reduce(:+)
-
 # 24702
