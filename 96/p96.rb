@@ -43,8 +43,7 @@ class Cell
   def calc
     return if @solution
     peers = grid_rest | col_rest | row_rest
-    @is_not = peers.map(&:solution)
-    @is_not.compact!
+    @is_not = peers.map(&:solution).compact
     @is_not.uniq!
 
     return -1 if @is_not.length == 9
@@ -74,16 +73,14 @@ class Puzzle
 
   def initialize(input_grid)
     @cells = []
-    input_grid.each_with_index do |row, row_index|
-      row.each_with_index do |col, col_index|
-        cell = Cell.new(col)
-        grid_index = (col_index / 3)
-        grid_index += 3 if row_index > 2
-        grid_index += 3 if row_index > 5
-        cell.position = [col_index, row_index, grid_index]
-        cell.puzzle = self
-        @cells.push(cell)
-      end
+    input_grid.each_with_index do |int, index|
+      cell = Cell.new(int)
+      col = index % 9
+      row = index / 9
+      grid = (3 * (row / 3)) + (col / 3)
+      cell.position = [col, row, grid]
+      cell.puzzle = self
+      @cells.push(cell)
     end
   end
 
@@ -128,15 +125,9 @@ class Puzzle
 end
 
 text = File.read('sudoku.txt')
+digits = text.gsub(/^\D.*$/, '').scan(/./).map(&:to_i)
 
-# digits = text.scan(/\d/).map(&:to_i)
-# puzzles = digits.each_slice(81).map { |x| Puzzle.new(x) }
-#
-# puzzles.each(&:guess)
-
-chopped = text.split(/Grid.*\n/).drop(1)
-grids = chopped.map { |grid| grid.split("\n").map { |row| row.split('').map(&:to_i) } }
-puzzles = grids.map { |x| Puzzle.new(x) }
+puzzles = digits.each_slice(81).map { |x| Puzzle.new(x) }
 
 puzzles.each(&:guess)
 
