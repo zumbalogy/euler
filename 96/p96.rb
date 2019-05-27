@@ -13,7 +13,7 @@
 
 class Cell
   attr_accessor :solution
-  attr_accessor :position
+  attr_accessor :pos
   attr_accessor :is_not
   attr_accessor :puzzle
 
@@ -26,25 +26,35 @@ class Cell
   end
 
   def col_rest
-    rest = @puzzle.cells.select { |x| x.position[0] == @position[0] }
+    rest = @puzzle.cells.select { |x| x.pos[0] == @pos[0] }
     rest - [self]
   end
 
   def row_rest
-    rest = @puzzle.cells.select { |x| x.position[1] == @position[1] }
+    rest = @puzzle.cells.select { |x| x.pos[1] == @pos[1] }
     rest - [self]
   end
 
   def grid_rest
-    rest = @puzzle.cells.select { |x| x.position[2] == @position[2] }
+    rest = @puzzle.cells.select { |x| x.pos[2] == @pos[2] }
     rest - [self]
+  end
+
+  def peers_solutions
+    out = []
+    @puzzle.cells.each do |cell|
+      hit = cell.solution && (cell.pos[0] == @pos[0] ||
+                              cell.pos[1] == @pos[1] ||
+                              cell.pos[2] == @pos[2])
+      out.push(cell.solution) if hit
+    end
+    out.uniq!
+    out
   end
 
   def calc
     return if @solution
-    peers = grid_rest | col_rest | row_rest
-    @is_not = peers.map(&:solution).compact
-    @is_not.uniq!
+    @is_not = peers_solutions
 
     return -1 if @is_not.length == 9
     is_maybe = [1,2,3,4,5,6,7,8,9] - @is_not
@@ -78,7 +88,7 @@ class Puzzle
       col = index % 9
       row = index / 9
       grid = (3 * (row / 3)) + (col / 3)
-      cell.position = [col, row, grid]
+      cell.pos = [col, row, grid]
       cell.puzzle = self
       @cells.push(cell)
     end
