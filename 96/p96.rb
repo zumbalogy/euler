@@ -21,7 +21,7 @@ class Cell
     @is_not = []
     unless value == 0
       @solution = value
-      @is_not = [1,2,3,4,5,6,7,8,9] - [value]
+      @is_not = [1,2,3,4,5,6,7,8,9]
     end
   end
 
@@ -31,7 +31,7 @@ class Cell
   end
 
   def row_rest
-    all = @puzzle.cells.select { |x| x.position[1] ==  @position[1] }
+    all = @puzzle.cells.select { |x| x.position[1] == @position[1] }
     all - [self]
   end
 
@@ -43,24 +43,28 @@ class Cell
   def calc
     return if @solution
     peers = grid_rest | col_rest | row_rest
-    other_solutions = peers.map(&:solution).compact
-    @is_not = other_solutions
-    @is_not.uniq! if other_solutions.any?
-    if @is_not.length == 8
-      @solution = ([1,2,3,4,5,6,7,8,9] - @is_not).first
+    @is_not = peers.map(&:solution)
+    @is_not.compact!
+    @is_not.uniq!
+
+    return -1 if @is_not.length == 9
+    is_maybe = [1,2,3,4,5,6,7,8,9] - @is_not
+
+    if is_maybe.length == 1
+      @solution = is_maybe.first
+      @is_not = [1,2,3,4,5,6,7,8,9]
       return
     end
 
-    return -1 if @is_not.length == 9
-
     [col_rest, row_rest, grid_rest].each do |rest|
-      cant = rest.reduce((1..9).to_a - @is_not) { |a, b| a & (b.is_not + [b.solution].compact) }
-      if cant.length == 1
-        @solution = cant.first
-        @is_not = [1,2,3,4,5,6,7,8,9] - cant
+      has_to_be = is_maybe
+      rest.each { |x| has_to_be &= x.is_not }
+      return -1 if has_to_be.length > 1
+      if has_to_be.length == 1
+        @solution = has_to_be.first
+        @is_not = [1,2,3,4,5,6,7,8,9]
         return
       end
-      return -1 if cant.length > 1
     end
   end
 end
@@ -112,10 +116,10 @@ class Puzzle
     saved = self.cells.map(&:clone)
     cell = @cells.select { |x| x.solution == nil }[cell_index]
     return unless cell
-    guesses = (1..9).to_a - cell.is_not
+    guesses = [1,2,3,4,5,6,7,8,9] - cell.is_not
     guesses.each do |number_guess|
       cell.solution = number_guess
-      cell.is_not = (1..9).to_a - [number_guess]
+      cell.is_not = [1,2,3,4,5,6,7,8,9]
       guess(cell_index + 1)
       return if solved_count() == 81
       @cells = saved
@@ -124,6 +128,12 @@ class Puzzle
 end
 
 text = File.read('sudoku.txt')
+
+# digits = text.scan(/\d/).map(&:to_i)
+# puzzles = digits.each_slice(81).map { |x| Puzzle.new(x) }
+#
+# puzzles.each(&:guess)
+
 chopped = text.split(/Grid.*\n/).drop(1)
 grids = chopped.map { |grid| grid.split("\n").map { |row| row.split('').map(&:to_i) } }
 puzzles = grids.map { |x| Puzzle.new(x) }
