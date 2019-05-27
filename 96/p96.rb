@@ -26,18 +26,18 @@ class Cell
   end
 
   def col_rest
-    all = @puzzle.cells.select { |x| x.position[0] == @position[0] }
-    all - [self]
+    rest = @puzzle.cells.select { |x| x.position[0] == @position[0] }
+    rest - [self]
   end
 
   def row_rest
-    all = @puzzle.cells.select { |x| x.position[1] == @position[1] }
-    all - [self]
+    rest = @puzzle.cells.select { |x| x.position[1] == @position[1] }
+    rest - [self]
   end
 
   def grid_rest
-    all = @puzzle.cells.select { |x| x.position[2] == @position[2] }
-    all - [self]
+    rest = @puzzle.cells.select { |x| x.position[2] == @position[2] }
+    rest - [self]
   end
 
   def calc
