@@ -1,15 +1,16 @@
 # Su Doku (Japanese meaning number place) is the name given to a popular puzzle concept.
-# Its origin is unclear but credit must be attributed to Leonhard Euler who invented a similar, more difficult, puzzle called Latin Squares.
+# Its origin is unclear but credit must be attributed to Leonhard Euler who invented a similar,
+# more difficult, puzzle called Latin Squares.
 #
-# The objective of Su Doku puzzles, is to replace the blanks (or zeros) in a 9 by 9 grid in such that each row, column, and 3 by 3 box
-# contains each of the digits 1 to 9.
+# The objective of Su Doku puzzles, is to replace the blanks (or zeros) in a 9 by 9 grid in such that
+# each row, column, and 3 by 3 box contains each of the digits 1 to 9.
 #
-# A well constructed Su Doku puzzle has a unique solution and can be solved by logic, although it may be necessary to employ
-# "guess and test" methods in order to eliminate options (there is much contested opinion over this).
+# A well constructed Su Doku puzzle has a unique solution and can be solved by logic,
+# although it may be necessary to employ "guess and test" methods in order to eliminate options.
 #
-# The file sudoku.txt contains fifty different Su Doku puzzles ranging in difficulty, all with unique solutions.
+# The file sudoku.txt contains 50 Su Doku puzzles ranging in difficulty.
 #
-# Solve all 50 puzzles and find the sum of the 3-digit numbers found in the top left corner of each solution grid.
+# Solve all 50 puzzles and find the sum of the 3-digit numbers found in the top left corner of each solution.
 
 class Cell
   attr_accessor :solution
