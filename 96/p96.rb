@@ -116,7 +116,7 @@ class Puzzle
     end
   end
 
-  def guess(cell_index = 0)
+  def solve(cell_index = 0)
     res = repeat_calc()
     return if res == -1
     return if solved_count() == 81
@@ -127,7 +127,7 @@ class Puzzle
     guesses.each do |number_guess|
       cell.solution = number_guess
       cell.is_not = [1,2,3,4,5,6,7,8,9]
-      guess(cell_index + 1)
+      solve(cell_index + 1)
       return if solved_count() == 81
       @cells = saved
     end
@@ -139,7 +139,7 @@ digits = text.gsub(/^\D.*$/, '').scan(/./).map(&:to_i)
 
 puzzles = digits.each_slice(81).map { |x| Puzzle.new(x) }
 
-puzzles.each(&:guess)
+puzzles.each(&:solve)
 
 firsts = puzzles.map { |x| x.cells.take(3).map(&:solution) }
 int_vals = firsts.map { |x| x.join().to_i }
