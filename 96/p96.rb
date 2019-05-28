@@ -119,7 +119,7 @@ class Puzzle
     return if res == -1
     return if solved_count() == 81
     saved = self.cells.map(&:clone)
-    cell = @cells.select { |x| x.solution == nil }[cell_index]
+    cell = @cells.reject(&:solution)[cell_index]
     return unless cell
     guesses = [1,2,3,4,5,6,7,8,9] - cell.is_not
     guesses.each do |number_guess|
@@ -136,10 +136,9 @@ text = File.read('sudoku.txt')
 digits = text.gsub(/^\D.*$/, '').scan(/./).map(&:to_i)
 
 puzzles = digits.each_slice(81).map { |x| Puzzle.new(x) }
-
 puzzles.each(&:solve)
 
-firsts = puzzles.map { |x| x.cells.take(3).map(&:solution) }
-int_vals = firsts.map { |x| x.join().to_i }
-puts int_vals.reduce(:+)
+solutions = puzzles.map { |p| p.cells.map(&:solution) }
+top_3s = solutions.map { |x| x.take(3).join.to_i }
+puts top_3s.reduce(:+)
 # 24702
