@@ -67,12 +67,11 @@ class Cell
     [col_rest(), row_rest(), grid_rest()].each do |rest|
       has_to_be = is_maybe
       rest.each { |x| has_to_be &= x.is_not }
+      next if has_to_be.length == 0
       return -1 if has_to_be.length > 1
-      if has_to_be.length == 1
-        @solution = has_to_be.first
-        @is_not = [1,2,3,4,5,6,7,8,9]
-        return
-      end
+      @solution = has_to_be.first
+      @is_not = [1,2,3,4,5,6,7,8,9]
+      return
     end
   end
 end
