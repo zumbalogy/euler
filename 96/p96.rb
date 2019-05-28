@@ -55,7 +55,7 @@ class Cell
     return if @solution
     @is_not = peers_solutions()
 
-    return -1 if @is_not.length == 9
+    return :backout if @is_not.length == 9
     is_maybe = [1,2,3,4,5,6,7,8,9] - @is_not
 
     if is_maybe.length == 1
@@ -68,7 +68,7 @@ class Cell
       has_to_be = is_maybe
       rest.each { |x| has_to_be &= x.is_not }
       next if has_to_be.length == 0
-      return -1 if has_to_be.length > 1
+      return :backout if has_to_be.length > 1
       @solution = has_to_be.first
       @is_not = [1,2,3,4,5,6,7,8,9]
       return
@@ -99,24 +99,24 @@ class Puzzle
   def single_calc
     @cells.each do |cell|
       res = cell.calc()
-      return -1 if res == -1
+      return :backout if res == :backout
     end
   end
 
   def repeat_calc
     tally = solved_count()
     res = single_calc()
-    return -1 if res == -1
+    return :backout if res == :backout
     until tally == solved_count()
       tally = solved_count()
       res = single_calc()
-      return -1 if res == -1
+      return :backout if res == :backout
     end
   end
 
   def solve(cell_index = 0)
     res = repeat_calc()
-    return if res == -1
+    return if res == :backout
     return if solved_count() == 81
     saved = self.cells.map(&:clone)
     cell = @cells.reject(&:solution)[cell_index]
