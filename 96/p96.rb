@@ -64,7 +64,7 @@ class Cell
       return
     end
 
-    [col_rest, row_rest, grid_rest].each do |rest|
+    [col_rest(), row_rest(), grid_rest()].each do |rest|
       has_to_be = is_maybe
       rest.each { |x| has_to_be &= x.is_not }
       return -1 if has_to_be.length > 1
