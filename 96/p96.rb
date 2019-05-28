@@ -19,10 +19,9 @@ class Cell
 
   def initialize(value)
     @is_not = []
-    unless value == 0
-      @solution = value
-      @is_not = [1,2,3,4,5,6,7,8,9]
-    end
+    return if value == 0
+    @solution = value
+    @is_not = [1,2,3,4,5,6,7,8,9]
   end
 
   def col_rest
@@ -54,7 +53,7 @@ class Cell
 
   def calc
     return if @solution
-    @is_not = peers_solutions
+    @is_not = peers_solutions()
 
     return -1 if @is_not.length == 9
     is_maybe = [1,2,3,4,5,6,7,8,9] - @is_not
