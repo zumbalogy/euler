@@ -63,7 +63,6 @@ class Cell
       @is_not = [1,2,3,4,5,6,7,8,9]
       return
     end
-
     [col_rest(), row_rest(), grid_rest()].each do |rest|
       has_to_be = is_maybe
       rest.each { |x| has_to_be &= x.is_not }
@@ -142,3 +141,37 @@ solutions = puzzles.map { |p| p.cells.map(&:solution) }
 top_3s = solutions.map { |x| x.take(3).join.to_i }
 puts top_3s.reduce(:+)
 # 24702
+
+
+# AI Etena
+# 100007090030020008009600500005300900010080002600004000300000010040000007007000300
+# real    1m54.779s
+
+# ai_etena = '100007090030020008009600500005300900010080002600004000300000010040000007007000354'.split('').map(&:to_i)
+#
+# p = Puzzle.new(ai_etena)
+#
+# p.solve()
+#
+# puts p.cells.map(&:solution).join('')
+# if p.cells.map(&:solution).join('') == '162857493534129678789643521475312986913586742628794135356478219241935867897261354'
+#   puts "correct"
+# else
+#   puts "wrong"
+# end
+
+# easter_monster = %w(
+#   100 000 089
+#   000 009 002
+#   000 000 450
+#
+#   007 600 000
+#   030 040 000
+#   900 002 005
+#
+#   004 070 000
+#   500 008 010
+#   060 300 000
+# ).join().split('').map(&:to_i)
+#
+# # p = Puzzle.new(easter_monster)
