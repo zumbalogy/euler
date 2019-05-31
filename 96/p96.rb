@@ -16,8 +16,10 @@ class Cell
   attr_accessor :pos
   attr_accessor :is_not
   attr_accessor :puzzle
+  attr_accessor :grid_indexes
 
-  def initialize(value)
+  def initialize(value, puzzle)
+    @puzzle = puzzle
     @is_not = 0b000000000
     return if value == 0
     @solution = (2 ** (value - 1))
@@ -25,27 +27,29 @@ class Cell
   end
 
   def col_rest
-    rest = @puzzle.cells.select { |x| x.pos[0] == @pos[0] }
-    rest - [self]
+    offset = @pos[0]
+    indexes = [0,9,18,27,36,45,54,63,72]
+    indexes.delete_at(@pos[1])
+    @puzzle.cells.drop(offset).values_at(*indexes)
   end
 
   def row_rest
-    rest = @puzzle.cells.select { |x| x.pos[1] == @pos[1] }
+    offset = @pos[1] * 9
+    rest = @puzzle.cells[offset...(offset + 9)]
     rest - [self]
   end
 
   def grid_rest
-    rest = @puzzle.cells.select { |x| x.pos[2] == @pos[2] }
+    # TODO: make this better
+    @grid_indexes = @grid_indexes || 81.times.find_all { |i|  @puzzle.cells[i].pos[2] == @pos[2] }
+    rest = @puzzle.cells.values_at(*@grid_indexes)
     rest - [self]
   end
 
   def peers_solutions
     out = 0b000000000
-    @puzzle.cells.each do |cell|
-      hit = cell.solution && (cell.pos[0] == @pos[0] ||
-                              cell.pos[1] == @pos[1] ||
-                              cell.pos[2] == @pos[2])
-      out |= cell.solution if hit
+    (col_rest + grid_rest + row_rest).each do |cell|
+      out |= cell.solution if cell.solution
     end
     out
   end
@@ -57,7 +61,6 @@ class Cell
     is_maybe = 0b111111111 ^ @is_not
     if (is_maybe & (is_maybe - 1)) == 0
       @solution = is_maybe
-      @is_not = 0b111111111
       return
     end
     [col_rest(), row_rest(), grid_rest()].each do |rest|
@@ -78,12 +81,11 @@ class Puzzle
   def initialize(input_grid)
     @cells = []
     input_grid.each_with_index do |int, index|
-      cell = Cell.new(int)
+      cell = Cell.new(int, self)
       col = index % 9
       row = index / 9
       grid = (3 * (row / 3)) + (col / 3)
       cell.pos = [col, row, grid]
-      cell.puzzle = self
       @cells.push(cell)
     end
   end
@@ -139,29 +141,29 @@ class Puzzle
   end
 end
 
-text = File.read('sudoku.txt')
-digits = text.gsub(/^\D.*$/, '').scan(/./).map(&:to_i)
-
-puzzles = digits.each_slice(81).map { |x| Puzzle.new(x) }
-puzzles.each(&:solve)
-
-
-solution_key = {
-  0b100000000 => 9,
-  0b010000000 => 8,
-  0b001000000 => 7,
-  0b000100000 => 6,
-  0b000010000 => 5,
-  0b000001000 => 4,
-  0b000000100 => 3,
-  0b000000010 => 2,
-  0b000000001 => 1
-}
-
-solutions = puzzles.map { |p| p.cells.map { |x| solution_key[x.solution] } }
-top_3s = solutions.map { |x| x.take(3).join.to_i }
-puts top_3s.reduce(:+)
-# 24702
+# text = File.read('sudoku.txt')
+# digits = text.gsub(/^\D.*$/, '').scan(/./).map(&:to_i)
+#
+# puzzles = digits.each_slice(81).map { |x| Puzzle.new(x) }
+# puzzles.each(&:solve)
+#
+#
+# solution_key = {
+#   0b100000000 => 9,
+#   0b010000000 => 8,
+#   0b001000000 => 7,
+#   0b000100000 => 6,
+#   0b000010000 => 5,
+#   0b000001000 => 4,
+#   0b000000100 => 3,
+#   0b000000010 => 2,
+#   0b000000001 => 1
+# }
+#
+# solutions = puzzles.map { |p| p.cells.map { |x| solution_key[x.solution] } }
+# top_3s = solutions.map { |x| x.take(3).join.to_i }
+# puts top_3s.reduce(:+)
+# # 24702
 
 
 
@@ -181,7 +183,7 @@ puts top_3s.reduce(:+)
 # real    1m54.779s
 
 # ai_etena = '100007090030020008009600500005300900010080002600004000300000010040000007007000300'.split('').map(&:to_i)
-# ai_etena = '100007090030020008009600500005300900010080002600004000300000010040000007007000300'.split('').map(&:to_i)
+ai_etena = '100007090030020008009600500005300900010080002600004000300000010040000007007000300'.split('').map(&:to_i)
 # 162857493534129678789643521475312986913586742628794135356478219241935867897261354
 
 # easter_monster = %w(
@@ -198,18 +200,18 @@ puts top_3s.reduce(:+)
 #   060 300 000
 # ).join().split('').map(&:to_i)
 #
-# p = Puzzle.new(easter_monster)
-#
-# p.solve()
-#
-# solution = p.cells.map(&:solution).map { |x| Math.log2(x).to_i + 1 }.join('')
-#
-# puts solution
-# if solution == '162857493534129678789643521475312986913586742628794135356478219241935867897261354'
-#   puts "correct"
-# else
-#   puts "wrong"
-# end
+p = Puzzle.new(ai_etena)
+
+p.solve()
+
+solution = p.cells.map(&:solution).map { |x| Math.log2(x).to_i + 1 }.join('')
+
+puts solution
+if solution == '162857493534129678789643521475312986913586742628794135356478219241935867897261354'
+  puts "correct"
+else
+  puts "wrong"
+end
 
 
 #
