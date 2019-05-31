@@ -18,10 +18,10 @@ class Cell
   attr_accessor :puzzle
 
   def initialize(value)
-    @is_not = []
+    @is_not = 0b000000000
     return if value == 0
-    @solution = value
-    @is_not = [1,2,3,4,5,6,7,8,9]
+    @solution = (2 ** (value - 1))
+    @is_not = 0b111111111
   end
 
   def col_rest
@@ -40,36 +40,33 @@ class Cell
   end
 
   def peers_solutions
-    out = []
+    out = 0b000000000
     @puzzle.cells.each do |cell|
       hit = cell.solution && (cell.pos[0] == @pos[0] ||
                               cell.pos[1] == @pos[1] ||
                               cell.pos[2] == @pos[2])
-      out.push(cell.solution) if hit
+      out |= cell.solution if hit
     end
-    out.uniq!
     out
   end
 
   def calc
     return if @solution
     @is_not = peers_solutions()
-
-    return :backout if @is_not.length == 9
-    is_maybe = [1,2,3,4,5,6,7,8,9] - @is_not
-
-    if is_maybe.length == 1
-      @solution = is_maybe.first
-      @is_not = [1,2,3,4,5,6,7,8,9]
+    return :backout if @is_not == 0b111111111
+    is_maybe = 0b111111111 ^ @is_not
+    if (is_maybe & (is_maybe - 1)) == 0
+      @solution = is_maybe
+      @is_not = 0b111111111
       return
     end
     [col_rest(), row_rest(), grid_rest()].each do |rest|
       has_to_be = is_maybe
       rest.each { |x| has_to_be &= x.is_not }
-      next if has_to_be.length == 0
-      return :backout if has_to_be.length > 1
-      @solution = has_to_be.first
-      @is_not = [1,2,3,4,5,6,7,8,9]
+      next if has_to_be == 0b000000000
+      return :backout if (has_to_be & (has_to_be - 1)) != 0
+      @solution = has_to_be
+      @is_not = 0b111111111
       return
     end
   end
@@ -120,10 +117,21 @@ class Puzzle
     saved = self.cells.map(&:clone)
     cell = @cells.reject(&:solution)[cell_index]
     return unless cell
-    guesses = [1,2,3,4,5,6,7,8,9] - cell.is_not
+    all_guesses = [
+      0b000000001,
+      0b000000010,
+      0b000000100,
+      0b000001000,
+      0b000010000,
+      0b000100000,
+      0b001000000,
+      0b010000000,
+      0b100000000,
+    ]
+    guesses = all_guesses.select { |g| g & cell.is_not == 0 }
     guesses.each do |number_guess|
       cell.solution = number_guess
-      cell.is_not = [1,2,3,4,5,6,7,8,9]
+      cell.is_not = 0b111111111
       solve(cell_index + 1)
       return if solved_count() == 81
       @cells = saved
@@ -137,28 +145,44 @@ digits = text.gsub(/^\D.*$/, '').scan(/./).map(&:to_i)
 puzzles = digits.each_slice(81).map { |x| Puzzle.new(x) }
 puzzles.each(&:solve)
 
-solutions = puzzles.map { |p| p.cells.map(&:solution) }
+
+solution_key = {
+  0b100000000 => 9,
+  0b010000000 => 8,
+  0b001000000 => 7,
+  0b000100000 => 6,
+  0b000010000 => 5,
+  0b000001000 => 4,
+  0b000000100 => 3,
+  0b000000010 => 2,
+  0b000000001 => 1
+}
+
+solutions = puzzles.map { |p| p.cells.map { |x| solution_key[x.solution] } }
 top_3s = solutions.map { |x| x.take(3).join.to_i }
 puts top_3s.reduce(:+)
 # 24702
 
 
+
 # AI Etena
-# 100007090030020008009600500005300900010080002600004000300000010040000007007000300
+# 100 007 090
+# 030 020 008
+# 009 600 500
+
+# 005 300 900
+# 010 080 002
+# 600 004 000
+
+# 300 000 010
+# 040 000 007
+# 007 000 300
+
 # real    1m54.779s
 
-# ai_etena = '100007090030020008009600500005300900010080002600004000300000010040000007007000354'.split('').map(&:to_i)
-#
-# p = Puzzle.new(ai_etena)
-#
-# p.solve()
-#
-# puts p.cells.map(&:solution).join('')
-# if p.cells.map(&:solution).join('') == '162857493534129678789643521475312986913586742628794135356478219241935867897261354'
-#   puts "correct"
-# else
-#   puts "wrong"
-# end
+# ai_etena = '100007090030020008009600500005300900010080002600004000300000010040000007007000300'.split('').map(&:to_i)
+# ai_etena = '100007090030020008009600500005300900010080002600004000300000010040000007007000300'.split('').map(&:to_i)
+# 162857493534129678789643521475312986913586742628794135356478219241935867897261354
 
 # easter_monster = %w(
 #   100 000 089
@@ -173,5 +197,20 @@ puts top_3s.reduce(:+)
 #   500 008 010
 #   060 300 000
 # ).join().split('').map(&:to_i)
+#
+# p = Puzzle.new(easter_monster)
+#
+# p.solve()
+#
+# solution = p.cells.map(&:solution).map { |x| Math.log2(x).to_i + 1 }.join('')
+#
+# puts solution
+# if solution == '162857493534129678789643521475312986913586742628794135356478219241935867897261354'
+#   puts "correct"
+# else
+#   puts "wrong"
+# end
+
+
 #
 # # p = Puzzle.new(easter_monster)
