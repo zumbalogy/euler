@@ -16,7 +16,6 @@ class Cell
   attr_accessor :pos
   attr_accessor :is_not
   attr_accessor :puzzle
-  attr_accessor :grid_indexes
 
   def initialize(value, puzzle)
     @puzzle = puzzle
@@ -40,9 +39,9 @@ class Cell
   end
 
   def grid_rest
-    # TODO: make this better
-    @grid_indexes = @grid_indexes || 81.times.find_all { |i|  @puzzle.cells[i].pos[2] == @pos[2] }
-    rest = @puzzle.cells.values_at(*@grid_indexes)
+    offset = ((@pos[2] / 3) * 27) + (@pos[2] % 3) * 3
+    idxs = [0, 1, 2, 9, 10, 11, 18, 19, 20]
+    rest = @puzzle.cells.drop(offset).values_at(*idxs)
     rest - [self]
   end
 
@@ -141,29 +140,28 @@ class Puzzle
   end
 end
 
-# text = File.read('sudoku.txt')
-# digits = text.gsub(/^\D.*$/, '').scan(/./).map(&:to_i)
-#
-# puzzles = digits.each_slice(81).map { |x| Puzzle.new(x) }
-# puzzles.each(&:solve)
-#
-#
-# solution_key = {
-#   0b100000000 => 9,
-#   0b010000000 => 8,
-#   0b001000000 => 7,
-#   0b000100000 => 6,
-#   0b000010000 => 5,
-#   0b000001000 => 4,
-#   0b000000100 => 3,
-#   0b000000010 => 2,
-#   0b000000001 => 1
-# }
-#
-# solutions = puzzles.map { |p| p.cells.map { |x| solution_key[x.solution] } }
-# top_3s = solutions.map { |x| x.take(3).join.to_i }
-# puts top_3s.reduce(:+)
-# # 24702
+text = File.read('sudoku.txt')
+digits = text.gsub(/^\D.*$/, '').scan(/./).map(&:to_i)
+
+puzzles = digits.each_slice(81).map { |x| Puzzle.new(x) }
+puzzles.each(&:solve)
+
+solution_key = {
+  0b100000000 => 9,
+  0b010000000 => 8,
+  0b001000000 => 7,
+  0b000100000 => 6,
+  0b000010000 => 5,
+  0b000001000 => 4,
+  0b000000100 => 3,
+  0b000000010 => 2,
+  0b000000001 => 1
+}
+
+solutions = puzzles.map { |p| p.cells.map { |x| solution_key[x.solution] } }
+top_3s = solutions.map { |x| x.take(3).join.to_i }
+puts top_3s.reduce(:+)
+# 24702
 
 
 
@@ -180,12 +178,15 @@ end
 # 040 000 007
 # 007 000 300
 
-# real    1m54.779s
+# real    0m30.747s
 
 # ai_etena = '100007090030020008009600500005300900010080002600004000300000010040000007007000300'.split('').map(&:to_i)
-ai_etena = '100007090030020008009600500005300900010080002600004000300000010040000007007000300'.split('').map(&:to_i)
+# ai_etena = '100007090030020008009600500005300900010080002600004000300000010040000007007000300'.split('').map(&:to_i)
 # 162857493534129678789643521475312986913586742628794135356478219241935867897261354
 
+
+
+# real    3m31.468s
 # easter_monster = %w(
 #   100 000 089
 #   000 009 002
@@ -200,19 +201,15 @@ ai_etena = '10000709003002000800960050000530090001008000260000400030000001004000
 #   060 300 000
 # ).join().split('').map(&:to_i)
 #
-p = Puzzle.new(ai_etena)
-
-p.solve()
-
-solution = p.cells.map(&:solution).map { |x| Math.log2(x).to_i + 1 }.join('')
-
-puts solution
-if solution == '162857493534129678789643521475312986913586742628794135356478219241935867897261354'
-  puts "correct"
-else
-  puts "wrong"
-end
-
-
+# p = Puzzle.new(ai_etena)
 #
-# # p = Puzzle.new(easter_monster)
+# p.solve()
+#
+# solution = p.cells.map(&:solution).map { |x| Math.log2(x).to_i + 1 }.join('')
+#
+# puts solution
+# if solution == '162857493534129678789643521475312986913586742628794135356478219241935867897261354'
+#   puts "correct"
+# else
+#   puts "wrong"
+# end
