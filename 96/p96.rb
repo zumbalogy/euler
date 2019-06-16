@@ -13,15 +13,11 @@
 
 def solutionX(is_not)
   return if is_not == 0
-  is_not = is_not.is_not if is_not.class == Cell
   is_maybe = 0b111111111 ^ is_not
   return unless (is_maybe & (is_maybe - 1)) == 0
   is_maybe
 end
 
-class Cell
-  attr_accessor :is_not
-end
 
 class Puzzle
   attr_accessor :cells
@@ -29,7 +25,6 @@ class Puzzle
   def initialize(input_grid)
     @cells = []
     input_grid.each_with_index do |int, index|
-      # cell = Cell.new()
       if int == 0
         cell = 0b000000000
       else
@@ -158,10 +153,7 @@ solution_key = {
 
 solutions = puzzles.map { |p| p.cells.map { |x| solution_key[solutionX(x)] } }
 top_3s = solutions.map { |x| x.take(3).join.to_i }
-out = top_3s.reduce(:+)
-puts
-puts out
-puts out == 24702
+puts top_3s.reduce(:+)
 # 24702
 
 
