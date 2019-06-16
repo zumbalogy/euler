@@ -11,6 +11,10 @@
 # The file sudoku.txt contains 50 Su Doku puzzles ranging in difficulty.
 # Find the sum of the 3-digit numbers in the top left corner of each solution.
 
+def solution(cell)
+  
+end
+
 class Cell
   attr_accessor :solution
   attr_accessor :pos
@@ -160,9 +164,11 @@ solution_key = {
 
 solutions = puzzles.map { |p| p.cells.map { |x| solution_key[x.solution] } }
 top_3s = solutions.map { |x| x.take(3).join.to_i }
-puts top_3s.reduce(:+)
+out = top_3s.reduce(:+)
+puts
+puts out
+puts out == 24702
 # 24702
-
 
 
 # AI Etena
