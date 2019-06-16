@@ -85,7 +85,7 @@ class Puzzle
   end
 
   def solved_count
-    @cells.select { |x| solutionX(x) }.compact.count
+    @cells.count { |x| solutionX(x) }
   end
 
   def single_calc
