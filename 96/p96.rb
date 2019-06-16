@@ -11,71 +11,16 @@
 # The file sudoku.txt contains 50 Su Doku puzzles ranging in difficulty.
 # Find the sum of the 3-digit numbers in the top left corner of each solution.
 
-def solution(cell)
-  
+def solutionX(is_not)
+  return if is_not == 0
+  is_not = is_not.is_not if is_not.class == Cell
+  is_maybe = 0b111111111 ^ is_not
+  return unless (is_maybe & (is_maybe - 1)) == 0
+  is_maybe
 end
 
 class Cell
-  attr_accessor :solution
-  attr_accessor :pos
   attr_accessor :is_not
-  attr_accessor :puzzle
-
-  def initialize(value, puzzle)
-    @puzzle = puzzle
-    @is_not = 0b000000000
-    return if value == 0
-    @solution = (2 ** (value - 1))
-    @is_not = 0b111111111
-  end
-
-  def col_rest
-    offset = @pos[0]
-    indexes = [0,9,18,27,36,45,54,63,72]
-    indexes.delete_at(@pos[1])
-    @puzzle.cells.drop(offset).values_at(*indexes)
-  end
-
-  def row_rest
-    offset = @pos[1] * 9
-    rest = @puzzle.cells[offset...(offset + 9)]
-    rest - [self]
-  end
-
-  def grid_rest
-    offset = ((@pos[2] / 3) * 27) + (@pos[2] % 3) * 3
-    idxs = [0, 1, 2, 9, 10, 11, 18, 19, 20]
-    rest = @puzzle.cells.drop(offset).values_at(*idxs)
-    rest - [self]
-  end
-
-  def peers_solutions
-    out = 0b000000000
-    (col_rest + grid_rest + row_rest).each do |cell|
-      out |= cell.solution if cell.solution
-    end
-    out
-  end
-
-  def calc
-    return if @solution
-    @is_not = peers_solutions()
-    return :backout if @is_not == 0b111111111
-    is_maybe = 0b111111111 ^ @is_not
-    if (is_maybe & (is_maybe - 1)) == 0
-      @solution = is_maybe
-      return
-    end
-    [col_rest(), row_rest(), grid_rest()].each do |rest|
-      has_to_be = is_maybe
-      rest.each { |x| has_to_be &= x.is_not }
-      next if has_to_be == 0b000000000
-      return :backout if (has_to_be & (has_to_be - 1)) != 0
-      @solution = has_to_be
-      @is_not = 0b111111111
-      return
-    end
-  end
 end
 
 class Puzzle
@@ -84,22 +29,73 @@ class Puzzle
   def initialize(input_grid)
     @cells = []
     input_grid.each_with_index do |int, index|
-      cell = Cell.new(int, self)
-      col = index % 9
-      row = index / 9
-      grid = (3 * (row / 3)) + (col / 3)
-      cell.pos = [col, row, grid]
+      # cell = Cell.new()
+      if int == 0
+        cell = 0b000000000
+      else
+        cell = 0b111111111 ^ (2 ** (int - 1))
+      end
       @cells.push(cell)
     end
   end
 
+  def col_rest(idx)
+    offset = idx % 9
+    indexes = [0,9,18,27,36,45,54,63,72]
+    indexes.delete_at(idx / 9)
+    @cells.drop(offset).values_at(*indexes)
+  end
+
+  def row_rest(idx)
+    offset = (idx / 9) * 9
+    idxs = [*offset...(offset + 9)]
+    idxs.delete_at(idx - offset)
+    @cells.values_at(*idxs)
+  end
+
+  def grid_rest(idx)
+    col = idx % 9
+    row = idx / 9
+    grid = (3 * (row / 3)) + (col / 3)
+
+    offset = ((grid / 3) * 27) + (grid % 3) * 3
+    idxs = [0, 1, 2, 9, 10, 11, 18, 19, 20]
+    idxs.delete_at(idx - offset)
+    @cells.drop(offset).values_at(*idxs)
+  end
+
+  def peers_solutions(idx)
+    out = 0b000000000
+    (col_rest(idx) + grid_rest(idx) + row_rest(idx)).each do |cell|
+      s = solutionX(cell)
+      out |= s if s
+    end
+    out
+  end
+
+  def cell_calc(cell, index)
+    return if solutionX(cell)
+    @cells[index] = peers_solutions(index)
+    return :backout if @cells[index] == 0b111111111
+    is_maybe = 0b111111111 ^ @cells[index]
+    return if (is_maybe & (is_maybe - 1)) == 0
+    [col_rest(index), row_rest(index), grid_rest(index)].each do |rest|
+      has_to_be = is_maybe
+      rest.each { |x| has_to_be &= x }
+      next if has_to_be == 0b000000000
+      return :backout if (has_to_be & (has_to_be - 1)) != 0
+      @cells[index] = 0b111111111 ^ has_to_be
+      return
+    end
+  end
+
   def solved_count
-    @cells.select(&:solution).compact.count
+    @cells.select { |x| solutionX(x) }.compact.count
   end
 
   def single_calc
-    @cells.each do |cell|
-      res = cell.calc()
+    @cells.each_with_index do |cell, idx|
+      res = cell_calc(cell, idx)
       return :backout if res == :backout
     end
   end
@@ -120,8 +116,7 @@ class Puzzle
     return if res == :backout
     return if solved_count() == 81
     saved = self.cells.map(&:clone)
-    cell = @cells.reject(&:solution)[cell_index]
-    return unless cell
+    cell = @cells[cell_index]
     all_guesses = [
       0b000000001,
       0b000000010,
@@ -133,10 +128,9 @@ class Puzzle
       0b010000000,
       0b100000000,
     ]
-    guesses = all_guesses.select { |g| g & cell.is_not == 0 }
+    guesses = all_guesses.select { |g| g & cell == 0 }
     guesses.each do |number_guess|
-      cell.solution = number_guess
-      cell.is_not = 0b111111111
+      @cells[cell_index] = 0b111111111 ^ number_guess
       solve(cell_index + 1)
       return if solved_count() == 81
       @cells = saved
@@ -162,7 +156,7 @@ solution_key = {
   0b000000001 => 1
 }
 
-solutions = puzzles.map { |p| p.cells.map { |x| solution_key[x.solution] } }
+solutions = puzzles.map { |p| p.cells.map { |x| solution_key[solutionX(x)] } }
 top_3s = solutions.map { |x| x.take(3).join.to_i }
 out = top_3s.reduce(:+)
 puts
