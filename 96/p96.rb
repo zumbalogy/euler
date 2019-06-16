@@ -18,19 +18,17 @@ def solutionX(is_not)
   is_maybe
 end
 
+Cells = [0b000000000] * 81
 
 class Puzzle
-  attr_accessor :cells
 
   def initialize(input_grid)
-    @cells = []
     input_grid.each_with_index do |int, index|
       if int == 0
-        cell = 0b000000000
+        Cells[index] = 0b000000000
       else
-        cell = 0b111111111 ^ (2 ** (int - 1))
+        Cells[index] = 0b111111111 ^ (2 ** (int - 1))
       end
-      @cells.push(cell)
     end
   end
 
@@ -38,14 +36,14 @@ class Puzzle
     offset = idx % 9
     indexes = [0,9,18,27,36,45,54,63,72]
     indexes.delete_at(idx / 9)
-    @cells.drop(offset).values_at(*indexes)
+    Cells.drop(offset).values_at(*indexes)
   end
 
   def row_rest(idx)
     offset = (idx / 9) * 9
     idxs = [*offset...(offset + 9)]
     idxs.delete_at(idx - offset)
-    @cells.values_at(*idxs)
+    Cells.values_at(*idxs)
   end
 
   def grid_rest(idx)
@@ -56,7 +54,7 @@ class Puzzle
     offset = ((grid / 3) * 27) + (grid % 3) * 3
     idxs = [0, 1, 2, 9, 10, 11, 18, 19, 20]
     idxs.delete_at(idx - offset)
-    @cells.drop(offset).values_at(*idxs)
+    Cells.drop(offset).values_at(*idxs)
   end
 
   def peers_solutions(idx)
@@ -68,28 +66,28 @@ class Puzzle
     out
   end
 
-  def cell_calc(cell, index)
-    return if solutionX(cell)
-    @cells[index] = peers_solutions(index)
-    return :backout if @cells[index] == 0b111111111
-    is_maybe = 0b111111111 ^ @cells[index]
+  def cell_calc(cell, index) # TODO: dont need this cell
+    return if solutionX(Cells[index])
+    Cells[index] = peers_solutions(index)
+    return :backout if Cells[index] == 0b111111111
+    is_maybe = 0b111111111 ^ Cells[index]
     return if (is_maybe & (is_maybe - 1)) == 0
     [col_rest(index), row_rest(index), grid_rest(index)].each do |rest|
       has_to_be = is_maybe
       rest.each { |x| has_to_be &= x }
       next if has_to_be == 0b000000000
       return :backout if (has_to_be & (has_to_be - 1)) != 0
-      @cells[index] = 0b111111111 ^ has_to_be
+      Cells[index] = 0b111111111 ^ has_to_be
       return
     end
   end
 
   def solved_count
-    @cells.count { |x| solutionX(x) }
+    Cells.count { |x| solutionX(x) }
   end
 
   def single_calc
-    @cells.each_with_index do |cell, idx|
+    Cells.each_with_index do |cell, idx|
       res = cell_calc(cell, idx)
       return :backout if res == :backout
     end
@@ -110,8 +108,8 @@ class Puzzle
     res = repeat_calc()
     return if res == :backout
     return if solved_count() == 81
-    saved = self.cells.map(&:clone)
-    cell = @cells[cell_index]
+    saved = Cells.map(&:clone) # TODO: this can be better now
+    cell = Cells[cell_index]
     all_guesses = [
       0b000000001,
       0b000000010,
@@ -125,10 +123,10 @@ class Puzzle
     ]
     guesses = all_guesses.select { |g| g & cell == 0 }
     guesses.each do |number_guess|
-      @cells[cell_index] = 0b111111111 ^ number_guess
+      Cells[cell_index] = 0b111111111 ^ number_guess
       solve(cell_index + 1)
-      return if solved_count() == 81
-      @cells = saved
+      return if solved_count() == 81 # is this needed
+      saved.each_with_index { |c, i| Cells[i] = c }
     end
   end
 end
@@ -136,10 +134,9 @@ end
 text = File.read('sudoku.txt')
 digits = text.gsub(/^\D.*$/, '').scan(/./).map(&:to_i)
 
-puzzles = digits.each_slice(81).map { |x| Puzzle.new(x) }
-puzzles.each(&:solve)
+puzzles_chunks = digits.each_slice(81)
 
-solution_key = {
+cell_key = {
   0b100000000 => 9,
   0b010000000 => 8,
   0b001000000 => 7,
@@ -151,10 +148,18 @@ solution_key = {
   0b000000001 => 1
 }
 
-solutions = puzzles.map { |p| p.cells.map { |x| solution_key[solutionX(x)] } }
-top_3s = solutions.map { |x| x.take(3).join.to_i }
-puts top_3s.reduce(:+)
+euler_output = 0
+
+puzzles_chunks.each do |chunk|
+  puzzle = Puzzle.new(chunk)
+  puzzle.solve()
+  foo = Cells.take(3).map { |x| cell_key[solutionX(x)] }.join.to_i
+  euler_output += foo
+end
+
+puts euler_output
 # 24702
+
 
 
 # AI Etena
