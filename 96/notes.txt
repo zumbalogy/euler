@@ -4,8 +4,9 @@ unrolling the guessing recursion.
 each cell could have a "guess number" field to know how to roll back
 
 
-keeping a list of indexes of unsolved ones, that way
+keeping a list of indexes of [un]solved ones, that way
 the list does not need to be scanned (currently it scans the list like
 3 times per guess or so, and then a time per repeat calc), so many times
 but this would need to be rolled back with retreating from guess too.
 but thats almost definitly worth it timing wise
+-- even just for the "is it totally solved" check this could be savings as that is called over 1000 times in euler problem
