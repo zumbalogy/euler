@@ -129,11 +129,6 @@ def solve(cell_index = 0)
   end
 end
 
-text = File.read('sudoku.txt')
-digits = text.gsub(/^\D.*$/, '').scan(/./).map(&:to_i)
-
-puzzles_chunks = digits.each_slice(81)
-
 cell_key = {
   0b100000000 => 9,
   0b010000000 => 8,
@@ -148,62 +143,62 @@ cell_key = {
 
 euler_output = 0
 
+text = File.read('sudoku.txt')
+digits = text.gsub(/^\D.*$/, '').scan(/./).map(&:to_i)
+puzzles_chunks = digits.each_slice(81)
+
 puzzles_chunks.each do |chunk|
   initialize_cells(chunk)
   solve()
-  foo = Cells.take(3).map { |x| cell_key[solution(x)] }.join.to_i
-  euler_output += foo
+  corner = Cells.take(3).map { |x| cell_key[solution(x)] }
+  euler_output += corner.join.to_i
 end
 
 puts euler_output
 # 24702
 
+############################################################################
 
-# AI Etena
-# 100 007 090
-# 030 020 008
-# 009 600 500
-
-# 005 300 900
-# 010 080 002
-# 600 004 000
-
-# 300 000 010
-# 040 000 007
-# 007 000 300
-
-# real    0m30.747s
+# http://www.sudokusnake.com/history.php
 
 # ai_etena = '100007090030020008009600500005300900010080002600004000300000010040000007007000300'.split('').map(&:to_i)
-# ai_etena = '100007090030020008009600500005300900010080002600004000300000010040000007007000300'.split('').map(&:to_i)
+# initialize_cells(ai_etena)
+# solve()
+# print Cells.map { |x| cell_key[solution(x)] }
 # 162857493534129678789643521475312986913586742628794135356478219241935867897261354
 
+# easter_monster = '100000002090400050006000700050903000000070000000850040700000600030009080002000001'.split('').map(&:to_i)
+# initialize_cells(easter_monster)
+# solve()
+# print Cells.map { |x| cell_key[solution(x)] }
+# 174385962293467158586192734451923876928674315367851249719548623635219487842736591
 
+# golden_nugget = '000000039000010005003005800008009006070020000100400000009008050020000600400700000'.split('').map(&:to_i)
+# initialize_cells(golden_nugget)
+# solve()
+# print Cells.map { |x| cell_key[solution(x)] }
+# 751864239892317465643295871238179546974526318165483927319648752527931684486752193
 
-# real    3m31.468s
-# easter_monster = %w(
-#   100 000 089
-#   000 009 002
-#   000 000 450
+# foo = '000000039000010005003005800008009006070020000100400000009008050020000600400700000'.split('').map(&:to_i)
+# initialize_cells(foo)
+# solve()
+# print Cells.map { |x| cell_key[solution(x)] }
+# # 751864239892317465643295871238179546974526318165483927319648752527931684486752193
+
+# https://norvig.com/sudoku.html
+
+# norvig_top_95 = File.read('norvig_hard95.txt').gsub('.', '0').scan(/./).map(&:to_i)
+# puzzles_chunks = norvig_top_95.each_slice(81)
 #
-#   007 600 000
-#   030 040 000
-#   900 002 005
-#
-#   004 070 000
-#   500 008 010
-#   060 300 000
-# ).join().split('').map(&:to_i)
-#
-# p = Puzzle.new(ai_etena)
-#
-# p.solve()
-#
-# solution = p.cells.map(&:solution).map { |x| Math.log2(x).to_i + 1 }.join('')
-#
-# puts solution
-# if solution == '162857493534129678789643521475312986913586742628794135356478219241935867897261354'
-#   puts "correct"
-# else
-#   puts "wrong"
+# timer = Time.now.to_f
+# times = []
+# puzzles_chunks.each do |chunk|
+#   initialize_cells(chunk)
+#   solve()
+#   a = Time.now.to_f
+#   times.push(a - timer)
+#   puts a - timer
+#   timer = a
 # end
+# puts
+# puts times.reduce(:+) / times.length
