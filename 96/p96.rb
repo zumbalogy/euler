@@ -51,7 +51,7 @@ def grid_rest(idx)
 
   offset = ((grid / 3) * 27) + (grid % 3) * 3
   idxs = [0, 1, 2, 9, 10, 11, 18, 19, 20]
-  idxs.delete_at(idx - offset)
+  # idxs.delete_at(idx - offset) # this might not be needed
   Cells.drop(offset).values_at(*idxs)
 end
 
