@@ -1,27 +1,27 @@
-Cells = [0b000000000] * 81
+Cells = [0b000000000_u16] * 81
 
 def initialize_cells(input_grid)
   input_grid.each_with_index do |int, index|
     if int == 0
-      Cells[index] = 0b000000000
+      Cells[index] = 0b000000000_u16
     else
-      Cells[index] = 0b111111111 ^ (2 ** (int - 1))
+      Cells[index] = 0b111111111_u16 ^ (2 ** (int - 1))
     end
   end
 end
 
 def solution(is_not)
   return if is_not == 0
-  is_maybe = 0b111111111 ^ is_not
+  is_maybe = 0b111111111_u16 ^ is_not
   return unless (is_maybe & (is_maybe - 1)) == 0
   is_maybe
 end
 
 def col_rest(idx)
   offset = idx % 9
-  indexes = [0,9,18,27,36,45,54,63,72]
+  indexes = [0,9,18,27,36,45,54,63,72] of UInt16
   indexes.delete_at(idx / 9)
-  out = [] of Int32
+  out = [] of UInt16
   indexes.each { |x| out << Cells[x + offset] }
   out
 end
@@ -30,7 +30,7 @@ def row_rest(idx)
   offset = (idx / 9) * 9
   idxs = (offset...(offset + 9)).to_a
   idxs.delete_at(idx - offset)
-  out = [] of Int32
+  out = [] of UInt16
   idxs.each { |x| out << Cells[x] }
   out
 end
@@ -41,14 +41,15 @@ def grid_rest(idx)
   grid = (3 * (row / 3)) + (col / 3)
 
   offset = ((grid / 3) * 27) + (grid % 3) * 3
-  idxs = [0, 1, 2, 9, 10, 11, 18, 19, 20]
-  out = [] of Int32
+  idxs = [0, 1, 2, 9, 10, 11, 18, 19, 20] of Int16
+  out = [] of UInt16
+  idxs.delete(idx - offset)
   idxs.each { |x| out << Cells[x + offset] }
   out
 end
 
 def peers_solutions(idx)
-  out = 0b000000000
+  out = 0b000000000_u16
   (col_rest(idx) + grid_rest(idx) + row_rest(idx)).each do |cell|
     s = solution(cell)
     out |= s if s
@@ -59,15 +60,15 @@ end
 def cell_calc(index)
   return if solution(Cells[index])
   Cells[index] = peers_solutions(index)
-  return :backout if Cells[index] == 0b111111111
-  is_maybe = 0b111111111 ^ Cells[index]
+  return :backout if Cells[index] == 0b111111111_u16
+  is_maybe = 0b111111111_u16 ^ Cells[index]
   return if (is_maybe & (is_maybe - 1)) == 0
   [col_rest(index), row_rest(index), grid_rest(index)].each do |rest|
     has_to_be = is_maybe
     rest.each { |x| has_to_be &= x }
     next if has_to_be == 0b000000000
     return :backout if (has_to_be & (has_to_be - 1)) != 0
-    Cells[index] = 0b111111111 ^ has_to_be
+    Cells[index] = 0b111111111_u16 ^ has_to_be
     return
   end
 end
@@ -78,7 +79,7 @@ def solved_count
 end
 
 def single_calc
-  81.times do |idx|
+  81_u16.times do |idx|
     res = cell_calc(idx)
     return :backout if res == :backout
   end
@@ -111,10 +112,10 @@ def solve(cell_index = 0)
     0b001000000,
     0b010000000,
     0b100000000,
-  ]
+  ] of UInt16
   guesses = all_guesses.select { |g| g & cell == 0b000000000 }
   guesses.each do |number_guess|
-    Cells[cell_index] = 0b111111111 ^ number_guess
+    Cells[cell_index] = 0b111111111_u16 ^ number_guess
     solve(cell_index + 1)
     return if solved_count() == 81
     saved.each_with_index { |c, i| Cells[i] = c }
