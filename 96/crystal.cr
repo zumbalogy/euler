@@ -138,7 +138,8 @@ euler_output = 0
 
 text = File.read("sudoku.txt")
 
-puzzle_chunks = text.strip.lines.each_slice(10).map { |x| x[1..10].join().split("").map {|s| s.to_i } }
+puzzle_strs = text.strip.lines.each_slice(10)
+puzzle_chunks = puzzle_strs.map { |x| x[1..10].join().split("").map { |s| s.to_i } }
 
 puzzle_chunks.each do |chunk|
   initialize_cells(chunk)

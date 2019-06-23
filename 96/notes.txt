@@ -14,3 +14,11 @@ but thats almost definitly worth it timing wise
 
 look into (for crystal, dont know if ruby has it)
 #unsafe_fetch(index : Int)
+
+
+for crystal,
+declare size of out arrays in *_rest functions,
+and assign instead of push into.
+(this could even be hoisted out of their
+functions and made global, though maybe just the
+c one should have that level of optimization)
