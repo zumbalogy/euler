@@ -1,62 +1,47 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <limits.h>
-
-char global_print_str[9];
-
-void print(int i) {
-  int bits = 9;
-  global_print_str[bits] = 0;
-  unsigned u = *(unsigned *)&i;
-  for(; bits--; u >>= 1) {
-    global_print_str[bits] = u & 1 ? '1' : '0';
-  }
-  printf("%s", global_print_str);
-  if        (i == 0b111111110) { printf(" = %d", 1);
-  } else if (i == 0b111111101) { printf(" = %d", 2);
-  } else if (i == 0b111111011) { printf(" = %d", 3);
-  } else if (i == 0b111110111) { printf(" = %d", 4);
-  } else if (i == 0b111101111) { printf(" = %d", 5);
-  } else if (i == 0b111011111) { printf(" = %d", 6);
-  } else if (i == 0b110111111) { printf(" = %d", 7);
-  } else if (i == 0b101111111) { printf(" = %d", 8);
-  } else if (i == 0b011111111) { printf(" = %d", 9); }
-  printf("\n");
-}
+// #include <stdio.h>
+//
+// char global_print_str[9];
+// void print(int i) {
+//   int bits = 9;
+//   global_print_str[bits] = 0;
+//   unsigned u = *(unsigned *)&i;
+//   for(; bits--; u >>= 1) {
+//     global_print_str[bits] = u & 1 ? '1' : '0';
+//   }
+//   printf("%s", global_print_str);
+//   if        (i == 0b111111110) { printf(" = %d", 1);
+//   } else if (i == 0b111111101) { printf(" = %d", 2);
+//   } else if (i == 0b111111011) { printf(" = %d", 3);
+//   } else if (i == 0b111110111) { printf(" = %d", 4);
+//   } else if (i == 0b111101111) { printf(" = %d", 5);
+//   } else if (i == 0b111011111) { printf(" = %d", 6);
+//   } else if (i == 0b110111111) { printf(" = %d", 7);
+//   } else if (i == 0b101111111) { printf(" = %d", 8);
+//   } else if (i == 0b011111111) { printf(" = %d", 9); }
+//   printf("\n");
+// }
 
 int Cells[81];
 
-void printBoard() {
-  for (int i = 0; i < 81; i++) {
-    printf("%d = ", i);
-    print(Cells[i]);
-  }
-}
+// void printBoard() {
+//   for (int i = 0; i < 81; i++) {
+//     printf("%d = ", i);
+//     print(Cells[i]);
+//   }
+// }
 
 void initCells(int* input) {
   for (int i = 0; i < 81; i++) {
-    if (input[i] == 0) {
-      Cells[i] = 0b000000000;
-    } else if (input[i] == 1) {
-      Cells[i] = 0b111111110;
-    } else if (input[i] == 2) {
-      Cells[i] = 0b111111101;
-    } else if (input[i] == 3) {
-      Cells[i] = 0b111111011;
-    } else if (input[i] == 4) {
-      Cells[i] = 0b111110111;
-    } else if (input[i] == 5) {
-      Cells[i] = 0b111101111;
-    } else if (input[i] == 6) {
-      Cells[i] = 0b111011111;
-    } else if (input[i] == 7) {
-      Cells[i] = 0b110111111;
-    } else if (input[i] == 8) {
-      Cells[i] = 0b101111111;
-    } else if (input[i] == 9) {
-      Cells[i] = 0b011111111;
-    }
+    if      (input[i] == 0) { Cells[i] = 0b000000000; }
+    else if (input[i] == 1) { Cells[i] = 0b111111110; }
+    else if (input[i] == 2) { Cells[i] = 0b111111101; }
+    else if (input[i] == 3) { Cells[i] = 0b111111011; }
+    else if (input[i] == 4) { Cells[i] = 0b111110111; }
+    else if (input[i] == 5) { Cells[i] = 0b111101111; }
+    else if (input[i] == 6) { Cells[i] = 0b111011111; }
+    else if (input[i] == 7) { Cells[i] = 0b110111111; }
+    else if (input[i] == 8) { Cells[i] = 0b101111111; }
+    else if (input[i] == 9) { Cells[i] = 0b011111111; }
   }
 }
 
@@ -87,8 +72,8 @@ int* col_rest(int idx) {
   return col_rest_out;
 }
 
+int row_rest_out[9];
 int* row_rest(int idx) {
-  int *out = malloc (sizeof (int) * 8);
   int offset = (idx / 9) * 9;
   int indexes[] = {0,1,2,3,4,5,6,7,8};
   if (idx - offset == 0) {
@@ -97,13 +82,13 @@ int* row_rest(int idx) {
     indexes[idx - offset] = 0;
   }
   for (int i = 0; i < 9; i++) {
-    out[i] = Cells[i + offset];
+    row_rest_out[i] = Cells[i + offset];
   }
-  return out;
+  return row_rest_out;
 }
 
+int grid_rest_out[9];
 int* grid_rest(int idx) {
-  int *out = malloc (sizeof (int) * 8);
   int col = idx % 9;
   int row = idx / 9;
   int grid = (3 * (row / 3)) + (col / 3);
@@ -113,12 +98,12 @@ int* grid_rest(int idx) {
   for (int i = 0; i < 9; i++) {
     int foo = idxs[i] + offset;
     if (foo != idx - offset) {
-      out[i - extraOffset] = Cells[foo];
+      grid_rest_out[i - extraOffset] = Cells[foo];
     } else {
       extraOffset = 1;
     }
   }
-  return out;
+  return grid_rest_out;
 }
 
 int peerSolutions(int idx) {
@@ -132,7 +117,7 @@ int peerSolutions(int idx) {
       out |= s;
     }
   }
-  for (int i = 0; i < 8; i++) {
+  for (int i = 0; i < 9; i++) {
     int s = solution(rRest[i]);
     if (s != 0) {
       out |= s;
@@ -144,8 +129,6 @@ int peerSolutions(int idx) {
       out |= s;
     }
   }
-  free(rRest);
-  free(gRest);
   return out;
 }
 
@@ -179,8 +162,6 @@ int cellCalc(int index) {
     Cells[index] = 0b111111111 ^ hasToBeG;
     return 1;
   }
-  free(rRest);
-  free(gRest);
   return 1;
 }
 
@@ -256,5 +237,5 @@ int grid1[] = {
 void main() {
   initCells(grid1);
   solve(0);
-  printBoard();
+  // printBoard();
 }
