@@ -96,11 +96,13 @@ def repeat_calc
   end
 end
 
+Saved_puzzles = [] of UInt16
+
 def solve(cell_index = 0)
   res = repeat_calc()
   return if res == :backout
   return if solved_count() == 81
-  saved = Cells.clone()
+  Cells.each { |x| Saved_puzzles.push(x) }
   cell = Cells[cell_index]
   all_guesses = [
     0b000000001,
@@ -118,7 +120,7 @@ def solve(cell_index = 0)
     Cells[cell_index] = 0b111111111_u16 ^ number_guess
     solve(cell_index + 1)
     return if solved_count() == 81
-    saved.each_with_index { |c, i| Cells[i] = c }
+    81.times { |i| Cells[80 - i] = Saved_puzzles.pop() }
   end
 end
 
@@ -149,3 +151,4 @@ puzzle_chunks.each do |chunk|
 end
 
 puts euler_output
+# 24702
