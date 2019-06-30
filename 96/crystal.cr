@@ -96,13 +96,14 @@ def repeat_calc
   end
 end
 
-Saved_puzzles = [] of UInt16
+Saved_puzzles = [0b000000000_u16] * (81 * 81)
 
 def solve(cell_index = 0)
   res = repeat_calc()
   return if res == :backout
   return if solved_count() == 81
-  Cells.each { |x| Saved_puzzles.push(x) }
+  offset = cell_index * 81
+  81.times { |i| Saved_puzzles[i + offset] = Cells[i] }
   cell = Cells[cell_index]
   all_guesses = [
     0b000000001,
@@ -120,7 +121,7 @@ def solve(cell_index = 0)
     Cells[cell_index] = 0b111111111_u16 ^ number_guess
     solve(cell_index + 1)
     return if solved_count() == 81
-    81.times { |i| Cells[80 - i] = Saved_puzzles.pop() }
+    81.times { |i| Cells[i] = Saved_puzzles[i + offset] }
   end
 end
 
