@@ -1,34 +1,44 @@
-// #include <stdio.h>
-//
-// char global_print_str[9];
-// void print(int i) {
-//   int bits = 9;
-//   global_print_str[bits] = 0;
-//   unsigned u = *(unsigned *)&i;
-//   for(; bits--; u >>= 1) {
-//     global_print_str[bits] = u & 1 ? '1' : '0';
-//   }
-//   printf("%s", global_print_str);
-//   if        (i == 0b111111110) { printf(" = %d", 1);
-//   } else if (i == 0b111111101) { printf(" = %d", 2);
-//   } else if (i == 0b111111011) { printf(" = %d", 3);
-//   } else if (i == 0b111110111) { printf(" = %d", 4);
-//   } else if (i == 0b111101111) { printf(" = %d", 5);
-//   } else if (i == 0b111011111) { printf(" = %d", 6);
-//   } else if (i == 0b110111111) { printf(" = %d", 7);
-//   } else if (i == 0b101111111) { printf(" = %d", 8);
-//   } else if (i == 0b011111111) { printf(" = %d", 9); }
-//   printf("\n");
-// }
+#include <stdio.h>
+
+char global_print_str[9];
+void print(int i) {
+  int bits = 9;
+  global_print_str[bits] = 0;
+  unsigned u = *(unsigned *)&i;
+  for(; bits--; u >>= 1) {
+    global_print_str[bits] = u & 1 ? '1' : '0';
+  }
+  // printf("%s", global_print_str);
+  if        (i == 0b111111110) { printf(" %d ", 1);
+  } else if (i == 0b111111101) { printf(" %d ", 2);
+  } else if (i == 0b111111011) { printf(" %d ", 3);
+  } else if (i == 0b111110111) { printf(" %d ", 4);
+  } else if (i == 0b111101111) { printf(" %d ", 5);
+  } else if (i == 0b111011111) { printf(" %d ", 6);
+  } else if (i == 0b110111111) { printf(" %d ", 7);
+  } else if (i == 0b101111111) { printf(" %d ", 8);
+  } else if (i == 0b011111111) { printf(" %d ", 9);
+  } else { printf(" _ "); }
+}
 
 int Cells[81];
 
-// void printBoard() {
-//   for (int i = 0; i < 81; i++) {
-//     printf("%d = ", i);
-//     print(Cells[i]);
-//   }
-// }
+void printBoard() {
+  for (int i = 0; i < 81; i++) {
+    // printf("%d = ", i);
+    print(Cells[i]);
+    if ((i + 1) % 3 == 0) {
+      printf("  ");
+    }
+    if ((i + 1) % 9 == 0) {
+      printf("\n");
+    }
+    if ((i + 1) % 27 == 0) {
+      printf("\n");
+    }
+  }
+  printf("\n");
+}
 
 void initCells(int* input) {
   for (int i = 0; i < 81; i++) {
@@ -201,8 +211,45 @@ int repeatCalc() {
   return 1;
 }
 
+int Saved_puzzles[81 * 81];
+
 int solve(int cellIndex) {
   int res = repeatCalc();
+  if (res == 0) {
+    return 0;
+  }
+  if (solvedCount() == 81) {
+    return 1;
+  }
+  int offset = cellIndex * 81;
+  for (int i = 0; i < 81; i++) {
+    Saved_puzzles[i + offset] = Cells[i];
+  }
+  int cell = Cells[cellIndex];
+  int allGuesses[] = {
+    0b000000001,
+    0b000000010,
+    0b000000100,
+    0b000001000,
+    0b000010000,
+    0b000100000,
+    0b001000000,
+    0b010000000,
+    0b100000000,
+  };
+  for (int i = 0; i < 9; i++) {
+    int number_guess = allGuesses[i];
+    if ((number_guess & cell) == 0b000000000) {
+      Cells[cellIndex] = (0b111111111 ^ number_guess);
+      solve(cellIndex + 1);
+      if (solvedCount() == 81) {
+        return 1;
+      }
+      for (int j = 0; j < 81; j++) {
+        Cells[j] = Saved_puzzles[j + offset];
+      }
+    }
+  }
   return 1;
 }
 
@@ -220,6 +267,21 @@ int grid1[] = {
   0,0,5, 0,1,0, 3,0,0
 };
 
+int easter[] = {
+  1,0,0, 0,0,0, 0,0,2,
+  0,9,0, 4,0,0, 0,5,0,
+  0,0,6, 0,0,0, 7,0,0,
+
+  0,5,0, 9,0,3, 0,0,0,
+  0,0,0, 0,7,0, 0,0,0,
+  0,0,0, 8,5,0, 0,4,0,
+
+  7,0,0, 0,0,0, 6,0,0,
+  0,3,0, 0,0,9, 0,8,0,
+  0,0,2, 0,0,0, 0,0,1
+};
+// 174385962293467158586192734451923876928674315367851249719548623635219487842736591
+
 // int grid1_solution[] = {
 //   4,8,3, 9,2,1, 6,5,7,
 //   9,6,7, 3,4,5, 8,2,1,
@@ -234,8 +296,10 @@ int grid1[] = {
 //   6,9,5, 4,1,7, 3,8,2
 // };
 
+
 void main() {
-  initCells(grid1);
+  // initCells(grid1);
+  initCells(easter);
   solve(0);
   // printBoard();
 }

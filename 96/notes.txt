@@ -22,3 +22,25 @@ and assign instead of push into.
 (this could even be hoisted out of their
 functions and made global, though maybe just the
 c one should have that level of optimization)
+
+
+
+-------
+
+easter monster
+
+ruby
+real    0m0.489s
+user    0m0.477s
+sys     0m0.013s
+
+crystal
+real    0m0.057s
+user    0m0.061s
+sys     0m0.010s
+
+
+c
+real    0m0.012s
+user    0m0.012s
+sys     0m0.000s

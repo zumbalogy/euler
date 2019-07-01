@@ -86,6 +86,7 @@ def single_calc
 end
 
 def repeat_calc
+  # this could check for 81 solve count to short curcuit
   tally = solved_count()
   res = single_calc()
   return :backout if res == :backout
@@ -116,11 +117,11 @@ def solve(cell_index = 0)
     0b010000000,
     0b100000000,
   ] of UInt16
-  guesses = all_guesses.select { |g| g & cell == 0b000000000 }
-  guesses.each do |number_guess|
+  all_guesses.each do |number_guess|
+    next if number_guess & cell != 0b000000000
     Cells[cell_index] = 0b111111111_u16 ^ number_guess
     solve(cell_index + 1)
-    return if solved_count() == 81
+    return if solved_count() == 81 # this could check for backout? need to return it on line 103
     81.times { |i| Cells[i] = Saved_puzzles[i + offset] }
   end
 end
@@ -139,7 +140,8 @@ cell_key = {
 
 euler_output = 0
 
-text = File.read("sudoku.txt")
+# text = File.read("sudoku.txt")
+text = File.read("easter.txt")
 
 puzzle_strs = text.strip.lines.each_slice(10)
 puzzle_chunks = puzzle_strs.map { |x| x[1..10].join().split("").map { |s| s.to_i } }
