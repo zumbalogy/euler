@@ -29,7 +29,7 @@ c one should have that level of optimization)
 
 easter monster
 
-ruby
+ruby (50 to 100ms is starting interpreter and loading code)
 real    0m0.489s
 user    0m0.477s
 sys     0m0.013s
