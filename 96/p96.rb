@@ -38,6 +38,7 @@ def col_rest(idx)
 end
 
 def row_rest(idx)
+  # this could be better. look at js one
   offset = (idx / 9) * 9
   idxs = [*offset...(offset + 9)]
   idxs.delete_at(idx - offset)
@@ -58,7 +59,7 @@ end
 def peers_solutions(idx)
   out = 0b000000000
   (col_rest(idx) + grid_rest(idx) + row_rest(idx)).each do |cell|
-    s = solution(cell)
+    s = solution(cell) # this could maybe return zero?
     out |= s if s
   end
   out
