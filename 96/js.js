@@ -29,7 +29,7 @@ const initializeCells = (inputGrid) => {
 
 const solution = (isNot) => {
   if (isNot !== 0) {
-    const isMaybe = 0b111111111 & isNot
+    const isMaybe = 0b111111111 ^ isNot
     if ((isMaybe & (isMaybe - 1)) == 0) {
       return isMaybe
     }
@@ -40,7 +40,7 @@ const colRest = (idx) => {
   const offset = idx % 9
   const indexes = [0,9,18,27,36,45,54,63,72]
   indexes.splice(Math.floor(idx / 9), 1)
-  return indexes.map(i -> Cells[i + offset])
+  return indexes.map(i => Cells[i + offset])
 }
 
 const rowRest = (idx) => {
@@ -62,7 +62,8 @@ const gridRest = (idx) => {
 
 const peersSolutions = (idx) => {
   let out = 0b000000000
-  [colRest(idx), rowRest(idx), gridRest(idx)].forEach(cell => {
+  const peers = colRest(idx).concat(rowRest(idx)).concat(gridRest(idx))
+  peers.forEach(cell => {
     const s = solution(cell)
     if (s) {
       out |= s
@@ -80,10 +81,109 @@ const cellCalc = (index) => {
     return 'backout'
   }
   const isMaybe = 0b111111111 ^ Cells[index]
-  if ((is_maybe & (is_maybe - 1)) === 0) {
+  if ((isMaybe & (isMaybe - 1)) === 0) {
     return
+  }
+  let done = false
+  const rests = [colRest(index), rowRest(index), gridRest(index)]
+  rests.forEach(rest => {
+    if (!done) {
+      let hasToBe = isMaybe
+      rest.forEach(x => hasToBe &= x)
+      if (hasToBe !== 0b000000000) {
+        if ((hasToBe & (hasToBe - 1)) === 0) {
+          Cells[index] = 0b111111111 ^ hasToBe
+          done = true
+        } else {
+          done = 'backout'
+        }
+      }
+    }
+  })
+  return done
+}
+
+const solvedCount = () => {
+  return Cells.filter(solution).length
+}
+
+const singleCalc = () => {
+  for (let i = 0; i < 81; i++) {
+    const res = cellCalc(i)
+    if (res === 'backout') {
+      return 'backout'
+    }
   }
 }
 
+const repeatCalc = () => {
+  let tally = solvedCount()
+  let res = singleCalc()
+  if (res === 'backout') {
+    return 'backout'
+  }
+  while (tally !== solvedCount()) {
+    tally = solvedCount()
+    res = singleCalc()
+    if (res === 'backout') {
+      return 'backout'
+    }
+  }
+}
 
-console.log(Cells)
+const solve = (cellIndex) => {
+  cellIndex = cellIndex || 0
+  const res = repeatCalc()
+  if (res === 'backout') {
+    return
+  }
+  if (solvedCount() === 81) {
+    return
+  }
+  const saved = Object.assign([], Cells)
+  const cell = Cells[cellIndex]
+  const allGuesses = [
+    0b000000001,
+    0b000000010,
+    0b000000100,
+    0b000001000,
+    0b000010000,
+    0b000100000,
+    0b001000000,
+    0b010000000,
+    0b100000000,
+  ]
+  const guesses = allGuesses.filter(g => (g & cell) === 0b000000000)
+  for (let i = 0; i < guesses.length; i++) {
+    const numberGuess = guesses[i]
+    Cells[cellIndex] = 0b111111111 ^ numberGuess
+    solve(cellIndex + 1)
+    if (solvedCount() === 81) {
+      return
+    }
+    saved.forEach((c, i) => Cells[i] = c)
+  }
+}
+
+const cellKey = [
+  0b000000001,
+  0b000000010,
+  0b000000100,
+  0b000001000,
+  0b000010000,
+  0b000100000,
+  0b001000000,
+  0b010000000,
+  0b100000000
+]
+
+// let eulerCount = 0
+
+
+let easter_monster = '100000002090400050006000700050903000000070000000850040700000600030009080002000001'.split('').map(x => Number(x))
+initializeCells(easter_monster)
+solve()
+// console.log(Cells.map(x => cellKey.indexOf(solution(x)) + 1))
+// 174385962293467158586192734451923876928674315367851249719548623635219487842736591
+
+console.log(Cells.join())
