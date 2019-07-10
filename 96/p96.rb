@@ -121,9 +121,9 @@ def solve(cell_index = 0)
     0b010000000,
     0b100000000,
   ]
-  guesses = all_guesses.select { |g| g & cell == 0b000000000 }
+  guesses = all_guesses.select { |g| g & cell == 0b000000000 } # NOTE: A
   guesses.each do |number_guess|
-    Cells[cell_index] = 0b111111111 ^ number_guess
+    Cells[cell_index] = 0b111111111 ^ number_guess # NOTE: B, maybe this could be done in the array if NOTE: A is changed to something
     solve(cell_index + 1)
     return if solved_count() == 81
     saved.each_with_index { |c, i| Cells[i] = c }
@@ -142,20 +142,20 @@ cell_key = {
   0b000000001 => 1
 }
 
-euler_output = 0
-
-text = File.read('sudoku.txt')
-digits = text.gsub(/^\D.*$/, '').scan(/./).map(&:to_i)
-puzzles_chunks = digits.each_slice(81)
-
-puzzles_chunks.each do |chunk|
-  initialize_cells(chunk)
-  solve()
-  corner = Cells.take(3).map { |x| cell_key[solution(x)] }
-  euler_output += corner.join.to_i
-end
-
-puts euler_output
+# euler_output = 0
+#
+# text = File.read('sudoku.txt')
+# digits = text.gsub(/^\D.*$/, '').scan(/./).map(&:to_i)
+# puzzles_chunks = digits.each_slice(81)
+#
+# puzzles_chunks.each do |chunk|
+#   initialize_cells(chunk)
+#   solve()
+#   corner = Cells.take(3).map { |x| cell_key[solution(x)] }
+#   euler_output += corner.join.to_i
+# end
+#
+# puts euler_output
 # 24702
 
 ############################################################################
@@ -168,10 +168,10 @@ puts euler_output
 # print Cells.map { |x| cell_key[solution(x)] }
 # 162857493534129678789643521475312986913586742628794135356478219241935867897261354
 
-# easter_monster = '100000002090400050006000700050903000000070000000850040700000600030009080002000001'.split('').map(&:to_i)
-# initialize_cells(easter_monster)
-# solve()
-# print Cells.map { |x| cell_key[solution(x)] }
+easter_monster = '100000002090400050006000700050903000000070000000850040700000600030009080002000001'.split('').map(&:to_i)
+initialize_cells(easter_monster)
+solve()
+print Cells.map { |x| cell_key[solution(x)] }
 # 174385962293467158586192734451923876928674315367851249719548623635219487842736591
 
 # golden_nugget = '000000039000010005003005800008009006070020000100400000009008050020000600400700000'.split('').map(&:to_i)

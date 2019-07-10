@@ -34,6 +34,16 @@ real    0m0.489s
 user    0m0.477s
 sys     0m0.013s
 
+js (300ms is bootup of node)node  version 8.something
+real    0m0.562s
+user    0m0.578s
+sys     0m0.021s
+
+js (35 - 60ms bootup) node version 12
+real    0m0.189s
+user    0m0.245s
+sys     0m0.021s
+
 crystal
 real    0m0.057s
 user    0m0.061s
