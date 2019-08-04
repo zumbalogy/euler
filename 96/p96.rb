@@ -24,10 +24,9 @@ def initialize_cells(input_grid)
 end
 
 def solution(is_not)
-  return if is_not == 0
-  is_maybe = 0b111111111 ^ is_not
-  return unless (is_maybe & (is_maybe - 1)) == 0
-  is_maybe
+  # return if is_not == 0
+  return unless (is_not | (is_not + 1)) == 0b111111111
+  return 0b111111111 ^ is_not
 end
 
 def col_rest(idx)
@@ -59,8 +58,8 @@ end
 def peers_solutions(idx)
   out = 0b000000000
   (col_rest(idx) + grid_rest(idx) + row_rest(idx)).each do |cell|
-    s = solution(cell) # this could maybe return zero?
-    out |= s if s
+    next unless (cell | (cell + 1)) == 0b111111111
+    out |= 0b111111111 ^ cell
   end
   out
 end

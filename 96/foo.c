@@ -59,11 +59,19 @@ int solution(int cell) {
   if (cell == 0) {
     return 0;
   }
-  int is_maybe = 0b111111111 ^ cell;
-  if ((is_maybe & (is_maybe - 1)) == 0) {
-    return is_maybe;
+  if ((cell | (cell + 1)) != 0b111111111) {
+    return 0;
   }
-  return 0;
+  return 0b111111111 ^ cell;
+
+  // if (cell == 0) {
+  //   return 0;
+  // }
+  // int is_maybe = 0b111111111 ^ cell;
+  // if ((is_maybe & (is_maybe - 1)) == 0) {
+  //   return is_maybe;
+  // }
+  // return 0;
 }
 
 int col_rest_out[9];
@@ -85,6 +93,7 @@ int* col_rest(int idx) {
 int row_rest_out[9];
 int* row_rest(int idx) {
   int offset = (idx / 9) * 9;
+  // NOTE: these might not be useful. next 6 lines
   int indexes[] = {0,1,2,3,4,5,6,7,8};
   if (idx - offset == 0) {
     indexes[0] = 1;
@@ -297,9 +306,10 @@ int easter[] = {
 // };
 
 
-void main() {
+int main() {
   // initCells(grid1);
   initCells(easter);
   solve(0);
-  // printBoard();
+  printBoard();
+  return 1;
 }
