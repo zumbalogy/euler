@@ -109,8 +109,7 @@ const solvedCount = () => {
 
 const singleCalc = () => {
   for (let i = 0; i < 81; i++) {
-    const res = cellCalc(i)
-    if (res === 'backout') {
+    if (cellCalc(i) === 'backout') {
       return 'backout'
     }
   }
