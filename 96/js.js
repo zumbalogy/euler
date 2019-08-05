@@ -11,6 +11,8 @@
 // The file sudoku.txt contains 50 Su Doku puzzles ranging in difficulty.
 // Find the sum of the 3-digit numbers in the top left corner of each solution.
 
+const fs = require('fs')
+
 const Cells = []
 
 for (let i = 0; i < 81; i++) {
@@ -46,7 +48,7 @@ const colRest = (idx) => {
 const rowRest = (idx) => {
   const offset = Math.floor(idx / 9) * 9
   const indexes = [0,1,2,3,4,5,6,7,8].map(x => x + offset)
-  const foo = indexes.filter(x => x !== idx - offset) // this is lame
+  const foo = indexes.filter(x => x !== idx - offset)
   return foo.map(i => Cells[i])
 }
 
@@ -164,25 +166,30 @@ const solve = (cellIndex) => {
   }
 }
 
-const cellKey = [
-  0b000000001,
-  0b000000010,
-  0b000000100,
-  0b000001000,
-  0b000010000,
-  0b000100000,
-  0b001000000,
-  0b010000000,
-  0b100000000
-]
+const cellKey = {
+  0b000000001: 1,
+  0b000000010: 2,
+  0b000000100: 3,
+  0b000001000: 4,
+  0b000010000: 5,
+  0b000100000: 6,
+  0b001000000: 7,
+  0b010000000: 8,
+  0b100000000: 9
+}
 
-// let eulerCount = 0
+const text = fs.readFileSync('./sudoku.txt', 'utf8')
+const chunks = text.match(/\d{9}/g)
 
+let eulerCount = 0
 
-let easter_monster = '100000002090400050006000700050903000000070000000850040700000600030009080002000001'.split('').map(x => Number(x))
-initializeCells(easter_monster)
-solve()
-// console.log(Cells.map(x => cellKey.indexOf(solution(x)) + 1))
-// 174385962293467158586192734451923876928674315367851249719548623635219487842736591
+for (let i = 0; i < chunks.length; i += 9) {
+  const chunk = chunks.slice(i, i + 9)
+  const digits = chunk.join('').split('').map(Number)
+  initializeCells(digits)
+  solve()
+  const corner = Cells.slice(0, 3).map(x => cellKey[solution(x)])
+  eulerCount += Number(corner.join(''))
+}
 
-console.log(Cells.join())
+console.log(eulerCount)

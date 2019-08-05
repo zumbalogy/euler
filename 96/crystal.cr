@@ -1,3 +1,16 @@
+# Su Doku (Japanese for 'number place') is the name of a popular puzzle.
+# Its origin is unclear but Leonhard Euler invented a similar, harder,
+# puzzle called Latin Squares.
+#
+# The goal of Su Doku is to replace the blanks (or zeros) in a 9x9 grid in
+# such that each row, column, and 3x3 box contains each of the digits 1-9.
+#
+# A proper Su Doku puzzle has a unique solution and is solvable by logic,
+# although it may be necessary to employ "guess and test" methods.
+#
+# The file sudoku.txt contains 50 Su Doku puzzles ranging in difficulty.
+# Find the sum of the 3-digit numbers in the top left corner of each solution.
+
 Cells = [0b000000000_u16] * 81
 
 def initialize_cells(input_grid)
@@ -140,8 +153,8 @@ cell_key = {
 
 euler_output = 0
 
-# text = File.read("sudoku.txt")
-text = File.read("easter.txt")
+text = File.read("sudoku.txt")
+# text = File.read("easter.txt")
 
 puzzle_strs = text.strip.lines.each_slice(10)
 puzzle_chunks = puzzle_strs.map { |x| x[1..10].join().split("").map { |s| s.to_i } }
