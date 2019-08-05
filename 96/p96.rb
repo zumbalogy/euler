@@ -37,7 +37,6 @@ def col_rest(idx)
 end
 
 def row_rest(idx)
-  # this could be better. look at js one
   offset = (idx / 9) * 9
   idxs = [*offset...(offset + 9)]
   idxs.delete_at(idx - offset)
@@ -109,20 +108,20 @@ def solve(cell_index = 0)
   return if solved_count() == 81
   saved = Cells.clone()
   cell = Cells[cell_index]
-  all_guesses = [
-    0b000000001,
-    0b000000010,
-    0b000000100,
-    0b000001000,
-    0b000010000,
-    0b000100000,
-    0b001000000,
-    0b010000000,
-    0b100000000,
+  guesses = [
+    0b111111110,
+    0b111111101,
+    0b111111011,
+    0b111110111,
+    0b111101111,
+    0b111011111,
+    0b110111111,
+    0b101111111,
+    0b011111111,
   ]
-  guesses = all_guesses.select { |g| g & cell == 0b000000000 } # NOTE: A
   guesses.each do |number_guess|
-    Cells[cell_index] = 0b111111111 ^ number_guess # NOTE: B, maybe this could be done in the array if NOTE: A is changed to something
+    next unless (number_guess & cell) == cell
+    Cells[cell_index] = number_guess
     solve(cell_index + 1)
     return if solved_count() == 81
     saved.each_with_index { |c, i| Cells[i] = c }
@@ -141,64 +140,18 @@ cell_key = {
   0b000000001 => 1
 }
 
-# euler_output = 0
-#
-# text = File.read('sudoku.txt')
-# digits = text.gsub(/^\D.*$/, '').scan(/./).map(&:to_i)
-# puzzles_chunks = digits.each_slice(81)
-#
-# puzzles_chunks.each do |chunk|
-#   initialize_cells(chunk)
-#   solve()
-#   corner = Cells.take(3).map { |x| cell_key[solution(x)] }
-#   euler_output += corner.join.to_i
-# end
-#
-# puts euler_output
+euler_output = 0
+
+text = File.read('sudoku.txt')
+digits = text.gsub(/^\D.*$/, '').scan(/./).map(&:to_i)
+puzzles_chunks = digits.each_slice(81)
+
+puzzles_chunks.each do |chunk|
+  initialize_cells(chunk)
+  solve()
+  corner = Cells.take(3).map { |x| cell_key[solution(x)] }
+  euler_output += corner.join.to_i
+end
+
+puts euler_output
 # 24702
-
-############################################################################
-
-# http://www.sudokusnake.com/history.php
-
-# ai_etena = '100007090030020008009600500005300900010080002600004000300000010040000007007000300'.split('').map(&:to_i)
-# initialize_cells(ai_etena)
-# solve()
-# print Cells.map { |x| cell_key[solution(x)] }
-# 162857493534129678789643521475312986913586742628794135356478219241935867897261354
-
-easter_monster = '100000002090400050006000700050903000000070000000850040700000600030009080002000001'.split('').map(&:to_i)
-initialize_cells(easter_monster)
-solve()
-print Cells.map { |x| cell_key[solution(x)] }
-# 174385962293467158586192734451923876928674315367851249719548623635219487842736591
-
-# golden_nugget = '000000039000010005003005800008009006070020000100400000009008050020000600400700000'.split('').map(&:to_i)
-# initialize_cells(golden_nugget)
-# solve()
-# print Cells.map { |x| cell_key[solution(x)] }
-# 751864239892317465643295871238179546974526318165483927319648752527931684486752193
-
-# foo = '000000039000010005003005800008009006070020000100400000009008050020000600400700000'.split('').map(&:to_i)
-# initialize_cells(foo)
-# solve()
-# print Cells.map { |x| cell_key[solution(x)] }
-# # 751864239892317465643295871238179546974526318165483927319648752527931684486752193
-
-# https://norvig.com/sudoku.html
-
-# norvig_top_95 = File.read('norvig_hard95.txt').gsub('.', '0').scan(/./).map(&:to_i)
-# puzzles_chunks = norvig_top_95.each_slice(81)
-#
-# timer = Time.now.to_f
-# times = []
-# puzzles_chunks.each do |chunk|
-#   initialize_cells(chunk)
-#   solve()
-#   a = Time.now.to_f
-#   times.push(a - timer)
-#   puts a - timer
-#   timer = a
-# end
-# puts
-# puts times.reduce(:+) / times.length
