@@ -154,7 +154,6 @@ cell_key = {
 euler_output = 0
 
 text = File.read("sudoku.txt")
-# text = File.read("easter.txt")
 
 puzzle_strs = text.strip.lines.each_slice(10)
 puzzle_chunks = puzzle_strs.map { |x| x[1..10].join().split("").map { |s| s.to_i } }
