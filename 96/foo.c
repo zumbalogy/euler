@@ -1,5 +1,9 @@
 #include <stdio.h>
 
+int Cells[81];
+
+//////////////////////////////////////////////////////////////////
+
 char global_print_str[9];
 void print(int i) {
   int bits = 9;
@@ -8,7 +12,6 @@ void print(int i) {
   for(; bits--; u >>= 1) {
     global_print_str[bits] = u & 1 ? '1' : '0';
   }
-  // printf("%s", global_print_str);
   if        (i == 0b111111110) { printf(" %d ", 1);
   } else if (i == 0b111111101) { printf(" %d ", 2);
   } else if (i == 0b111111011) { printf(" %d ", 3);
@@ -21,11 +24,8 @@ void print(int i) {
   } else { printf(" _ "); }
 }
 
-int Cells[81];
-
 void printBoard() {
   for (int i = 0; i < 81; i++) {
-    // printf("%d = ", i);
     print(Cells[i]);
     if ((i + 1) % 3 == 0) {
       printf("  ");
@@ -39,6 +39,8 @@ void printBoard() {
   }
   printf("\n");
 }
+
+//////////////////////////////////////////////////////////////////
 
 void initCells(int* input) {
   for (int i = 0; i < 81; i++) {
@@ -63,15 +65,6 @@ int solution(int cell) {
     return 0;
   }
   return 0b111111111 ^ cell;
-
-  // if (cell == 0) {
-  //   return 0;
-  // }
-  // int is_maybe = 0b111111111 ^ cell;
-  // if ((is_maybe & (is_maybe - 1)) == 0) {
-  //   return is_maybe;
-  // }
-  // return 0;
 }
 
 int col_rest_out[9];
@@ -262,54 +255,44 @@ int solve(int cellIndex) {
   return 1;
 }
 
-int grid1[] = {
-  0,0,3, 0,2,0, 6,0,0,
-  9,0,0, 3,0,5, 0,0,1,
-  0,0,1, 8,0,6, 4,0,0,
-
-  0,0,8, 1,0,2, 9,0,0,
-  7,0,0, 0,0,0, 0,0,8,
-  0,0,6, 7,0,8, 2,0,0,
-
-  0,0,2, 6,0,9, 5,0,0,
-  8,0,0, 2,0,3, 0,0,9,
-  0,0,5, 0,1,0, 3,0,0
-};
-
-int easter[] = {
-  1,0,0, 0,0,0, 0,0,2,
-  0,9,0, 4,0,0, 0,5,0,
-  0,0,6, 0,0,0, 7,0,0,
-
-  0,5,0, 9,0,3, 0,0,0,
-  0,0,0, 0,7,0, 0,0,0,
-  0,0,0, 8,5,0, 0,4,0,
-
-  7,0,0, 0,0,0, 6,0,0,
-  0,3,0, 0,0,9, 0,8,0,
-  0,0,2, 0,0,0, 0,0,1
-};
-// 174385962293467158586192734451923876928674315367851249719548623635219487842736591
-
-// int grid1_solution[] = {
-//   4,8,3, 9,2,1, 6,5,7,
-//   9,6,7, 3,4,5, 8,2,1,
-//   2,5,1, 8,7,6, 4,9,3,
-//
-//   5,4,8, 1,3,2, 9,7,6,
-//   7,2,9, 5,6,4, 1,3,8,
-//   1,3,6, 7,9,8, 2,4,5,
-//
-//   3,7,2, 6,8,9, 5,1,4,
-//   8,1,4, 2,5,3, 7,6,9,
-//   6,9,5, 4,1,7, 3,8,2
-// };
-
+int toDec(int x) {
+  if      (x == 0b111111110) { return 1; }
+  else if (x == 0b111111101) { return 2; }
+  else if (x == 0b111111011) { return 3; }
+  else if (x == 0b111110111) { return 4; }
+  else if (x == 0b111101111) { return 5; }
+  else if (x == 0b111011111) { return 6; }
+  else if (x == 0b110111111) { return 7; }
+  else if (x == 0b101111111) { return 8; }
+  else if (x == 0b011111111) { return 9; }
+}
 
 int main() {
-  // initCells(grid1);
-  initCells(easter);
-  solve(0);
-  printBoard();
+  char ch;
+  FILE *fp;
+  int idx = 0;
+  int eulerOutput = 0;
+  fp = fopen("./sudoku.txt", "r");
+
+  while((ch = fgetc(fp)) != EOF) {
+    if (ch >= '0' && ch <= '9') {
+      Cells[idx] = ch - 48;
+      idx += 1;
+      if (idx == 81) {
+        idx = 0;
+        initCells(Cells);
+        solve(0);
+        eulerOutput += toDec(Cells[0]) * 100;
+        eulerOutput += toDec(Cells[1]) * 10;
+        eulerOutput += toDec(Cells[2]);
+      }
+    } else if (ch != '\n') {
+      while (ch != '\n') {
+        ch = fgetc(fp);
+      }
+    }
+  }
+  printf("%d\n", eulerOutput);
+  fclose(fp);
   return 1;
 }
