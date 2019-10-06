@@ -12,6 +12,7 @@
 # Find the sum of the 3-digit numbers in the top left corner of each solution.
 
 Cells = [0b000000000] * 81
+$score = 0
 
 def initialize_cells(input_grid)
   input_grid.each_with_index do |int, index|
@@ -54,9 +55,9 @@ def grid_rest(idx)
   Cells.drop(offset).values_at(*idxs)
 end
 
-def peers_solutions(idx)
+def peers_solutions(peers)
   out = 0b000000000
-  (col_rest(idx) + grid_rest(idx) + row_rest(idx)).each do |cell|
+  peers.each do |cell|
     next unless (cell | (cell + 1)) == 0b111111111
     out |= 0b111111111 ^ cell
   end
@@ -64,27 +65,33 @@ def peers_solutions(idx)
 end
 
 def cell_calc(index)
-  return if solution(Cells[index])
-  Cells[index] = peers_solutions(index)
+  if solution(Cells[index])
+    $score += 1
+    return
+  end
+  c_rest = col_rest(index)
+  g_rest = grid_rest(index)
+  r_rest = row_rest(index)
+  Cells[index] = peers_solutions(c_rest + g_rest + r_rest)
   return :backout if Cells[index] == 0b111111111
   is_maybe = 0b111111111 ^ Cells[index]
-  return if (is_maybe & (is_maybe - 1)) == 0
-  [col_rest(index), row_rest(index), grid_rest(index)].each do |rest|
+  if (is_maybe & (is_maybe - 1)) == 0
+    $score += 1
+    return
+  end
+  [c_rest, g_rest, r_rest].each do |rest|
     has_to_be = is_maybe
     rest.each { |x| has_to_be &= x }
     next if has_to_be == 0b000000000
     return :backout if (has_to_be & (has_to_be - 1)) != 0
     Cells[index] = 0b111111111 ^ has_to_be
+    $score += 1
     return
   end
 end
 
-
-def solved_count
-  Cells.count { |x| solution(x) }
-end
-
 def single_calc
+  $score = 0
   81.times do |idx|
     res = cell_calc(idx)
     return :backout if res == :backout
@@ -92,11 +99,11 @@ def single_calc
 end
 
 def repeat_calc
-  tally = solved_count()
+  tally = $score
   res = single_calc()
   return :backout if res == :backout
-  until tally == solved_count()
-    tally = solved_count()
+  until tally == $score
+    tally = $score
     res = single_calc()
     return :backout if res == :backout
   end
@@ -105,8 +112,9 @@ end
 def solve(cell_index = 0)
   res = repeat_calc()
   return if res == :backout
-  return if solved_count() == 81
+  return if $score == 81
   saved = Cells.clone()
+  saved_score = $score
   cell = Cells[cell_index]
   guesses = [
     0b111111110,
@@ -123,8 +131,9 @@ def solve(cell_index = 0)
     next unless (number_guess & cell) == cell
     Cells[cell_index] = number_guess
     solve(cell_index + 1)
-    return if solved_count() == 81
+    return if $score == 81
     saved.each_with_index { |c, i| Cells[i] = c }
+    $score = saved_score
   end
 end
 
