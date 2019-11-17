@@ -43,14 +43,21 @@
 
     (func $printNum (param $num i32)
       (local $i i32)
-      (local.set $i (i32.const 1000000000))
+      (local $limit i32)
+      (local.set $i (i32.const 1))
+      (local.set $limit
+        (i32.add
+          (i32.const 1)
+          (i32.div_u (local.get $num) (i32.const 10))))
       (loop $loop
-        (if (i32.gt_u (local.get $i) (local.get $num))
+        (if (i32.lt_u (local.get $i) (local.get $limit))
           (then
-            (local.set $i (i32.div_u (local.get $i) (i32.const 10))))
-          (else
-            (call $printDigit (i32.div_u (local.get $num) (local.get $i)))
-            (local.set $num (i32.rem_u (local.get $num) (local.get $i)))))
+            (local.set $i (i32.mul (local.get $i) (i32.const 10)))
+            (br $loop))))
+      (loop $loop
+        (call $printDigit (i32.div_u (local.get $num) (local.get $i)))
+        (local.set $num (i32.rem_u (local.get $num) (local.get $i)))
+        (local.set $i (i32.div_u (local.get $i) (i32.const 10)))
         (br_if $loop (i32.gt_u (local.get $i) (i32.const 0))))
       (call $printChar (i32.const 10)))
 
