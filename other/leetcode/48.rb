@@ -33,41 +33,32 @@
 #   [16, 7,10,11]
 # ]
 
-
 def rotate_ring(input, n, offset)
   y = offset
   x = offset
-  (n - 1).times do |_|
+  n.times do
     save = input[y][x]
-    (n - 1).times do
+    n.times do
       x += 1
-      old_save = save
-      save = input[y][x]
-      input[y][x] = old_save
+      input[y][x], save = save, input[y][x]
     end
-    (n - 1).times do
+    n.times do
       y += 1
-      old_save = save
-      save = input[y][x]
-      input[y][x] = old_save
+      input[y][x], save = save, input[y][x]
     end
-    (n - 1).times do
+    n.times do
       x -= 1
-      old_save = save
-      save = input[y][x]
-      input[y][x] = old_save
+      input[y][x], save = save, input[y][x]
     end
-    (n - 1).times do
+    n.times do
       y -= 1
-      old_save = save
-      save = input[y][x]
-      input[y][x] = old_save
+      input[y][x], save = save, input[y][x]
     end
   end
 end
 
 def rotate_grid(input)
-  n = input.length
+  n = input.length - 1
   i = 0
   while n > 1
     rotate_ring(input, n, i)
@@ -83,10 +74,6 @@ foo = [
   [14, 7, 6, 5, 8],
   [13,12,11,10, 9],
 ]
-# foo = [
-#   [2, 3,],
-#   [0, 4,],
-# ]
 
 rotate_grid(foo)
 
