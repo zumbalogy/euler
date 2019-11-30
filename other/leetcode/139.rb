@@ -20,12 +20,12 @@
 # Output: false
 
 def check(input, dict)
-  indexes = []
   dict.each do |word|
     return true if word == input
-    indexes.push(word.length) if input.start_with?(word)
+    next unless input.start_with?(word)
+    return true if check(input[word.length..], dict)
   end
-  indexes.any? { |i| check(input[i..], dict) }
+  false
 end
 
 puts check('leetcode', ['leet', 'code'])
