@@ -6,17 +6,17 @@
 # You may assume the dictionary does not contain duplicate words.
 
 # Example 1:
-# Input: s = "leetcode", wordDict = ["leet", "code"]
+# Input: s = 'leetcode', wordDict = ['leet', 'code']
 # Output: true
-# Explanation: Return true because "leetcode" can be segmented as "leet code".
+# Explanation: Return true because 'leetcode' can be segmented as 'leet code'.
 
 # Example 2:
-# Input: s = "applepenapple", wordDict = ["apple", "pen"]
+# Input: s = 'applepenapple', wordDict = ['apple', 'pen']
 # Output: true
-# Explanation: Return true because "applepenapple" can be segmented as "apple pen apple".
+# Explanation: Return true because 'applepenapple' can be segmented as 'apple pen apple'.
 
 # Example 3:
-# Input: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
+# Input: s = 'catsandog', wordDict = ['cats', 'dog', 'sand', 'and', 'cat']
 # Output: false
 
 def check(input, dict)
@@ -31,3 +31,9 @@ end
 puts check('leetcode', ['leet', 'code'])
 puts check('applepenapple', ['apple', 'pen'])
 puts check('catsandog', ['cats', 'dog', 'sand', 'and', 'cat'])
+
+# For extreme inputs, it might be worth checking to see if the
+# length of the initial input string is divisible by the lengths of the
+# words in the dictionary.
+# It would also likely be worth memoizing the 'check' function,
+# as to prune dead ends on the search tree.
