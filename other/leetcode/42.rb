@@ -8,15 +8,16 @@
 # Input: [0,1,0,2,1,0,1,3,2,1,2,1]
 # Output: 6
 
-
 def rain(input)
   i = 1
   tally = 0
+  left = 0
+  rights = input.reverse.reduce([]) { |acc, x| acc.push([x, acc.last || 0].max) }.reverse
   while i < input.length - 1
     item = input[i]
-    left = input.slice(0, i).max
-    right = input[(i + 1)..].max
+    right = rights[i]
     cutoff = [left, right].min
+    left = item if left < item
     diff = cutoff - item
     tally += diff if diff > 0
     i += 1
