@@ -17,13 +17,11 @@
   drop \ main
 ;
 
-: factor
+: factor \ n
   2 cut
-
   1 \ n 1
   swap \ 1 n
   begin
-
     swap \ n 1
     2 + \ n 3
 
