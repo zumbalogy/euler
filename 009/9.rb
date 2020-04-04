@@ -16,6 +16,6 @@ def triplet_of_sum(sum)
   end
 end
 
-puts triplet_of_sum(1000)
+puts triplet_of_sum(1000).to_i
 # 31875000
 # 200 375 425
