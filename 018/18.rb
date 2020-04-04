@@ -11,7 +11,7 @@
 # Find the maximum total from top to bottom of the triangle below.
 
 # NOTE: As there are only 16384 routes, it is possible to solve this problem by trying every route.
-# However, Problem 67, is the same challenge with a triangle containing one-hundred rows; it cannot be solved by brute force)
+# However, Problem 67 is the same challenge with 100 rows; it cannot be solved by brute force.
 
 array = [
   [75],
@@ -31,23 +31,13 @@ array = [
   [ 4, 62, 98, 27, 23,  9, 70, 98, 73, 93, 38, 53, 60,  4, 23]
 ]
 
-# (2..array.length).each do |i|
-#   array[-i].each_with_index do |cell, index|
-#     left = array[1 - i][index]
-#     right = array[1 - i][index+1]
-#     array[-i][index] += [left, right].max
-#   end
-# end
-#
-# puts array[0][0]
-# # 1074
-
-###############################################################
-
-def map_n(a, b, c)
-  a.map.with_index { |x, i| yield(x, b[i], c[i]) }
+(2..array.length).each do |i|
+  array[-i].map!.with_index do |cell, i2|
+    l = array[1 - i][i2]
+    r = array[1 - i][i2 + 1]
+    cell + [l, r].max
+  end
 end
 
-puts array.reverse.reduce { |acc, row|
-  map_n(row, acc, acc[1..]) { |a, b, c| a + [b, c].max }
-}
+puts array[0][0]
+# 1074
