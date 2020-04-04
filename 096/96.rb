@@ -151,7 +151,7 @@ cell_key = {
 
 euler_output = 0
 
-text = File.read('sudoku.txt')
+text = File.read(__dir__ + '/sudoku.txt')
 digits = text.gsub(/^\D.*$/, '').scan(/./).map(&:to_i)
 puzzles_chunks = digits.each_slice(81)
 
