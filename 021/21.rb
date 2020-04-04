@@ -29,22 +29,22 @@ puts (2..10_000).reduce { |a, b| amicable(b) ? a + b : a }
 # but its kinda a hack and less clean
 
 ###############################################################
-
-require 'benchmark'
-
-Benchmark.bmbm do |bm|
-
-  bm.report('inject') do
-    (2..10_000).inject(0) { |a,b| amicable(b) ? a + b : a }
-  end
-
-  bm.report('each') do
-    total = 0
-    (2..10_000).each do |v|
-      total += v if amicable v
-    end
-  end
-end
+# 
+# require 'benchmark'
+#
+# Benchmark.bmbm do |bm|
+#
+#   bm.report('inject') do
+#     (2..10_000).inject(0) { |a,b| amicable(b) ? a + b : a }
+#   end
+#
+#   bm.report('each') do
+#     total = 0
+#     (2..10_000).each do |v|
+#       total += v if amicable v
+#     end
+#   end
+# end
 
 
 # Rehearsal ------------------------------------------
