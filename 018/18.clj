@@ -29,5 +29,5 @@
   (reduce #(map f %2 %1 (rest %1)) rows))
 
 (println
-  (rollup #(+ %1 (max %2 %3)) (reverse array)))
-; (1074)
+  (first (rollup #(+ %1 (max %2 %3)) (reverse array))))
+; 1074
