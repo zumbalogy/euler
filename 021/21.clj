@@ -22,7 +22,7 @@
       0)))
 
 (println
-  (reduce + (map amicables (range 1 10000))))
+  (reduce + 2 (map amicables (range 1 10000))))
 ; 31626
 
 ; There are 10 amicable numbers in this range.

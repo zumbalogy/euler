@@ -7,6 +7,11 @@
 
 # Sum all amicable numbers under 10_000.
 
+##########################
+
+# NOTE: d(n) could be larger than 10_000.
+# NOTE: The current solution has sum_div doing redundant work.
+
 def sum_div(input)
   # one counts as a divisor, but input does not
   (2..Math.sqrt(input)).reduce(1) do |a, b|
@@ -15,42 +20,12 @@ def sum_div(input)
   end
 end
 
-def amicable_sum(input)
+def amicable?(input)
   first = sum_div(input)
-  return 0 unless first < input
-  second = sum_div(first)
-  return 0 unless input == second
-  input + first
+  input != first && input == sum_div(first)
 end
 
-amicables = [2] + (2..10_000).map { |x| amicable_sum(x) }
+amicables = [2] + (2..10_000).select { |x| amicable?(x) }
 
 puts amicables.reduce(:+)
 # 31_626
-
-
-###############################################################
-
-# hitting all the pairs twice, but not that many pairs, so might be faster just doing this
-# and probably cleaner
-
-# could kinda cheat and not care about a number if its sum_div is over 10_000
-# but its kinda a hack and less clean
-
-###############################################################
-#
-# require 'benchmark'
-#
-# Benchmark.bmbm do |bm|
-#
-#   bm.report('inject') do
-#     (2..10_000).inject(0) { |a,b| amicable(b) ? a + b : a }
-#   end
-#
-#   bm.report('each') do
-#     total = 0
-#     (2..10_000).each do |v|
-#       total += v if amicable v
-#     end
-#   end
-# end
