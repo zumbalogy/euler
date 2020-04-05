@@ -272,7 +272,12 @@ int main() {
   FILE *fp;
   int idx = 0;
   int eulerOutput = 0;
-  fp = fopen("./sudoku.txt", "r");
+
+  if (__FILE__ == "96.c") {
+    fp = fopen("./sudoku.txt", "r");
+  } else {
+    fp = fopen("096/sudoku.txt", "r");
+  }
 
   while((ch = fgetc(fp)) != EOF) {
     if (ch >= '0' && ch <= '9') {

@@ -1,5 +1,11 @@
 # TODO: docs
 
+START_TS = Time.now.to_i
+
+def tmp_path(f, lang)
+  base = File.basename(f)
+  "/tmp/#{base}.#{lang}_exe.#{START_TS}"
+end
 
 runners = {
   clj: -> f { `clj #{f}` },
@@ -8,20 +14,25 @@ runners = {
   js:  -> f { `node #{f}` },
   rb:  -> f { `ruby #{f}` },
   rkt: -> f { `racket #{f}` },
-  f90: -> f {
-    ts = Time.now.to_i
-    base = File.basename(f)
-    out_path = "/tmp/#{base}.fortran_exe.#{ts}"
+  c:   -> f {
+    out = tmp_path(f, :c)
     `
-      gfortran -o #{out_path} #{f}
-      #{out_path}
+      gcc -o #{out} #{f}
+      #{out}
+    `
+  },
+  f90: -> f {
+    out = tmp_path(f, :fortran)
+    `
+      gfortran -o #{out} #{f}
+      #{out}
     `
   },
   java: -> f {
-    name = File.basename(f, '.java')
+    base = File.basename(f, '.java')
     `
       javac -d /tmp #{f}
-      java -classpath /tmp p#{name}
+      java -classpath /tmp p#{base}
     `
   },
 }
