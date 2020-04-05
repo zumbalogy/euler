@@ -30,7 +30,7 @@ def format(dir, ext, res, key, time)
   str += " | ." if key && correct
   str += " | X (#{key})" if key && !correct
   str += " | ?" if key == nil
-  str = str.ljust(32)
+  str = str.ljust(36)
   str += dir.to_i.to_s.rjust(3)
   str += ' '
   str += ext.to_s.ljust(6)
