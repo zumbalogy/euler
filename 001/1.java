@@ -1,6 +1,6 @@
 // Find the sum of all the multiples of 3 or 5 below 1000.
 
-public class p1 {
+class p1 {
 
   static int sumUnder(int limit) {
     return ((limit * limit) + limit) / 2;

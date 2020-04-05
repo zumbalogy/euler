@@ -3,7 +3,7 @@
 
 // Sum the even terms in the Fibonacci sequence under four million
 
-public class p2 {
+class p2 {
   static int sumEvenFibsUnder(int limit) {
     int total = 0;
     int a = 1;

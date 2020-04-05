@@ -17,10 +17,17 @@ runners = {
       #{out_path}
     `
   },
+  java: -> f {
+    name = File.basename(f, '.java')
+    `
+      javac -d /tmp #{f}
+      java -classpath /tmp p#{name}
+    `
+  },
 }
 
-dirs = ARGV.select { |x| x[/\d+/] }.map { |x| x.rjust(3, '0') }
-exts = ARGV.select { |x| x[/\D+/] }.map { |x| x.to_sym }
+dirs = ARGV.select { |x| x[/^\d/] }.map { |x| x.rjust(3, '0') }
+exts = ARGV.select { |x| x[/^\D/] }.map { |x| x.to_sym }
 
 dirs = (`ls`).scan(/\d+/) unless dirs.any?
 exts = runners.keys.sort unless exts.any?

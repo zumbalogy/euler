@@ -1,6 +1,6 @@
 // What is the 10 001st prime number? (not including one)
 
-public class p7 {
+class p7 {
 
   static boolean oddPrime(int n) {
     double limit = Math.sqrt(n);
