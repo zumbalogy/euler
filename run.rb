@@ -4,16 +4,26 @@
 runners = {
   clj: -> f { `clj #{f}` },
   ex:  -> f { `elixir #{f}` },
+  fs:  -> f { `gforth #{f} -e bye` },
   js:  -> f { `node #{f}` },
   rb:  -> f { `ruby #{f}` },
   rkt: -> f { `racket #{f}` },
+  f90: -> f {
+    ts = Time.now.to_i
+    base = File.basename(f)
+    out_path = "/tmp/#{base}.fortran_exe.#{ts}"
+    `
+      gfortran -o #{out_path} #{f}
+      #{out_path}
+    `
+  },
 }
 
 dirs = ARGV.select { |x| x[/\d+/] }.map { |x| x.rjust(3, '0') }
 exts = ARGV.select { |x| x[/\D+/] }.map { |x| x.to_sym }
 
 dirs = (`ls`).scan(/\d+/) unless dirs.any?
-exts = runners.keys unless exts.any?
+exts = runners.keys.sort unless exts.any?
 
 dirs.uniq!
 dirs.sort!
