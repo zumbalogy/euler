@@ -101,9 +101,6 @@
             20849603980134001723930671666823555245252804609722
             53503534226472524250874054075591789781264330331690])
 
-(defn first_digits [n]
-  (read-string (apply str (take 12 (str n)))))
-
-(print
-  (reduce + (map first_digits array)))
-; 55373762303860
+(println
+  (subs (str (reduce + array)) 0 10))
+; 5537376230
