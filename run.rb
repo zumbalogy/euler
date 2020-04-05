@@ -34,7 +34,7 @@ def format(dir, ext, res, key, time)
   str += dir.to_i.to_s.rjust(3)
   str += ' '
   str += ext.to_s.ljust(6)
-  str += "#{time}s"
+  str += "#{time.to_s[0..5]}s"
   str
 end
 
