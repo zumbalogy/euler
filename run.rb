@@ -24,7 +24,6 @@ def get_key(dir)
 end
 
 def format(dir, ext, res, key, time)
-  # return "echo #{res} > #{dir}/solution"
   correct = key == res.to_f.to_s.sub(/\.0+$/, '')
   str = ''
   str += res.strip.rjust(16)
