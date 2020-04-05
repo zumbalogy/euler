@@ -10,22 +10,22 @@
 //////////////// d(a) = b and d(b) = a and a ≠ b
 //////////////// d(d(a)) = a
 
-function sum_div(input) {
-  var total = 0
-  for (var i = 1; i < input; i++) { // should prbably be sq root thing
+const sum_div = (input) => {
+  let out = 1
+  for (let i = 2; i < Math.sqrt(input); i++) {
     if (input % i == 0) {
-      total += i
+      out += i
+      out += input / i
     }
   }
-  return total
+  return out
 }
 
-var total = 0
+let total = 2
 
-for (var i = 0; i < 10000; i++) {
-  var first = sum_div(i)
-  var second = sum_div(first)
-  if (second == i && first != i) {
+for (let i = 0; i < 10000; i++) {
+  let first = sum_div(i)
+  if (first != i && sum_div(first) == i) {
     total += i
   }
 }
