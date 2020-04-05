@@ -12,7 +12,7 @@
 (defn grab [indexes bag]
   (first (reduce
     (fn [[out new-bag] i]
-      [(conj out (nth new-bag i)) (delete i new-bag)]) 
+      [(conj out (nth new-bag i)) (delete i new-bag)])
     [[] bag]
     indexes)))
 
@@ -29,5 +29,5 @@
     (grab indexes lex)))
 
 (println
-  (n-lex 999999 (range 10)))
+  (clojure.string/join (n-lex 999999 (range 10))))
 ; 2783915460
