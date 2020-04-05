@@ -9,7 +9,7 @@
 // Which starting number, under one million, produces the longest chain?
 // NOTE: Once the chain starts the terms are allowed to go above one million.
 
-public class p14 {
+class p14 {
   static int colCount(long n) {
     int count;
     for(count = 1; n > 1; count++) {

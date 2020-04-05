@@ -2,7 +2,7 @@
 
 // Find the sum of all the primes below two million.
 
-public class p10 {
+class p10 {
 
   static boolean prime(long input) {
     double sq = Math.sqrt(input);

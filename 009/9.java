@@ -6,7 +6,7 @@
 // There exists exactly one Pythagorean triplet for which a + b + c = 1000.
 // Find the product abc.
 
-public class p9 {
+class p9 {
 
   static double tripletOfSum(int sum) {
     for(double a = 1; a < sum; a++) {

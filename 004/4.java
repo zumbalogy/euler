@@ -1,6 +1,6 @@
 // Find the largest palindome number (9009) that is the product of 2 3-digit numbers.
 
-public class p4 {
+class p4 {
 
   static Boolean is_pal(int input) {
     String string = Integer.toString(input);

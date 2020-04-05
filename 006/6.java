@@ -8,7 +8,7 @@
 
 // Find delta for sum of squares of the first one hundred natural numbers and square of the sum
 
-public class p6 {
+class p6 {
 
   static int sumSqVsSqSum(int n) {
     int sum = (n / 2) * (n + 1);
