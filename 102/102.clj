@@ -5,6 +5,9 @@
 
 ; In triangles.txt, how many triangles (of 1000) contain the origin?
 
+(def FILE (try (slurp "triangles.txt")
+               (catch Exception _ (slurp "102/triangles.txt"))))
+
 (defn o-ray-intersects? [[[x1 y1] [x2 y2]]]
   (and (or (< y1 0 y2)
            (> y1 0 y2))
@@ -22,7 +25,7 @@
        (partition 2 1)))
 
 (def triangles
-  (->> (slurp "triangles.txt")
+  (->> FILE
        clojure.string/split-lines
        (map #(clojure.string/split % #","))
        (map #(map read-string %))
