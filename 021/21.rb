@@ -7,20 +7,29 @@
 
 # Sum all amicable numbers under 10_000.
 
-def sum_div input
+def sum_div(input)
   # one counts as a divisor, but input does not
-  (2..Math.sqrt(input)).reduce(1) do |a,b|
-    input % b == 0 ? a + b + (input / b) : a
+  (2..Math.sqrt(input)).reduce(1) do |a, b|
+    next a unless input % b == 0
+    a + b + (input / b)
   end
 end
 
-def amicable input
+def amicable_sum(input)
   first = sum_div(input)
-  input == sum_div(first) && input != first
+  return 0 unless first < input
+  second = sum_div(first)
+  return 0 unless input == second
+  input + first
 end
 
-puts (2..10_000).reduce { |a, b| amicable(b) ? a + b : a }
+amicables = [2] + (2..10_000).map { |x| amicable_sum(x) }
+
+puts amicables.reduce(:+)
 # 31_626
+
+
+###############################################################
 
 # hitting all the pairs twice, but not that many pairs, so might be faster just doing this
 # and probably cleaner
@@ -29,7 +38,7 @@ puts (2..10_000).reduce { |a, b| amicable(b) ? a + b : a }
 # but its kinda a hack and less clean
 
 ###############################################################
-# 
+#
 # require 'benchmark'
 #
 # Benchmark.bmbm do |bm|
@@ -45,13 +54,3 @@ puts (2..10_000).reduce { |a, b| amicable(b) ? a + b : a }
 #     end
 #   end
 # end
-
-
-# Rehearsal ------------------------------------------
-# inject   0.440000   0.000000   0.440000 (  0.441368)
-# each     0.440000   0.000000   0.440000 (  0.439893)
-# --------------------------------- total: 0.880000sec
-
-#              user     system      total        real
-# inject   0.440000   0.000000   0.440000 (  0.438448)
-# each     0.440000   0.000000   0.440000 (  0.439485)
