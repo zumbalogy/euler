@@ -178,7 +178,7 @@ const cellKey = {
   0b100000000: 9
 }
 
-const text = fs.readFileSync('./sudoku.txt', 'utf8')
+const text = fs.readFileSync(__dirname + '/sudoku.txt', 'utf8')
 const chunks = text.match(/\d{9}/g)
 
 let eulerCount = 0
