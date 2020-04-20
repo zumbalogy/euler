@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 # TODO: docs
 
 START_TS = Time.now.to_i
