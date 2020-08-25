@@ -14,7 +14,7 @@
 Cells = [0b000000000] * 81
 $score = 0
 
-def initialize_cells(input_grid)
+def init_cells(input_grid)
   input_grid.each_with_index do |int, index|
     if int == 0
       Cells[index] = 0b000000000
@@ -32,7 +32,7 @@ end
 
 def col_rest(idx)
   offset = idx % 9
-  indexes = [0,9,18,27,36,45,54,63,72]
+  indexes = [0, 9, 18, 27, 36, 45, 54, 63, 72]
   indexes.delete_at(idx / 9)
   Cells.drop(offset).values_at(*indexes)
 end
@@ -156,7 +156,7 @@ digits = text.gsub(/^\D.*$/, '').scan(/./).map(&:to_i)
 puzzles_chunks = digits.each_slice(81)
 
 puzzles_chunks.each do |chunk|
-  initialize_cells(chunk)
+  init_cells(chunk)
   solve()
   corner = Cells.take(3).map { |x| cell_key[solution(x)] }
   euler_output += corner.join.to_i
