@@ -113,7 +113,7 @@ def solve(cell_index = 0)
   res = repeat_calc()
   return if res == :backout
   return if $score == 81
-  saved = Cells.clone()
+  saved_cells = Cells.clone()
   saved_score = $score
   cell = Cells[cell_index]
   guesses = [
@@ -132,7 +132,7 @@ def solve(cell_index = 0)
     Cells[cell_index] = number_guess
     solve(cell_index + 1)
     return if $score == 81
-    saved.each_with_index { |c, i| Cells[i] = c }
+    saved_cells.each_with_index { |c, i| Cells[i] = c }
     $score = saved_score
   end
 end
@@ -162,5 +162,12 @@ puzzles_chunks.each do |chunk|
   euler_output += corner.join.to_i
 end
 
-puts euler_output
+
+# puts euler_output
 # 24702
+
+9.times do |i|
+  foo = i * 9
+  print Cells[foo...(foo + 9)].map { |x| cell_key[solution(x)] }
+  puts
+end
