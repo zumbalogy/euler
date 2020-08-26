@@ -19,10 +19,10 @@
     0
     (bit-xor
       2r111111111
-      (Math/pow 2 (dec cell)))))
+      (int (Math/pow 2 (dec cell))))))
 
 (defn init-cells [input-grid]
-  (reset! cells (map init-cell input-grid)))
+  (reset! cells (mapv init-cell input-grid)))
 
 (defn solution [is-not]
   (when (= 2r111111111 (bit-or is-not (inc is-not)))
@@ -34,7 +34,7 @@
         all [0 9 18 27 36 45 54 63 72]
         indexes (concat (take foo all)
                         (nthrest all (inc foo)))]
-    (mapv (drop offset @cells) indexes)))
+    (mapv (vec (drop offset @cells)) indexes)))
 
 (defn row-rest [idx]
   (let [offset (* 9 (quot idx 9))
@@ -42,7 +42,7 @@
         foo (- idx offset)
         indexes (concat (take foo all)
                         (nthrest all (inc foo)))]
-    (mapv @cells indexes)))
+    (mapv (vec @cells) indexes)))
 
 (defn grid-rest [idx]
   (let [col (mod idx 9)
@@ -55,19 +55,28 @@
         foo (- idx offset)
         indexes (concat (take foo all)
                         (nthrest all (inc foo)))]
-    (mapv (drop offset @cells) indexes)))
+    (mapv (vec (drop offset @cells)) indexes)))
 
-
-(defn peerify [cell]
+(defn peerify [acc cell]
   (if (= 2r111111111 (bit-or cell (inc cell)))
-   (bit-xor 2r111111111 cell)
-   cell))
+   (bit-or acc (bit-xor 2r111111111 cell))
+   acc))
 
-(defn peers-solutions [peers]
+(defn peers-solution [peers]
   (reduce peerify 0 peers))
 
+(defn cell-calc-inner [rest index]
+  (let [is-maybe (bit-xor 2r111111111 (nth @cells index))
+        has-to-be (reduce bit-and is-maybe rest)]
+    (when (not= 0 has-to-be)
+      (if (not= 0 (bit-and has-to-be (dec has-to-be)))
+       "backout"
+       (do
+         (swap! score inc)
+         (swap! cells assoc index (bit-xor 2r111111111 has-to-be)))))))
+
 (defn cell-calc [index]
-  (if (solution (nth cells index))
+  (if (solution (nth @cells index))
     (swap! score inc)
     (let [c-rest (col-rest index)
           r-rest (row-rest index)
@@ -75,108 +84,119 @@
           sol (peers-solution (concat c-rest r-rest g-rest))]
       (if (= sol 2r111111111)
         "backout"
-        (let [is-maybe (bit-xor 2r111111111 (nth @cells index))]
-          (if (= 0 (bit-and is-maybe (dec is-maybe)))
-            (swap! score inc)
-            ()))))))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-;
+        (do
+          (swap! cells assoc index sol)
+          (let [is-maybe (bit-xor 2r111111111 (nth @cells index))]
+            (if (= 0 (bit-and is-maybe (dec is-maybe)))
+              (swap! score inc)
+              (if (or (= "backout" (cell-calc-inner c-rest index))
+                      (= "backout" (cell-calc-inner g-rest index))
+                      (= "backout" (cell-calc-inner r-rest index)))
+                "backout"
+                nil))))))))
+
+(defn single-calc []
+  (reset! score 0)
+  (loop [i 0]
+    (when (< i 81)
+      (if (= "backout" (cell-calc i))
+        "backout"
+        (recur (inc i))))))
+
+(defn repeat-calc []
+  (loop [tally @score
+         res (single-calc)]
+    (if (= "backout" res)
+      "backout"
+      (when (not= tally @score)
+        (recur @score (single-calc))))))
+
+(defn solve [cell-index]
+  (let [res (repeat-calc)]
+    (when (and (not= @score 81) (not= res "backout"))
+      (let [saved-cells @cells
+            saved-score @score
+            cell (nth @cells cell-index)
+            guesses [2r111111110
+                     2r111111101
+                     2r111111011
+                     2r111110111
+                     2r111101111
+                     2r111011111
+                     2r110111111
+                     2r101111111
+                     2r011111111]]
+        (loop [i 0]
+          (when (< i (count guesses))
+            (let [number-guess (nth guesses i)]
+              (if (= cell (bit-and cell number-guess))
+                (recur (inc i))
+                (do
+                  (swap! cells assoc cell-index number-guess)
+                  (solve (inc cell-index))
+                  (when (not= 81 @score)
+                    (do
+                      (reset! score saved-score)
+                      (reset! cells saved-cells)
+                      (recur (inc i)))))))))))))
+
+(def cell-key {2r100000000 9
+               2r010000000 8
+               2r001000000 7
+               2r000100000 6
+               2r000010000 5
+               2r000001000 4
+               2r000000100 3
+               2r000000010 2
+               2r000000001 1})
+
+(def inverse-cell-key {2r011111111 9
+                       2r101111111 8
+                       2r110111111 7
+                       2r111011111 6
+                       2r111101111 5
+                       2r111110111 4
+                       2r111111011 3
+                       2r111111101 2
+                       2r111111110 1})
+
+(def FILE (try (slurp "sudoku.txt")
+               (catch Exception _ (slurp "096/sudoku.txt"))))
+
+(defn read-row [input-str]
+  (map #(Character/digit % 10) input-str))
+
+(def puzzles
+  (->> FILE
+       clojure.string/split-lines
+       (partition 10)
+       (map rest)
+       (map #(map read-row %))
+       (map flatten)))
+
+(def euler-output (atom 0))
+
+(doall
+  (for [puz puzzles]
+    (do
+      (init-cells puz)
+      (solve 0)
+      (let [corner (reduce + (take 3 @cells))]
+        (swap! euler-output + corner)))))
+
+(println @euler-output)
+; 69125 is answer without using the cell key and all
+
+
+(defn print-board []
+  (doall
+    (->> @cells
+         ; (map #(Integer/toString % 2))
+         ; (map #(format "%9S" %))
+         (map inverse-cell-key)
+         (partition 3)
+         (partition 3)
+         (map println))))
+
+(print-board)
+; 24702
