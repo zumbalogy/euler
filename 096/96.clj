@@ -135,19 +135,10 @@
                   (swap! cells assoc cell-index number-guess)
                   (solve (inc cell-index))
                   (when (not= 81 @score)
-                    (do
-                      (reset! score saved-score)
-                      (reset! cells saved-cells)
-                      (recur (inc i)))))))))))))
-
-
-(def FILE (try (slurp "sudoku.txt")
-               (catch Exception _ (slurp "096/sudoku.txt"))))
-
-(defn read-row [input-str]
-  (map #(Character/digit % 10) input-str))
-
-
+                    (reset! score saved-score)
+                    (reset! cells saved-cells)
+                    (recur (inc i))))))))))))
+      
 (def cell-key {2r011111111 9
                2r101111111 8
                2r110111111 7
@@ -158,24 +149,11 @@
                2r111111101 2
                2r111111110 1})
 
+(def FILE (try (slurp "sudoku.txt")
+               (catch Exception _ (slurp "096/sudoku.txt"))))
 
-(defn print-board-raw []
-  (doall
-    (->> @cells
-         (map #(Integer/toString % 2))
-         (map #(format "%9S" %))
-         (partition 3)
-         (partition 3)
-         (map println))))
-
-(defn print-board []
-  (doall
-    (->> @cells
-         (map cell-key)
-         (map #(if (= nil %) "_" %))
-         (partition 3)
-         (partition 3)
-         (map println))))
+(defn read-row [input-str]
+  (map #(Character/digit % 10) input-str))
 
 (def puzzles
   (->> FILE
@@ -185,18 +163,15 @@
        (map #(map read-row %))
        (map flatten)))
 
-(def euler-output (atom 0))
+(defn corner [puzzle]
+  (init-cells puzzle)
+  (solve 0)
+  (->> @cells
+       (take 3)
+       (map cell-key)
+       (apply str)
+       read-string))
 
-(doall
-  (for [puz puzzles]
-    (do
-      (init-cells puz)
-      (solve 0)
-      (let [corner (map cell-key (take 3 @cells))
-            corner-3-digit (+ (* 100 (nth corner 0))
-                              (* 10 (nth corner 1))
-                              (nth corner 2))]
-        (swap! euler-output + corner-3-digit)))))
-
-(println @euler-output)
+(println
+  (reduce + (map corner puzzles)))
 ; 24702
