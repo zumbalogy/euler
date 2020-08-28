@@ -55,7 +55,7 @@
         foo (- idx offset)
         indexes (concat (take foo all)
                         (nthrest all (inc foo)))]
-    (mapv (vec (drop offset @cells)) indexes)))
+    (map (vec (drop offset @cells)) indexes)))
 
 (defn peerify [acc cell]
   (if (= 2r111111111 (bit-or cell (inc cell)))
