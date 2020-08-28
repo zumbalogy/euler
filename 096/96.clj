@@ -28,20 +28,22 @@
   (when (= 2r111111111 (bit-or is-not (inc is-not)))
     (bit-xor 2r111111111 is-not)))
 
+(defn drop-i [i lst]
+  (concat (take i lst)
+          (drop (inc i) lst)))
+
 (defn col-rest [idx]
   (let [offset (mod idx 9)
-        foo (quot idx 9)
+        self (quot idx 9)
         all [0 9 18 27 36 45 54 63 72]
-        indexes (concat (take foo all)
-                        (nthrest all (inc foo)))]
+        indexes (drop-i self all)]
     (map (vec (drop offset @cells)) indexes)))
 
 (defn row-rest [idx]
   (let [offset (* 9 (quot idx 9))
         all (range offset (+ 9 offset))
-        foo (- idx offset)
-        indexes (concat (take foo all)
-                        (nthrest all (inc foo)))]
+        self (- idx offset)
+        indexes (drop-i self all)]
     (map @cells indexes)))
 
 (defn grid-rest [idx]
@@ -52,15 +54,14 @@
         offset (+ (* 27 (quot grid 3))
                   (* 3 (mod grid 3)))
         all [0 1 2 9 10 11 18 19 20]
-        foo (- idx offset)
-        indexes (concat (take foo all)
-                        (nthrest all (inc foo)))]
+        self (- idx offset)
+        indexes (drop-i self all)]
     (map (vec (drop offset @cells)) indexes)))
 
 (defn peerify [acc cell]
   (if (= 2r111111111 (bit-or cell (inc cell)))
-   (bit-or acc (bit-xor 2r111111111 cell))
-   acc))
+    (bit-or acc (bit-xor 2r111111111 cell))
+    acc))
 
 (defn peers-solution [peers]
   (reduce peerify 0 peers))
@@ -84,15 +85,14 @@
           sol (peers-solution (concat c-rest r-rest g-rest))]
       (if (= sol 2r111111111)
         "backout"
-        (do
+        (let [is-maybe (bit-xor 2r111111111 (nth @cells idx))]
           (swap! cells assoc idx sol)
-          (let [is-maybe (bit-xor 2r111111111 (nth @cells idx))]
-            (if (= 0 (bit-and is-maybe (dec is-maybe)))
-              (swap! score inc)
-              (when (or (= "backout" (cell-calc-inner c-rest idx))
-                        (= "backout" (cell-calc-inner g-rest idx))
-                        (= "backout" (cell-calc-inner r-rest idx)))
-                "backout"))))))))
+          (if (= 0 (bit-and is-maybe (dec is-maybe)))
+            (swap! score inc)
+            (when (or (= "backout" (cell-calc-inner c-rest idx))
+                      (= "backout" (cell-calc-inner g-rest idx))
+                      (= "backout" (cell-calc-inner r-rest idx)))
+              "backout")))))))
 
 (defn single-calc []
   (reset! score 0)
