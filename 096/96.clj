@@ -14,6 +14,48 @@
 (def cells (atom []))
 (def score (atom 0))
 
+
+(def cell-key {2r100000000 9
+               2r010000000 8
+               2r001000000 7
+               2r000100000 6
+               2r000010000 5
+               2r000001000 4
+               2r000000100 3
+               2r000000010 2
+               2r000000001 1})
+
+(def inverse-cell-key {2r011111111 9
+                       2r101111111 8
+                       2r110111111 7
+                       2r111011111 6
+                       2r111101111 5
+                       2r111110111 4
+                       2r111111011 3
+                       2r111111101 2
+                       2r111111110 1})
+
+
+(defn print-board-raw []
+  (doall
+    (->> @cells
+         (map #(Integer/toString % 2))
+         (map #(format "%9S" %))
+         (partition 3)
+         (partition 3)
+         (map println))))
+
+(defn print-board []
+  (doall
+    (->> @cells
+         (map inverse-cell-key)
+         (map #(if (= nil %) "_" %))
+         (partition 3)
+         (partition 3)
+         (map println))))
+
+
+
 (defn init-cell [cell]
   (if (= cell 0)
     0
@@ -112,6 +154,8 @@
         (recur @score (single-calc))))))
 
 (defn solve [cell-index]
+  ; (print-board)
+  ; (println)
   (let [res (repeat-calc)]
     (when (and (not= @score 81) (not= res "backout"))
       (let [saved-cells @cells
@@ -129,7 +173,7 @@
         (loop [i 0]
           (when (< i (count guesses))
             (let [number-guess (nth guesses i)]
-              (if (= cell (bit-and cell number-guess))
+              (if (not= cell (bit-and cell number-guess))
                 (recur (inc i))
                 (do
                   (swap! cells assoc cell-index number-guess)
@@ -140,25 +184,6 @@
                       (reset! cells saved-cells)
                       (recur (inc i)))))))))))))
 
-(def cell-key {2r100000000 9
-               2r010000000 8
-               2r001000000 7
-               2r000100000 6
-               2r000010000 5
-               2r000001000 4
-               2r000000100 3
-               2r000000010 2
-               2r000000001 1})
-
-(def inverse-cell-key {2r011111111 9
-                       2r101111111 8
-                       2r110111111 7
-                       2r111011111 6
-                       2r111101111 5
-                       2r111110111 4
-                       2r111111011 3
-                       2r111111101 2
-                       2r111111110 1})
 
 (def FILE (try (slurp "sudoku.txt")
                (catch Exception _ (slurp "096/sudoku.txt"))))
@@ -181,22 +206,15 @@
     (do
       (init-cells puz)
       (solve 0)
-      (let [corner (reduce + (take 3 @cells))]
-        (swap! euler-output + corner)))))
+      (let [corner (map inverse-cell-key (take 3 @cells))
+            corner-3-digit (+ (* 100 (nth corner 0))
+                              (* 10 (nth corner 1))
+                              (nth corner 2))]
+        (swap! euler-output + corner-3-digit)))))
 
 (println @euler-output)
-; 69125 is answer without using the cell key and all
 
-
-(defn print-board []
-  (doall
-    (->> @cells
-         ; (map #(Integer/toString % 2))
-         ; (map #(format "%9S" %))
-         (map inverse-cell-key)
-         (partition 3)
-         (partition 3)
-         (map println))))
-
-(print-board)
+; (print-board-raw)
+; (println "")
+; (print-board)
 ; 24702
