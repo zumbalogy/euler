@@ -132,7 +132,7 @@ def solve(cell_index = 0)
     Cells[cell_index] = number_guess
     solve(cell_index + 1)
     return if $score == 81
-    saved_cells.each_with_index { |c, i| Cells[i] = c } # would reusing the clone here be faster?
+    saved_cells.each_with_index { |c, i| Cells[i] = c }
     $score = saved_score
   end
 end
