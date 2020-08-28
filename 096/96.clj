@@ -34,7 +34,7 @@
         all [0 9 18 27 36 45 54 63 72]
         indexes (concat (take foo all)
                         (nthrest all (inc foo)))]
-    (mapv (vec (drop offset @cells)) indexes)))
+    (map (vec (drop offset @cells)) indexes)))
 
 (defn row-rest [idx]
   (let [offset (* 9 (quot idx 9))
@@ -42,7 +42,7 @@
         foo (- idx offset)
         indexes (concat (take foo all)
                         (nthrest all (inc foo)))]
-    (mapv (vec @cells) indexes)))
+    (map @cells indexes)))
 
 (defn grid-rest [idx]
   (let [col (mod idx 9)
@@ -75,25 +75,24 @@
          (swap! score inc)
          (swap! cells assoc index (bit-xor 2r111111111 has-to-be)))))))
 
-(defn cell-calc [index]
-  (if (solution (nth @cells index))
+(defn cell-calc [idx]
+  (if (solution (nth @cells idx))
     (swap! score inc)
-    (let [c-rest (col-rest index)
-          r-rest (row-rest index)
-          g-rest (grid-rest index)
+    (let [c-rest (col-rest idx)
+          r-rest (row-rest idx)
+          g-rest (grid-rest idx)
           sol (peers-solution (concat c-rest r-rest g-rest))]
       (if (= sol 2r111111111)
         "backout"
         (do
-          (swap! cells assoc index sol)
-          (let [is-maybe (bit-xor 2r111111111 (nth @cells index))]
+          (swap! cells assoc idx sol)
+          (let [is-maybe (bit-xor 2r111111111 (nth @cells idx))]
             (if (= 0 (bit-and is-maybe (dec is-maybe)))
               (swap! score inc)
-              (if (or (= "backout" (cell-calc-inner c-rest index))
-                      (= "backout" (cell-calc-inner g-rest index))
-                      (= "backout" (cell-calc-inner r-rest index)))
-                "backout"
-                nil))))))))
+              (when (or (= "backout" (cell-calc-inner c-rest idx))
+                        (= "backout" (cell-calc-inner g-rest idx))
+                        (= "backout" (cell-calc-inner r-rest idx)))
+                "backout"))))))))
 
 (defn single-calc []
   (reset! score 0)
@@ -138,7 +137,7 @@
                     (reset! score saved-score)
                     (reset! cells saved-cells)
                     (recur (inc i))))))))))))
-      
+
 (def cell-key {2r011111111 9
                2r101111111 8
                2r110111111 7
