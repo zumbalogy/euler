@@ -125,7 +125,7 @@ def solve(cell_index = 0)
     0b111011111,
     0b110111111,
     0b101111111,
-    0b011111111,
+    0b011111111
   ]
   guesses.each do |number_guess|
     next unless (number_guess & cell) == cell
@@ -162,12 +162,5 @@ puzzles_chunks.each do |chunk|
   euler_output += corner.join.to_i
 end
 
-
 puts euler_output
 # 24702
-
-# 9.times do |i|
-#   foo = i * 9
-#   print Cells[foo...(foo + 9)].map { |x| cell_key[solution(x)] }
-#   puts
-# end
