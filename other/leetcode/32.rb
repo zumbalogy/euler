@@ -11,25 +11,6 @@
 # Output: 4
 # Explanation: The longest valid parentheses substring is "()()"
 
-# def valid_len(input)
-#   openers = 0
-#   score = 0
-#   top_score = 0
-#   input.each_char do |char|
-#     puts "char: #{char}, score: #{score}, openers: #{openers}"
-#     next openers += 1 if char == '('
-#     next score = 0 if openers == 0
-#     openers -= 1
-#     score += 2
-#     top_score = score if score > top_score
-#   end
-#   puts "char:  , score: #{score}, openers: #{openers}"
-#   puts
-#   puts
-#   puts
-#   top_score
-# end
-
 def pair_inner(input)
   copy = "#{input}"
   match = copy.match(/\(x*\)/)
