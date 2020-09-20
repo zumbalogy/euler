@@ -11,23 +11,10 @@
 # Output: 4
 # Explanation: The longest valid parentheses substring is "()()"
 
-def pair_inner(input)
-  copy = "#{input}"
-  match = copy.match(/\(x*\)/)
-  return copy unless match
-  copy[match.begin(0)] = 'x'
-  copy[match.end(0) - 1] = 'x'
-  copy
-end
-
 def valid_len(input)
-  prev = input
-  current = pair_inner(prev)
-  while prev != current
-    prev = current
-    current = pair_inner(current)
-  end
-  current.scan(/x+/).map(&:length).max || 0
+  copy = "#{input}"
+  copy.sub!(/\((x*)\)/, 'x\1x') while copy.match?(/\(x*\)/)
+  copy.scan(/x+/).map(&:length).max || 0
 end
 
 test_pairs = {
@@ -42,6 +29,7 @@ test_pairs = {
   '(()' => 2,
   '())' => 2,
   '()()' => 4,
+  '(())' => 4,
   '()(()' => 2,
   '(()(()' => 2,
   '(()(())' => 6,
