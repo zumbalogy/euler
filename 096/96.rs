@@ -26,10 +26,9 @@ fn main() {
         .collect();
     let boards = lines
         .chunks(10)
-        .collect::<Vec<_>>()
-        .iter()
+        .into_iter()
         .map(|x| &x[1..])
         .collect::<Vec<_>>();
 
-    println!("{}", boards[0][0]);
+    println!("{}", boards[1][0]);
 }
