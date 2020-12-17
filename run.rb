@@ -37,6 +37,13 @@ runners = {
       java -classpath /tmp p#{base}
     `
   },
+  rs: -> f {
+    out = tmp_path(f, :rust)
+    `
+      rustc -o #{out} #{f}
+      #{out}
+    `
+  }
 }
 
 dirs = ARGV.select { |x| x[/^\d/] }.map { |x| x.rjust(3, '0') }
