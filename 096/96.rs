@@ -15,12 +15,21 @@ use std::fs;
 use std::path::Path;
 
 fn main() {
-    let dir = Path::new(file!()).parent().unwrap();
-    let path = format!("{}/{}", dir.display(), "sudoku.txt");
+    let dir = Path::new(file!())
+        .parent()
+        .unwrap()
+        .display();
+    let path = format!("{}/{}", dir, "sudoku.txt");
     let data = fs::read_to_string(path).unwrap();
-    let lines: Vec<&str> = data.split("\n").collect();
-    let iter = lines.chunks(10).collect::<Vec<_>>();
+    let lines: Vec<&str> = data
+        .split("\n")
+        .collect();
+    let boards = lines
+        .chunks(10)
+        .collect::<Vec<_>>()
+        .iter()
+        .map(|x| &x[1..])
+        .collect::<Vec<_>>();
 
-
-    println!("{}", iter[0][3]);
+    println!("{}", boards[0][0]);
 }
