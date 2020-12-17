@@ -14,6 +14,32 @@
 use std::fs;
 use std::path::Path;
 
+fn pp(board: &[&str]) {
+    if board.len() == 0 { return }
+    for i in 0..9 {
+        let row = board[i].chars();
+        for (x, char) in row.enumerate() {
+            print!("{}", char);
+            if ((x + 1) % 3) == 0 { print!("  ") }
+        }
+        println!();
+        if ((i + 1) % 3) == 0 { println!() }
+    }
+    println!("");
+}
+
+fn build(board: &[&str]) {
+    board;
+}
+
+// fn solve(sudoku) {
+//     sudoku;
+// }
+//
+// fn corner(sudoku) {
+//     4;
+// }
+
 fn main() {
     let dir = Path::new(file!())
         .parent()
@@ -30,5 +56,16 @@ fn main() {
         .map(|x| &x[1..])
         .collect::<Vec<_>>();
 
-    println!("{}", boards[1][0]);
+    let mut output = 0;
+
+    for board in boards {
+        build(board);
+        pp(board);
+
+        // solve(sudoku);
+        // output += corner(sudoku);
+        output += 54;
+    }
+
+    println!("{}", output);
 }
