@@ -17,3 +17,4 @@ pub fn main() !void {
     const x = sumSteps(3, 1000) + sumSteps(5, 1000) - sumSteps(15, 1000);
     try stdout.print("{d}\n", .{x});
 }
+// 233168
