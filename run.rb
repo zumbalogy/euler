@@ -16,6 +16,7 @@ runners = {
   js:  -> f { `node #{f}` },
   rb:  -> f { `ruby #{f}` },
   rkt: -> f { `racket #{f}` },
+  zig: -> f { `zig run #{f}` },
   c:   -> f {
     out = tmp_path(f, :c)
     `
