@@ -11,13 +11,13 @@ pub fn main() !void {
     var total: u32 = 0;
     var a: u32 = 1;
     var b: u32 = 2;
-    var c: u32 = 0;
+    var c: u32 = 3;
 
     while (b < 4000000) {
         total += b;
-        c = a + b;
         a = b + c;
         b = a + c;
+        c = a + b;
     }
 
     try stdout.print("{d}\n", .{total});
