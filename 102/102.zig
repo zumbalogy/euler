@@ -17,7 +17,7 @@ fn ray(x1: f32, y1: f32, x2: f32, y2: f32) bool {
     if (0 <= (y1 * y2)) {
         return false;
     }
-    return 0 < x1 + ((x2 - x1) * ((- y1) / (y2 - y1)));
+    return 0 < x1 + ((x2 - x1) * ((-y1) / (y2 - y1)));
 }
 
 pub fn main() !void {
@@ -32,7 +32,7 @@ pub fn main() !void {
     var lines = std.mem.split(file_contents, "\n");
     var total: u32 = 0;
     while (lines.next()) |line| {
-        var shape = [_] f32 {0,0,0,0,0,0};
+        var shape = [_]f32{ 0, 0, 0, 0, 0, 0 };
         var points = std.mem.split(line, ",");
         var idx: u8 = 0;
         while (points.next()) |point| {
