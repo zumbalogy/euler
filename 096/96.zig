@@ -17,14 +17,44 @@ const stdout = std.io.getStdOut().writer();
 
 var Cells = [_]u32 {0} ** 81;
 
-fn cast
+fn key(x: u32) u32 {
+    if (x == 0b111111110) { return 1; }
+    if (x == 0b111111101) { return 2; }
+    if (x == 0b111111011) { return 3; }
+    if (x == 0b111110111) { return 4; }
+    if (x == 0b111101111) { return 5; }
+    if (x == 0b111011111) { return 6; }
+    if (x == 0b110111111) { return 7; }
+    if (x == 0b101111111) { return 8; }
+    if (x == 0b011111111) { return 9; }
+    return 0;
+}
+
+fn unkey(x: u32) u32 {
+    if (x == 1) { return 0b111111110; }
+    if (x == 2) { return 0b111111101; }
+    if (x == 3) { return 0b111111011; }
+    if (x == 4) { return 0b111110111; }
+    if (x == 5) { return 0b111101111; }
+    if (x == 6) { return 0b111011111; }
+    if (x == 7) { return 0b110111111; }
+    if (x == 8) { return 0b101111111; }
+    if (x == 9) { return 0b011111111; }
+    return 0b000000000;
+}
 
 fn printGrid() void {
     var x:u8 = 0;
     while (x < 81) : (x += 1) {
-        std.debug.warn("{}", .{Cells[x]});
+        const k = key(Cells[x]);
+        std.debug.warn(" ", .{});
+        if (k == 0) {
+            std.debug.warn(".", .{});
+        } else {
+            std.debug.warn("{}", .{k});
+        }
         if ((x + 1) % 3 == 0) {
-            std.debug.warn(" ", .{});
+            std.debug.warn("   ", .{});
         }
         if ((x + 1) % 9 == 0) {
             std.debug.warn("\n", .{});
@@ -36,50 +66,40 @@ fn printGrid() void {
     std.debug.warn("\n", .{});
 }
 
-//
-// fn ray(x1: f32, y1: f32, x2: f32, y2: f32) bool {
-//     if (0 <= (y1 * y2)) {
-//         return false;
-//     }
-//     return 0 < x1 + ((x2 - x1) * ((-y1) / (y2 - y1)));
-// }
-
 pub fn main() !void {
-    // var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
-    // const allocator = &arena.allocator;
-    // defer arena.deinit();
-    // const file_name = "102/triangles.txt";
-    // const file_size = (5 * 6) * 1001;
-    // const file_contents = try dir.readFileAlloc(allocator, file_name, file_size);
-    // defer allocator.free(file_contents);
-    //
-    // var lines = std.mem.split(file_contents, "\n");
-    // var total: u32 = 0;
-    // while (lines.next()) |line| {
-    //     var shape = [_]f32{ 0, 0, 0, 0, 0, 0 };
-    //     var points = std.mem.split(line, ",");
-    //     var idx: u8 = 0;
-    //     while (points.next()) |point| {
-    //         const val = try std.fmt.parseFloat(f32, point);
-    //         shape[idx] = val;
-    //         idx += 1;
-    //     }
-    //     var intersect_count: u8 = 0;
-    //     if (ray(shape[0], shape[1], shape[2], shape[3])) {
-    //         intersect_count += 1;
-    //     }
-    //     if (ray(shape[0], shape[1], shape[4], shape[5])) {
-    //         intersect_count += 1;
-    //     }
-    //     if (ray(shape[2], shape[3], shape[4], shape[5])) {
-    //         intersect_count += 1;
-    //     }
-    //     if (intersect_count == 1 or intersect_count == 3) {
-    //         total += 1;
-    //     }
-    // }
+    var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
+    const allocator = &arena.allocator;
+    defer arena.deinit();
+    const file_name = "096/sudoku.txt";
+    const file_size = 10 * 501;
+    const file_contents = try dir.readFileAlloc(allocator, file_name, file_size);
+    defer allocator.free(file_contents);
+
+    var lines = std.mem.split(file_contents, "\n");
+    var total: u32 = 0;
+    var line_number: u32 = 0;
+    while (lines.next()) |line| {
+        defer line_number += 1;
+        if (line_number == 10) {
+            break;
+        }
+        if (line_number % 10 == 0) {
+            continue;
+        }
+        // std.debug.warn("{c}\n", .{line[0]});
+        // std.debug.warn("\n", .{});
+
+        const current_line_number: u32 = (line_number % 10) - 1;
+        var current_col_number: u32 = 0;
+
+        while (current_col_number < 9) : (current_col_number += 1) {
+            // std.debug.warn("{c} ", .{line[current_col_number]});
+
+
+            Cells[(current_line_number * 9) + current_col_number] = unkey(line[current_col_number] - 48);
+        }
+    }
     // try stdout.print("{d}\n", .{total});
-    // try stdout.print("{d}\n", .{Cells[0]});
     printGrid();
 }
 // 228
