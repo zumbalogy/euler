@@ -26,5 +26,5 @@ while (t !== p || t !== h) {
   if (h < t) { hi += 1; h = hex(hi) }
 }
 
-console.log(t, ti)
+console.log(t)
 // 1533776805
